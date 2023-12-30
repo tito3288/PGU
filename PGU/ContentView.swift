@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct ContentView: View {
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
-    }
+        NavigationView {
+            HomeView()
+                .navigationBarBackButtonHidden(true)
+            // Optionally hide the entire navigation bar if not needed
+                .navigationBarHidden(true)
+        }    }
+    
 }
 
 #Preview {
