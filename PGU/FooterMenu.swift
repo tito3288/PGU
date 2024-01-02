@@ -7,15 +7,10 @@
 
 import SwiftUI
 
-enum CurrentView {
-    case profile, inbox, camps, workout
-}
+
 
 struct FooterMenu: View {
-    
-    @State private var currentView: CurrentView = .profile // Default to profile view
 
-    
     var body: some View {
  
         Divider()
@@ -94,8 +89,10 @@ struct FooterMenu: View {
             Spacer()
 
         }
-        
-        
+        .padding(.top)
+ 
     }
+    
+    
 }
 

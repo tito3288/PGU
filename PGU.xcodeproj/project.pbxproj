@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E2A3A282B41FCAE00ECDD3E /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2A3A272B41FCAE00ECDD3E /* SignUpView.swift */; };
+		2E2A3A2A2B41FE6400ECDD3E /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2A3A292B41FE6400ECDD3E /* EditProfileView.swift */; };
 		2E51F70A2B1E03DF00039270 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E51F7092B1E03DF00039270 /* ProfileView.swift */; };
 		2E55886B2B3C7E9A005B3444 /* HideDisclosureIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E55886A2B3C7E9A005B3444 /* HideDisclosureIndicator.swift */; };
 		2E5FB1502B0CF25000E77CBF /* PGUApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E5FB14F2B0CF25000E77CBF /* PGUApp.swift */; };
@@ -16,6 +18,7 @@
 		2EA037AF2B31D8C100A55C59 /* ColorHex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA037AE2B31D8C000A55C59 /* ColorHex.swift */; };
 		2EA696AD2B3FC5530045A60C /* TermsandCondView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA696AC2B3FC5530045A60C /* TermsandCondView.swift */; };
 		2EA696AF2B3FCF190045A60C /* FaqView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA696AE2B3FCF180045A60C /* FaqView.swift */; };
+		2EA696B12B3FE3380045A60C /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA696B02B3FE3380045A60C /* LoginView.swift */; };
 		2EA811432B1E18C900364ACB /* InboxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA811422B1E18C900364ACB /* InboxView.swift */; };
 		2EA811452B1E311000364ACB /* FooterMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA811442B1E311000364ACB /* FooterMenu.swift */; };
 		2EA811472B1E33BD00364ACB /* HamburgerMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA811462B1E33BD00364ACB /* HamburgerMenu.swift */; };
@@ -27,6 +30,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2E2A3A272B41FCAE00ECDD3E /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		2E2A3A292B41FE6400ECDD3E /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
 		2E51F7092B1E03DF00039270 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		2E55886A2B3C7E9A005B3444 /* HideDisclosureIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideDisclosureIndicator.swift; sourceTree = "<group>"; };
 		2E5FB14C2B0CF25000E77CBF /* PGU.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PGU.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -37,6 +42,7 @@
 		2EA037AE2B31D8C000A55C59 /* ColorHex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorHex.swift; sourceTree = "<group>"; };
 		2EA696AC2B3FC5530045A60C /* TermsandCondView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsandCondView.swift; sourceTree = "<group>"; };
 		2EA696AE2B3FCF180045A60C /* FaqView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaqView.swift; sourceTree = "<group>"; };
+		2EA696B02B3FE3380045A60C /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		2EA811422B1E18C900364ACB /* InboxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxView.swift; sourceTree = "<group>"; };
 		2EA811442B1E311000364ACB /* FooterMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterMenu.swift; sourceTree = "<group>"; };
 		2EA811462B1E33BD00364ACB /* HamburgerMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HamburgerMenu.swift; sourceTree = "<group>"; };
@@ -94,6 +100,9 @@
 				2EBDD8882B3E31AD00AB4296 /* HomeView.swift */,
 				2EA696AC2B3FC5530045A60C /* TermsandCondView.swift */,
 				2EA696AE2B3FCF180045A60C /* FaqView.swift */,
+				2EA696B02B3FE3380045A60C /* LoginView.swift */,
+				2E2A3A272B41FCAE00ECDD3E /* SignUpView.swift */,
+				2E2A3A292B41FE6400ECDD3E /* EditProfileView.swift */,
 			);
 			path = PGU;
 			sourceTree = "<group>";
@@ -176,6 +185,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E2A3A2A2B41FE6400ECDD3E /* EditProfileView.swift in Sources */,
+				2EA696B12B3FE3380045A60C /* LoginView.swift in Sources */,
 				2E55886B2B3C7E9A005B3444 /* HideDisclosureIndicator.swift in Sources */,
 				2EA811452B1E311000364ACB /* FooterMenu.swift in Sources */,
 				2EA696AD2B3FC5530045A60C /* TermsandCondView.swift in Sources */,
@@ -187,6 +198,7 @@
 				2EA037AF2B31D8C100A55C59 /* ColorHex.swift in Sources */,
 				2EA811432B1E18C900364ACB /* InboxView.swift in Sources */,
 				2EA8114F2B1E49FD00364ACB /* MenuView.swift in Sources */,
+				2E2A3A282B41FCAE00ECDD3E /* SignUpView.swift in Sources */,
 				2E51F70A2B1E03DF00039270 /* ProfileView.swift in Sources */,
 				2EA811492B1E38C000364ACB /* CampsView.swift in Sources */,
 				2E5FB1502B0CF25000E77CBF /* PGUApp.swift in Sources */,

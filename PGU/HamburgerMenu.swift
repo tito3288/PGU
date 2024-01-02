@@ -35,7 +35,9 @@ struct HamburgerMenu: View {
                 .padding(.top)
                 .padding()
                 
-                Image("logo").resizable().scaledToFit().frame(width: 240, height: 90)
+                Spacer()
+                
+                Image("logo").resizable().scaledToFit()
                     .padding(.top)
                 
                 Spacer()

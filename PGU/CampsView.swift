@@ -78,21 +78,37 @@ struct CampsView: View {
                 .frame(height: 250)
                 
                 
-                Text("FIND A CAMP NEAR YOU").font(.title2).padding()
+                Text("FIND A CAMP NEAR YOU")
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .padding()
+                    .foregroundColor(Color(hex: "0f2d53"))
+
                 
-                TextField("Zip Code", text: $searchText)
+                
+                HStack{
+                    
+                    TextField("Zip Code", text: $searchText)
+                        .padding(7)
+                        .background(Color(.systemGray6))
+                        .cornerRadius(8)
+                        .padding(.leading)
+//                        .padding(.horizontal)
+                    
+                    Button(action:{
+                        findNearestLocation()
+
+                    }){
+                        Image(systemName: "magnifyingglass")
+                            .foregroundColor(Color(hex: "0f2d53"))
+                    }
                     .padding(7)
                     .background(Color(.systemGray6))
                     .cornerRadius(8)
-                    .padding(.horizontal)
-                
-                Button("Search"){
-                    findNearestLocation()
+                    .padding(.trailing)
+                    
                 }
-                .padding(7)
-                .background(Color(.systemGray6))
-                .cornerRadius(8)
-                .padding(.horizontal)
+                
                 
                 List{
                     

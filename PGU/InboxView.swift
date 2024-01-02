@@ -11,6 +11,8 @@ struct InboxView: View {
     
     @State private var isMenuOpen: Bool = false
     
+    @State private var messages = ["Title1", "Title2", "Title3"]
+ 
     var body: some View {
         ZStack {
             VStack {
@@ -21,22 +23,29 @@ struct InboxView: View {
                 
                 Text("INBOX")
                     .font(.title)
+                    .fontWeight(.bold)
                 
                 List {
-                    VStack(alignment: .leading, spacing: 0) {
-                        Text("Title")
-                            .font(.title) // Style for title text
-                            .foregroundColor(Color(hex: "c7972b"))
-                        
-                        Text("Body")
-                            .font(.body) // Style for regular text
+                    ForEach(messages, id: \.self) { message in
+                        VStack(alignment: .leading, spacing: 0) {
+                            Text(message)
+                                .font(.title2)
+                                .foregroundColor(Color(hex: "c7972b"))
+                                .fontWeight(.bold)
+                            
+                            Text("Body for \(message)")
+                                .font(.body)
+                        }
                     }
+                    .onDelete(perform: deleteMessage)
                 }
-                .listStyle(PlainListStyle()) // Removes extra padding and separators
+                .listStyle(PlainListStyle())
                 
                 
                 //THIS IS THE CHAT ICON
                 HStack{
+                    
+                    
                     Spacer()
                     Button(action: {
                         print("Chat icon pressed")
@@ -61,6 +70,10 @@ struct InboxView: View {
             }
         }
     }
+    
+    func deleteMessage(at offsets: IndexSet) {
+            messages.remove(atOffsets: offsets)
+        }
     
 }
 

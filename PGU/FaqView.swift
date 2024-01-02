@@ -22,8 +22,12 @@ struct FaqView: View {
         ZStack {
             Color(hex: "0f2d53").edgesIgnoringSafeArea(.all)
             
-            //Figure out how the text stays in the middle of the screen. ⬇️
             
+            VStack{
+                Text("FAQ")
+                    .font(.largeTitle) // You can customize the font as needed
+                    .foregroundColor(.white)
+                    .padding(.top)
             List {
                 Group {
                     VStack{
@@ -270,10 +274,12 @@ struct FaqView: View {
                 
             }
             .listStyle(PlainListStyle())
-            .padding(.top, 150)
+            .padding(.top, 30)
             .background(Color(hex: "0f2d53"))
             .edgesIgnoringSafeArea(.all) // Ignore safe areas to extend to the top and bottom of the screen
+            }
         }
+
     }
 }
 

@@ -26,18 +26,21 @@ struct TermsandCondView: View {
     var body: some View {
         ZStack{
             VStack{
-                HamburgerMenu(isMenuOpen: $isMenuOpen)
-                    .navigationBarBackButtonHidden(true)
-                    .frame(height: 50)
-                    .padding(.bottom, 30)
+//                HamburgerMenu(isMenuOpen: $isMenuOpen)
+//                    .navigationBarBackButtonHidden(true)
+//                    .frame(height: 50)
+//                    .padding(.bottom, 30)
                 
-                Spacer()
+                Image("logo").resizable().scaledToFit().frame(width: 240, height: 90)
+
+                
+//                Spacer()
                 
                 
                 ScrollView{
                     
                     Text("TERMS AND CONDITIONS")
-                        .font(.title)
+                        .font(.title2)
                         .fontWeight(.bold)
                         .padding(.bottom)
                     

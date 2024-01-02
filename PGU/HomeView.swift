@@ -10,7 +10,7 @@ import SwiftUI
 struct HomeView: View {
     
     @State private var isMenuOpen: Bool = false
-    
+
     var body: some View {
         ZStack {
             // Main content

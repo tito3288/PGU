@@ -49,25 +49,70 @@ struct CampInfoView: View {
                 }
                 
                 Image("logo3")
-                
+                    .resizable()
+                    .frame(width: 312, height: 212)
                     .padding()
+                
+                
                 ScrollView{
                     
-                    Text("HOW WE'RE DIFFERENT").font(.title)
+                    Text("HOW WE'RE DIFFERENT")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .padding(.bottom)
                     
-                    Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
-                        .padding()
-                        .padding()
                     
-                    Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
-                        .padding()
-                        .padding()
-                    
-                }
-                
-                Spacer()
+                    Text("We don't throw the ball up and scrimmage.")
+                        .padding(.bottom)
+                        .frame(maxWidth: .infinity, alignment: .leading)
 
-                
+                    
+                    Text("We create relationships. We make sure your athlete leaves with drills and a plan to become a better player. We make sure your athlete stays involved, has fun and create lifelong memories.")
+                        .padding(.bottom)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+
+                    
+                    Text("We cap the number of athletes that can attend each camp for a reason. We make sure everyone gets individual attention and instruction.")
+                        .padding(.bottom)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+
+                    
+                    Text("We take this seriously. Just like a real game, we have a gameplan every week, every day and every hour. We don't leave anything to chance, there is intention behind each decision.")
+                        .padding(.bottom)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+
+                    
+                    Text("OUR IMPACT")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .padding(.bottom)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+
+                    
+                    Text("We have welcomed over 5,000 campers since 2017.")
+                        .padding(.bottom)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+
+                    
+                    Text("With the help of our sponsors this year, we will welcome over 200 athletes to camps and clinics that otherwise would not have been able to afford it.")
+                        .padding(.bottom)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+
+                    
+                    Text("This year, we will hold free clinics in every state we attend on our tour.")
+                        .padding(.bottom)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+
+                    
+                    Text("This year, we will give back thousands of dollars to local communities, local athletic departments and local athletic clubs.")
+                        .padding(.bottom)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+
+               
+                }
+                .padding(.trailing)
+                .padding(.leading)
+    
                 FooterMenu()
             }
             
