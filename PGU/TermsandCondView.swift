@@ -118,8 +118,8 @@ struct TermsandCondView: View {
                     
                     
                 }
-                .padding()
-                .padding()
+                .padding(.trailing)
+                .padding(.leading)
                 
                 
                 Spacer()

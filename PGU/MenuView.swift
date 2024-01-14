@@ -6,12 +6,18 @@
 //
 
 import SwiftUI
+import FirebaseAuth
+import FirebaseFirestore
 
 struct MenuView: View {
+ 
     
     @Binding var isMenuOpen: Bool
     @State private var showingLogoutAlert = false
     @State private var navigateToLogin = false
+    
+    @State private var userName = "@Username"  // State variable for user's name
+
     
     var body: some View {
         
@@ -22,12 +28,15 @@ struct MenuView: View {
             //Figure out how the text stays in the middle of the screen. ⬇️
 
             List {
-                Text("Hello @Username")
-                    .listRowBackground(Color(hex: "0f2d53"))
-                    .foregroundColor(Color.white)
+                (Text("Hello ")
+                    .foregroundColor(Color.white) +
+                Text(userName)
+                    .foregroundColor(Color(hex: "c7972b")))
                     .font(.title3)
                     .fontWeight(.bold)
                     .padding(.bottom)
+                    .listRowBackground(Color(hex: "0f2d53"))
+
 
                 Group {
            
@@ -118,11 +127,12 @@ struct MenuView: View {
                     .foregroundColor(Color.white)
                     .font(.title3)
                     .padding(.top)
+                    .fontWeight(.bold)
                 
                 HStack{
                     
                     Button(action: {
-                        openURL(URL(string:"https://www.facebook.com/alphadogagency")!)
+                        openURL(URL(string:"https://www.facebook.com/handlethegame")!)
 
                     }){
                         Image("facebook-icon")
@@ -131,9 +141,16 @@ struct MenuView: View {
                     
                     
                     Button(action: {
-                        openURL(URL(string:"https://www.instagram.com/alphadogagency/")!)
+                        openURL(URL(string:"https://www.instagram.com/handlethegame/")!)
                     }){
                         Image("instagram-icon")
+                        
+                    }
+                    
+                    Button(action: {
+                        openURL(URL(string:"https://www.tiktok.com/@pointguardu")!)
+                    }){
+                        Image("tik-tok-icon")
                         
                     }
                     
@@ -143,6 +160,7 @@ struct MenuView: View {
                 .font(.title3)
                 
             }
+            .onAppear(perform: loadUserData)
             .listStyle(PlainListStyle())
             .padding(.top, 110)//THIS CREATES PADDING FOR THE TOP OF THE ENTIRE VSTACK
             .background(Color(hex: "0f2d53"))
@@ -163,6 +181,20 @@ struct MenuView: View {
         }
 
         
+    }
+    
+    private func loadUserData() {
+        guard let userID = Auth.auth().currentUser?.uid else { return }
+        
+        let db = Firestore.firestore()
+        db.collection("users").document(userID).getDocument { document, error in
+            if let document = document, document.exists {
+                let data = document.data()
+                self.userName = data?["name"] as? String ?? "User"
+            } else {
+                print("Document does not exist")
+            }
+        }
     }
     
     

@@ -67,11 +67,15 @@ struct CampsView: View {
                 
                 Map(coordinateRegion: $region, annotationItems: locations) { location in
                     MapAnnotation(coordinate: location.coordinate) {
-                        Image(systemName: "mappin.circle.fill") // Custom image or view
-                            .foregroundColor(Color(hex: "c7972b")) // Custom color
-                            .imageScale(.large)
-                            .background(Color(hex: "0f2d53"))
-                            .cornerRadius(20)
+                        Button(action: {
+                            openMapForDirections(to: location)
+                        }) {
+                            Image(systemName: "mappin.circle.fill")
+                                .foregroundColor(Color(hex: "c7972b"))
+                                .imageScale(.large)
+                                .background(Color(hex: "0f2d53"))
+                                .cornerRadius(20)
+                        }
                     }
                 }
                 .mapStyle(.standard)
@@ -124,7 +128,7 @@ struct CampsView: View {
                         Spacer()
                         
                         Button(action: {
-                            print("Hello World")
+                            print("Sign Up")
                         }){
                             Text("Sign Up")
                                 .frame(alignment: .trailing)
@@ -148,7 +152,7 @@ struct CampsView: View {
                         Spacer()
                         
                         Button(action: {
-                            print("Hello World")
+                            print("Sign Up")
                         }){
                             Text("Sign Up")
                                 .frame(alignment: .trailing)
@@ -174,7 +178,7 @@ struct CampsView: View {
                         Spacer()
                         
                         Button(action: {
-                            print("Hello World")
+                            print("Sign Up")
                         }){
                             Text("Sign Up")
                                 .frame(alignment: .trailing)
@@ -200,7 +204,7 @@ struct CampsView: View {
                         Spacer()
                         
                         Button(action: {
-                            print("Hello World")
+                            print("Sign Up")
                         }){
                             Text("Sign Up")
                                 .frame(alignment: .trailing)
@@ -268,6 +272,17 @@ struct CampsView: View {
         
         
     }
+    
+    private func openMapForDirections(to location: Location) {
+        let destinationCoordinate = location.coordinate
+        let placemark = MKPlacemark(coordinate: destinationCoordinate, addressDictionary: nil)
+        let mapItem = MKMapItem(placemark: placemark)
+        mapItem.name = location.title
+
+        let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
+        mapItem.openInMaps(launchOptions: launchOptions)
+    }
+
 }
 
 #Preview {

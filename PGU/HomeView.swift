@@ -25,8 +25,11 @@ struct HomeView: View {
                 
                 HStack {
                     ZStack {
+                        
+                        //MAKE SURE THIS IMAGE LOOKS GOOD IN ALL DISPLAYS 
                         Image("logo2")
                             .resizable()
+                            .frame(width: 400, height: 600)
                             .aspectRatio(contentMode: .fit)
                         
                         

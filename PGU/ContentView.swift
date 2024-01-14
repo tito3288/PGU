@@ -13,7 +13,7 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-            HomeView()
+            LoginView()
                 .navigationBarBackButtonHidden(true)
             // Optionally hide the entire navigation bar if not needed
                 .navigationBarHidden(true)

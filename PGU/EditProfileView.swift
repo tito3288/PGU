@@ -43,36 +43,38 @@ struct EditProfileView: View {
             Group {
                 HStack {
                     Text("Name")
+                        .frame(width: 110, alignment: .leading) // Fixed width
+                        .fontWeight(.bold)
+
                     TextField("Enter your name", text: $name)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
-                    
-                    Button(action: {
-                        
-                        print("Button for Week  tapped")
-                    }) {
-                        Image(systemName: "chevron.down") // Your button text
-                            .frame(alignment: .trailing)
-                            .padding(10)
-                            .background(Color(hex: "c7972b"))
-                            .foregroundColor(.white)
-                            .cornerRadius(20)
-                    }
+                  
                 }
                 
                 HStack {
                     Text("Username")
+                        .frame(width: 110, alignment: .leading) // Fixed width
+                        .fontWeight(.bold)
+
                     TextField("Enter your username", text: $username)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                 }
                 
                 HStack {
+                    
                     Text("Password")
+                        .frame(width: 110, alignment: .leading) // Fixed width
+                        .fontWeight(.bold)
+
                     SecureField("Enter your password", text: $password)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                 }
                 
                 HStack {
                     Text("Membership")
+                        .frame(width: 110, alignment: .leading) // Fixed width
+                        .fontWeight(.bold)
+
                     TextField("Enter your membership type", text: $membership)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                 }

@@ -6,13 +6,31 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct InboxView: View {
-    
+
     @State private var isMenuOpen: Bool = false
     
-    @State private var messages = ["Title1", "Title2", "Title3"]
- 
+    struct Message: Identifiable {
+        let id = UUID()
+        let title: String
+        let body: String
+    }
+
+    @State private var messages = [
+        Message(title: "Title1", body: "Body1"),
+        Message(title: "Title2", body: "Body2"),
+        Message(title: "Title3", body: "Body3")
+    ]
+    
+    
+    @Environment(\.managedObjectContext) private var viewContext
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \Notifi.title, ascending: true)],
+        animation: .default)
+    private var notifications: FetchedResults<Notifi>
+    
     var body: some View {
         ZStack {
             VStack {
@@ -26,18 +44,18 @@ struct InboxView: View {
                     .fontWeight(.bold)
                 
                 List {
-                    ForEach(messages, id: \.self) { message in
+                    ForEach(notifications, id: \.self) { notification in
                         VStack(alignment: .leading, spacing: 0) {
-                            Text(message)
+                            Text(notification.title ?? "Unknown Title")
                                 .font(.title2)
                                 .foregroundColor(Color(hex: "c7972b"))
                                 .fontWeight(.bold)
                             
-                            Text("Body for \(message)")
+                            Text(notification.body ?? "No content")
                                 .font(.body)
                         }
                     }
-                    .onDelete(perform: deleteMessage)
+                    .onDelete(perform: deleteNotifications)
                 }
                 .listStyle(PlainListStyle())
                 
@@ -51,9 +69,9 @@ struct InboxView: View {
                         print("Chat icon pressed")
                     }, label: {
                         Image("chat-icon")
-                        .padding()
+                            .padding()
                     })
-
+                    
                 }
                 
                 
@@ -71,9 +89,23 @@ struct InboxView: View {
         }
     }
     
-    func deleteMessage(at offsets: IndexSet) {
-            messages.remove(atOffsets: offsets)
+    
+    private func deleteNotifications(offsets: IndexSet) {
+        withAnimation {
+            offsets.map { notifications[$0] }.forEach(viewContext.delete)
+            
+            do {
+                try viewContext.save()
+            } catch {
+                let nsError = error as NSError
+                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+            }
         }
+    }
+    
+    func deleteMessage(at offsets: IndexSet) {
+        messages.remove(atOffsets: offsets)
+    }
     
 }
 

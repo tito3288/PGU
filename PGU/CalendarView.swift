@@ -80,7 +80,7 @@ struct CalendarView: View {
                         
                         Button(action: {
                             // Your button action here
-                            print("Button for Week  tapped")
+                            print("Sign Up pressed")
                         }) {
                             Text("Sign Up") // Your button text
                                 .frame(alignment: .trailing)
@@ -105,7 +105,7 @@ struct CalendarView: View {
                         
                         Button(action: {
                             // Your button action here
-                            print("Button for Week  tapped")
+                            print("Sign Up pressed")
                         }) {
                             Text("Sign Up") // Your button text
                                 .frame(alignment: .trailing)
@@ -131,7 +131,7 @@ struct CalendarView: View {
                         
                         Button(action: {
                             // Your button action here
-                            print("Button for Week  tapped")
+                            print("Sign Up pressed")
                         }) {
                             Text("Sign Up") // Your button text
                                 .frame(alignment: .trailing)
@@ -156,7 +156,7 @@ struct CalendarView: View {
                         
                         Button(action: {
                             // Your button action here
-                            print("Button for Week  tapped")
+                            print("Sign Up pressed")
                         }) {
                             Text("Sign Up") // Your button text
                                 .frame(alignment: .trailing)
