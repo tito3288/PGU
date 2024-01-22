@@ -48,14 +48,13 @@ struct CampsView: View {
                     .padding(.bottom, 30)
                 
                 HStack {
-                    NavigationLink(destination: CampsView()) {
+                    
                         Text("Find Camps")
                             .padding(10)
                             .frame(minWidth: 0, maxWidth: .infinity) // Flexible frame
                             .background(Color(hex: "c7972b"))
                             .foregroundColor(.white)
                             .clipShape(RoundedRectangle(cornerRadius: 20))
-                    }
 
                     Spacer() // Spacing between buttons
 
@@ -70,12 +69,14 @@ struct CampsView: View {
 
                     Spacer() // Spacing between buttons
 
-                    Text("Camp Info")
-                        .padding(10)
-                        .frame(minWidth: 0, maxWidth: .infinity) // Flexible frame
-                        .background(Color(hex: "0f2d53"))
-                        .foregroundColor(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                    NavigationLink(destination: CampInfoView()) {
+                        Text("Camp Info")
+                            .padding(10)
+                            .frame(minWidth: 0, maxWidth: .infinity) // Flexible frame
+                            .background(Color(hex: "0f2d53"))
+                            .foregroundColor(.white)
+                            .clipShape(RoundedRectangle(cornerRadius: 20))
+                    }
                 }
                 .padding()
                 

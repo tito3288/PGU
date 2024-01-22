@@ -16,6 +16,7 @@ struct FilmReviewView: View {
     
     
     var body: some View {
+
         
         ZStack{
             VStack{
@@ -29,7 +30,7 @@ struct FilmReviewView: View {
                 
                 
                 HStack {
-                    NavigationLink(destination: CampsView()) {
+                    NavigationLink(destination: ResourcesView()) {
                         Text("Podcast")
                             .padding(10)
                             .frame(minWidth: 0, maxWidth: .infinity) // Flexible frame
@@ -40,14 +41,14 @@ struct FilmReviewView: View {
                     
                     Spacer() // Spacing between buttons
                     
-                    NavigationLink(destination: CalendarView()) {
+//                    NavigationLink(destination: CalendarView()) {
                         Text("Coach Drills")
                             .padding(10)
                             .frame(minWidth: 0, maxWidth: .infinity) // Flexible frame
                             .background(Color(hex: "0f2d53"))
                             .foregroundColor(.white)
                             .clipShape(RoundedRectangle(cornerRadius: 20))
-                    }
+//                    }
                     
                     Spacer() // Spacing between buttons
                     
@@ -62,9 +63,16 @@ struct FilmReviewView: View {
                 
                 
                 if let videoName = selectedVideo {
-                    VideoPlayerView(videoName: videoName)
-                        .aspectRatio(contentMode: .fit)
-                        .padding()
+                    if let url = Bundle.main.url(forResource: videoName, withExtension: "mp4") {
+                        let player = AVPlayer(url: url)
+                        VideoPlayer(player: player)
+                            .onAppear {
+                                player.play()
+                            }
+                    } else {
+                        Text("Video not found")
+                            .foregroundColor(.red)
+                    }
                 } else {
                     Image("logo")
                         .resizable()

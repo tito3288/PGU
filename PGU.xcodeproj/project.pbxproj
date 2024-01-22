@@ -16,6 +16,8 @@
 		2E5FB1542B0CF25100E77CBF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E5FB1532B0CF25100E77CBF /* Assets.xcassets */; };
 		2E5FB1572B0CF25100E77CBF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E5FB1562B0CF25100E77CBF /* Preview Assets.xcassets */; };
 		2E62D0752B5B99B50050AC47 /* FilmReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E62D0742B5B99B50050AC47 /* FilmReviewView.swift */; };
+		2E62D0792B5BAD160050AC47 /* pgu-video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 2E62D0782B5BAD160050AC47 /* pgu-video.mp4 */; };
+		2E6EA5F52B5E360900AB6A19 /* ContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6EA5F42B5E360900AB6A19 /* ContactView.swift */; };
 		2E717BED2B548EC600D2E41F /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E717BEC2B548EC600D2E41F /* AuthenticationViewModel.swift */; };
 		2EA037AF2B31D8C100A55C59 /* ColorHex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA037AE2B31D8C000A55C59 /* ColorHex.swift */; };
 		2EA696AD2B3FC5530045A60C /* TermsandCondView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA696AC2B3FC5530045A60C /* TermsandCondView.swift */; };
@@ -73,7 +75,9 @@
 		2E5FB1532B0CF25100E77CBF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2E5FB1562B0CF25100E77CBF /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2E62D0742B5B99B50050AC47 /* FilmReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmReviewView.swift; sourceTree = "<group>"; };
+		2E62D0782B5BAD160050AC47 /* pgu-video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "pgu-video.mp4"; sourceTree = "<group>"; };
 		2E66461C2B4F353B004CD248 /* PGU.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PGU.entitlements; sourceTree = "<group>"; };
+		2E6EA5F42B5E360900AB6A19 /* ContactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactView.swift; sourceTree = "<group>"; };
 		2E717BEC2B548EC600D2E41F /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		2EA037AE2B31D8C000A55C59 /* ColorHex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorHex.swift; sourceTree = "<group>"; };
 		2EA696AC2B3FC5530045A60C /* TermsandCondView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsandCondView.swift; sourceTree = "<group>"; };
@@ -150,6 +154,7 @@
 		2E5FB14E2B0CF25000E77CBF /* PGU */ = {
 			isa = PBXGroup;
 			children = (
+				2E62D0782B5BAD160050AC47 /* pgu-video.mp4 */,
 				2E66461C2B4F353B004CD248 /* PGU.entitlements */,
 				2E5FB14F2B0CF25000E77CBF /* PGUApp.swift */,
 				2EA8114C2B1E41C700364ACB /* CampInfoView.swift */,
@@ -177,6 +182,7 @@
 				2EB1CB772B51E11E0073D19A /* Persistence.swift */,
 				2E717BEC2B548EC600D2E41F /* AuthenticationViewModel.swift */,
 				2E62D0742B5B99B50050AC47 /* FilmReviewView.swift */,
+				2E6EA5F42B5E360900AB6A19 /* ContactView.swift */,
 			);
 			path = PGU;
 			sourceTree = "<group>";
@@ -279,6 +285,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E62D0792B5BAD160050AC47 /* pgu-video.mp4 in Resources */,
 				2EB20AAF2B4E62C700F27C83 /* GoogleService-Info.plist in Resources */,
 				2E5FB1572B0CF25100E77CBF /* Preview Assets.xcassets in Resources */,
 				2E5FB1542B0CF25100E77CBF /* Assets.xcassets in Resources */,
@@ -311,6 +318,7 @@
 				2E2A3A282B41FCAE00ECDD3E /* SignUpView.swift in Sources */,
 				2E51F70A2B1E03DF00039270 /* ProfileView.swift in Sources */,
 				2EA811492B1E38C000364ACB /* CampsView.swift in Sources */,
+				2E6EA5F52B5E360900AB6A19 /* ContactView.swift in Sources */,
 				2E5FB1502B0CF25000E77CBF /* PGUApp.swift in Sources */,
 				2E62D0752B5B99B50050AC47 /* FilmReviewView.swift in Sources */,
 				2EA8114D2B1E41C800364ACB /* CampInfoView.swift in Sources */,

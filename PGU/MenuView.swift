@@ -85,13 +85,21 @@ struct MenuView: View {
                             Spacer()
                             Text("Resources").font(.title2).padding()
                             Spacer()
-                        }                    }
+                        }
+                    }
                     .listRowBackground(Color(hex: "0f2d53"))
                     .listRowInsets(EdgeInsets())
                     
-                    Text("Contact Us").font(.title2)
-                        .padding().listRowBackground(Color(hex: "0f2d53"))
-                        .listRowInsets(EdgeInsets())
+                    
+                    NavigationLink(destination: ContactView()){
+                        HStack{
+                            Spacer()
+                            Text("Contact Us").font(.title2).padding()
+                            Spacer()
+                        }                  
+                    }
+                    .listRowBackground(Color(hex: "0f2d53"))
+                    .listRowInsets(EdgeInsets())
                 }
                 .frame(maxWidth: .infinity, alignment: .center) // Center text in each row
                 .background(Color.white)

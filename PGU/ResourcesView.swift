@@ -25,34 +25,35 @@ struct ResourcesView: View {
                 
                 
                 HStack {
-                    NavigationLink(destination: CampsView()) {
+                    
                         Text("Podcast")
                             .padding(10)
                             .frame(minWidth: 0, maxWidth: .infinity) // Flexible frame
                             .background(Color(hex: "c7972b"))
                             .foregroundColor(.white)
                             .clipShape(RoundedRectangle(cornerRadius: 20))
-                    }
 
                     Spacer() // Spacing between buttons
 
-                    NavigationLink(destination: CalendarView()) {
+//                    NavigationLink(destination: CalendarView()) {
                         Text("Coach Drills")
                             .padding(10)
                             .frame(minWidth: 0, maxWidth: .infinity) // Flexible frame
                             .background(Color(hex: "0f2d53"))
                             .foregroundColor(.white)
                             .clipShape(RoundedRectangle(cornerRadius: 20))
-                    }
+//                    }
 
                     Spacer() // Spacing between buttons
-
-                    Text("Film Review")
-                        .padding(10)
-                        .frame(minWidth: 0, maxWidth: .infinity) // Flexible frame
-                        .background(Color(hex: "0f2d53"))
-                        .foregroundColor(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                    
+                    NavigationLink(destination: FilmReviewView()) {
+                        Text("Film Review")
+                            .padding(10)
+                            .frame(minWidth: 0, maxWidth: .infinity) // Flexible frame
+                            .background(Color(hex: "0f2d53"))
+                            .foregroundColor(.white)
+                            .clipShape(RoundedRectangle(cornerRadius: 20))
+                    }
                 }
                 .padding()
                 

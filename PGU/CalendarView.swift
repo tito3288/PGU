@@ -37,29 +37,30 @@ struct CalendarView: View {
                             .foregroundColor(.white)
                             .clipShape(RoundedRectangle(cornerRadius: 20))
                     }
-
+                    
                     Spacer() // Spacing between buttons
-
-                    NavigationLink(destination: CalendarView()) {
+                    
                         Text("Calendar")
                             .padding(10)
                             .frame(minWidth: 0, maxWidth: .infinity) // Flexible frame
                             .background(Color(hex: "c7972b"))
                             .foregroundColor(.white)
                             .clipShape(RoundedRectangle(cornerRadius: 20))
-                    }
-
+                    
                     Spacer() // Spacing between buttons
-
-                    Text("Camp Info")
-                        .padding(10)
-                        .frame(minWidth: 0, maxWidth: .infinity) // Flexible frame
-                        .background(Color(hex: "0f2d53"))
-                        .foregroundColor(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                    
+                    NavigationLink(destination: CampInfoView()) {
+                        Text("Camp Info")
+                            .padding(10)
+                            .frame(minWidth: 0, maxWidth: .infinity) // Flexible frame
+                            .background(Color(hex: "0f2d53"))
+                            .foregroundColor(.white)
+                            .clipShape(RoundedRectangle(cornerRadius: 20))
+                    }
+                    
                 }
                 .padding()
-                
+
                 
                 MultiDatePicker("Calendar", selection: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Binding<Set<DateComponents>>@*/.constant([])/*@END_MENU_TOKEN@*/)
                     .accentColor(.red)

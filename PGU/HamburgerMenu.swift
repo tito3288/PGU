@@ -48,6 +48,7 @@ struct HamburgerMenu: View {
             }
           
         }
+        .background(Color.white)
         
         
     }

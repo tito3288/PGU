@@ -77,7 +77,7 @@ struct ProfileView: View {
                                 }
                                 .padding()
                                 .foregroundColor(.black)
-
+                                
                             }else if item == "FAQ"{
                                 NavigationLink(destination: FaqView()) {
                                     HStack {
@@ -89,7 +89,7 @@ struct ProfileView: View {
                                 }
                                 .padding()
                                 .foregroundColor(.black)
-
+                                
                             }else if item == "Camp Information"{
                                 NavigationLink(destination: CampInfoView()) {
                                     HStack {
@@ -103,17 +103,17 @@ struct ProfileView: View {
                                 .foregroundColor(.black)
                                 
                             }else if item == "Edit Profile"{
-                                    NavigationLink(destination: EditProfileView()) {
-                                        HStack {
-                                            Text(item)
-                                            Spacer()
-                                            Image(systemName: "chevron.right")
-                                                .foregroundColor(goldenColor)
-                                        }
+                                NavigationLink(destination: EditProfileView()) {
+                                    HStack {
+                                        Text(item)
+                                        Spacer()
+                                        Image(systemName: "chevron.right")
+                                            .foregroundColor(goldenColor)
                                     }
-                                    .padding()
-                                    .foregroundColor(.black)
-
+                                }
+                                .padding()
+                                .foregroundColor(.black)
+                                
                                 
                             } else if item == "Log Out" {
                                 // Log Out item
@@ -129,7 +129,18 @@ struct ProfileView: View {
                                 }
                                 .padding()
                                 .foregroundColor(.black)
-                                // Alert for Log Out Confirmation
+                                
+                            }else if item == "Contact Us"{
+                                NavigationLink(destination: ContactView()) {
+                                    HStack {
+                                        Text(item)
+                                        Spacer()
+                                        Image(systemName: "chevron.right")
+                                            .foregroundColor(goldenColor)
+                                    }
+                                }
+                                .padding()
+                                .foregroundColor(.black)
                                 
                             }else {
                                 // Regular items
