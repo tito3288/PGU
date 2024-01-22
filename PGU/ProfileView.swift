@@ -11,7 +11,7 @@ import FirebaseAuth
 
 struct ProfileView: View {
     @State private var isMenuOpen: Bool = false
-    
+
     @State private var showingLogoutAlert = false
     @State private var navigateToLogin = false
 
@@ -160,7 +160,94 @@ struct ProfileView: View {
                     }
                 }
                 
-                FooterMenu()
+//                FooterMenu()
+                
+                Divider()
+                
+                HStack {
+                    
+                    Spacer()
+
+//                    NavigationLink(destination: ProfileView()) {
+                        VStack{
+                            Image(systemName: "person")
+                                .resizable()
+                                .scaledToFit()
+                                .foregroundColor(.gray)
+                                .frame(width: 25, height: 25)// Example icon
+                            Text("Profile")
+                                .foregroundColor(.gray)
+                                .fontWeight(.bold)
+
+                        }
+//                    }
+
+                        
+                    
+                    Spacer()
+                    
+                    NavigationLink(destination: InboxView()) {
+                        VStack{
+                            Image(systemName: "tray.full")
+                                .resizable()
+                                .scaledToFit()
+                                .foregroundColor(.gray)
+                                .frame(width: 25, height: 25)// Example icon
+                            Text("Inbox")
+                                .foregroundColor(.gray)
+                                .fontWeight(.bold)
+
+                        }
+                    }
+
+                        
+                    
+                    Spacer()
+                    
+        //            Button(action: {
+        //                // Action for the third icon
+        //            }) {
+                    NavigationLink(destination: CampsView()) {
+                        VStack{
+                            Image(systemName: "mappin.and.ellipse")
+                                .resizable()
+                                .scaledToFit()
+                                .foregroundColor(.gray)
+                                .frame(width: 25, height: 25)// Example icon
+                            Text("Camps")
+                                .foregroundColor(.gray)
+                                .fontWeight(.bold)
+
+                        }
+                    }
+
+                        
+        //            }
+                    
+                    Spacer()
+                    
+                    NavigationLink(destination: ResourcesView()) {
+
+                        VStack{
+                            Image(systemName: "basketball")
+                                .resizable()
+                                .scaledToFit()
+                                .foregroundColor(.gray)
+                                .frame(width: 25, height: 25)// Example icon
+                            Text("Resources")
+                                .foregroundColor(.gray)
+                                .fontWeight(.bold)
+                        }
+                        
+                    }
+
+                    Spacer()
+
+                }
+                .padding(.top)
+                .background(Color.white)
+                
+                
             }
             .onAppear(perform: loadUserData)
 

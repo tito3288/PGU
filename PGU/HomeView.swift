@@ -19,7 +19,8 @@ struct HomeView: View {
                 HamburgerMenu(isMenuOpen: $isMenuOpen)
                     .navigationBarBackButtonHidden(true)
                     .frame(height: 50)
-                    .padding(.bottom, 20)
+//                    .padding(.bottom, 20)
+                    .padding(.top, 10)
 //                    .padding(.top, 30)
                     .zIndex(1) // Higher zIndex for the header
             

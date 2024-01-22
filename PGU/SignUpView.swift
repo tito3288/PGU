@@ -199,7 +199,7 @@ struct SignUpView: View {
             
         }
         .alert(isPresented: $showAlert) {
-            Alert(title: Text("Error"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+            Alert(title: Text("Successful"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
         }
     }
     

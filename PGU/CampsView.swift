@@ -15,6 +15,7 @@ struct Location: Identifiable {
 }
 
 
+
 struct CampsView: View {
     @State private var isMenuOpen: Bool = false
     @State private var searchText = "" // State variable to hold search text
@@ -31,7 +32,7 @@ struct CampsView: View {
 
     ]
     
-    
+
     @State private var region = MKCoordinateRegion(
         center: CLLocationCoordinate2D(latitude: 39.50, longitude: -98.35), // Geographic center of the contiguous US
         span: MKCoordinateSpan(latitudeDelta: 25, longitudeDelta: 25)
@@ -369,7 +370,90 @@ struct CampsView: View {
                 
                 
                 
-                FooterMenu()
+//                FooterMenu()
+                
+                Divider()
+                
+                HStack {
+                    
+                    Spacer()
+
+                    NavigationLink(destination: ProfileView()) {
+                        VStack{
+                            Image(systemName: "person")
+                                .resizable()
+                                .scaledToFit()
+                                .foregroundColor(.gray)
+                                .frame(width: 25, height: 25)// Example icon
+                            Text("Profile")
+                                .foregroundColor(.gray)
+                                .fontWeight(.bold)
+
+                        }
+                    }
+
+                        
+                    
+                    Spacer()
+                    
+                    NavigationLink(destination: InboxView()) {
+                        VStack{
+                            Image(systemName: "tray.full")
+                                .resizable()
+                                .scaledToFit()
+                                .foregroundColor(.gray)
+                                .frame(width: 25, height: 25)// Example icon
+                            Text("Inbox")
+                                .foregroundColor(.gray)
+                                .fontWeight(.bold)
+
+                        }
+                    }
+
+                        
+                    
+                    Spacer()
+
+//                    NavigationLink(destination: CampsView()) {
+                        VStack{
+                            Image(systemName: "mappin.and.ellipse")
+                                .resizable()
+                                .scaledToFit()
+                                .foregroundColor(.gray)
+                                .frame(width: 25, height: 25)// Example icon
+                            Text("Camps")
+                                .foregroundColor(.gray)
+                                .fontWeight(.bold)
+
+                        }
+//                    }
+
+                        
+                    
+                    Spacer()
+                    
+                    NavigationLink(destination: ResourcesView()) {
+
+                        VStack{
+                            Image(systemName: "basketball")
+                                .resizable()
+                                .scaledToFit()
+                                .foregroundColor(.gray)
+                                .frame(width: 25, height: 25)// Example icon
+                            Text("Resources")
+                                .foregroundColor(.gray)
+                                .fontWeight(.bold)
+                        }
+                        
+                    }
+
+                    Spacer()
+
+                }
+                .padding(.top)
+                .background(Color.white)
+                
+                
             }
             
             // Sliding menu

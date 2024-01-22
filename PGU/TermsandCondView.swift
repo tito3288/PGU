@@ -10,6 +10,7 @@ import SwiftUI
 struct TermsandCondView: View {
     
     @State private var isMenuOpen: Bool = false
+
     
     let bulletPoints = [
         "publishing any Website material in any other media;",

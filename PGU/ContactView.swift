@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct ContactView: View {
+    
     @State private var isMenuOpen: Bool = false
+
 
     var body: some View {
         ZStack {

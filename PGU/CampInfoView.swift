@@ -11,7 +11,8 @@ struct CampInfoView: View {
     
     
     @State private var isMenuOpen: Bool = false
-    
+
+
     
     var body: some View {
      

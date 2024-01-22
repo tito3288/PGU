@@ -11,7 +11,6 @@ import SwiftUI
 struct CalendarView: View {
     
     @State private var isMenuOpen: Bool = false
-    
 
 
     var body: some View {
@@ -285,7 +284,7 @@ struct CalendarView: View {
                 .listStyle(PlainListStyle()) // Removes extra padding and separators in iOS 14+
                 
                 FooterMenu()
-                
+
             }
             if isMenuOpen {
                 MenuView(isMenuOpen: $isMenuOpen)

@@ -13,7 +13,7 @@ struct FilmReviewView: View {
     
     @State private var isMenuOpen: Bool = false
     @State private var selectedVideo: String? = nil // State for the selected video
-    
+
     
     var body: some View {
 
@@ -88,17 +88,13 @@ struct FilmReviewView: View {
                             Text("Episode 4: Video Name")
                                 .font(.title2)
                                 .fontWeight(.bold)
-                                .foregroundColor(Color(hex: "0f2d53"))// Style for regular text
-                                .onTapGesture {
-                                    self.selectedVideo = "pgu-video" // Set the video to play
-                                }
+                                .foregroundColor(Color(hex: "0f2d53"))// Style for 
                         }
                         
                         Spacer()
                         
                         Button(action: {
-                            // Your button action here
-                            print("Sign Up pressed")
+                            self.selectedVideo = "pgu-video" // Set the video to play
                         }) {
                             Image(systemName: "play.fill") // Your button text
                                 .frame(alignment: .trailing)
@@ -190,7 +186,7 @@ struct FilmReviewView: View {
                 .listStyle(PlainListStyle()) // Removes extra padding and separators in iOS 14+
                 
                 FooterMenu()
-                
+
             }
             if isMenuOpen {
                 MenuView(isMenuOpen: $isMenuOpen)

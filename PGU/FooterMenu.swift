@@ -10,8 +10,9 @@ import SwiftUI
 
 
 struct FooterMenu: View {
+
     
-    @Environment(\.managedObjectContext) var viewContext
+//    @Environment(\.managedObjectContext) var viewContext
 
 
     var body: some View {
@@ -22,7 +23,7 @@ struct FooterMenu: View {
             
             Spacer()
 
-            NavigationLink(destination: ProfileView()){
+            NavigationLink(destination: ProfileView()) {
                 VStack{
                     Image(systemName: "person")
                         .resizable()
@@ -35,12 +36,12 @@ struct FooterMenu: View {
 
                 }
             }
-             
+
                 
             
             Spacer()
             
-            NavigationLink(destination: InboxView()){
+            NavigationLink(destination: InboxView()) {
                 VStack{
                     Image(systemName: "tray.full")
                         .resizable()
@@ -53,7 +54,7 @@ struct FooterMenu: View {
 
                 }
             }
-         
+
                 
             
             Spacer()
@@ -61,7 +62,7 @@ struct FooterMenu: View {
 //            Button(action: {
 //                // Action for the third icon
 //            }) {
-            NavigationLink(destination: CampsView()){
+            NavigationLink(destination: CampsView()) {
                 VStack{
                     Image(systemName: "mappin.and.ellipse")
                         .resizable()
@@ -74,14 +75,14 @@ struct FooterMenu: View {
 
                 }
             }
-            
+
                 
 //            }
             
             Spacer()
             
-            NavigationLink(destination: ResourcesView()){
-                
+            NavigationLink(destination: ResourcesView()) {
+
                 VStack{
                     Image(systemName: "basketball")
                         .resizable()
@@ -94,7 +95,7 @@ struct FooterMenu: View {
                 }
                 
             }
-            
+
             Spacer()
 
         }
