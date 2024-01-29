@@ -21,13 +21,21 @@ import CoreData
 struct PGUApp: App {
     // Register app delegate for Firebase setup
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    
     let persistenceController = PersistenceController.shared
+//    let navigationState = NavigationState() // The NavigationState instance
+    
+//    init() {
+//        appDelegate.navigationState = navigationState // Initialize navigationState in AppDelegate
+//    }
+
 
 
     var body: some Scene {
         WindowGroup {
-            ContentView().environment(\.managedObjectContext, persistenceController.persistentContainer.viewContext)        }
+            ContentView().environment(\.managedObjectContext, persistenceController.persistentContainer.viewContext)
+//                .environmentObject(navigationState) // Pass it as an EnvironmentObject
+
+        }
     }
 }
 
@@ -35,6 +43,13 @@ struct PGUApp: App {
 
 // Define the AppDelegate class to configure Firebase
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
+
+    //NOT SURE WHAT THIS CODE IF USED FOR ⬇️
+    let gcmMessageIDKey = "gcm.message_id"
+
+
+
+//    var navigationState: NavigationState?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         print("Application didFinishLaunchingWithOptions called")
@@ -87,9 +102,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         print("Failed to register for remote notifications: \(error.localizedDescription)")
     }
 
-    
-    
-    
 
     // MARK: LOGIC FOR RETREIVING THE FCM TOKEN AND PRINTING IT
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
@@ -116,8 +128,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     
- 
-    
+
+
     //MARK: LOGIC FOR SAVING THE FCM NOTIFICATION TO COREDATA
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
@@ -142,6 +154,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
            let body = alertDict["body"] as? String {
             saveNotificationToCoreData(title: title, body: body)
         }
+        
+//        DispatchQueue.main.async {
+//            self.navigationState?.showInbox = true
+//        }
+        
         completionHandler()
     }
 
@@ -160,20 +177,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
     
-    
-    
-        
-//    static func fetchFCMToken() {
-//           Messaging.messaging().token { token, error in
-//               if let error = error {
-//                   print("Error fetching FCM registration token: \(error)")
-//               } else if let token = token {
-//                   print("FCM registration token: \(token)")
-//                   // TODO: Send this token to your application server or use it as needed
-//               }
-//           }
-//       }
+ 
+
 
 }
+
+
 
 

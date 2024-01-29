@@ -47,7 +47,7 @@ struct ResourcesView: View {
                     Spacer() // Spacing between buttons
                     
                     NavigationLink(destination: FilmReviewView()) {
-                        Text("Film Review")
+                        Text("Rob's Videos")
                             .padding(10)
                             .frame(minWidth: 0, maxWidth: .infinity) // Flexible frame
                             .background(Color(hex: "0f2d53"))

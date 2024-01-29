@@ -32,13 +32,19 @@ struct TermsandCondView: View {
 //                    .frame(height: 50)
 //                    .padding(.bottom, 30)
                 
-                Image("logo").resizable().scaledToFit().frame(width: 240, height: 90)
+
 
                 
 //                Spacer()
                 
                 
                 ScrollView{
+                    
+                    Image("logo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 240, height: 90)
+                        .padding(.top)
                     
                     Text("TERMS AND CONDITIONS")
                         .font(.title2)

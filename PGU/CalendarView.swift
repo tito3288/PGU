@@ -11,6 +11,15 @@ import SwiftUI
 struct CalendarView: View {
     
     @State private var isMenuOpen: Bool = false
+    
+    @State private var selectedDates: Set<DateComponents> = [
+        DateComponents(year: 2024, month: 5, day: 28),
+        DateComponents(year: 2024, month: 5, day: 29),
+        DateComponents(year: 2024, month: 5, day: 30),
+        DateComponents(year: 2024, month: 5, day: 31)
+    ]
+
+    @State private var currentMonth: Date = Calendar.current.date(from: DateComponents(year: 2024, month: 5)) ?? Date()
 
 
     var body: some View {
@@ -60,10 +69,11 @@ struct CalendarView: View {
                 }
                 .padding()
 
+
                 
-                MultiDatePicker("Calendar", selection: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Binding<Set<DateComponents>>@*/.constant([])/*@END_MENU_TOKEN@*/)
-                    .accentColor(.red)
-                
+                MultiDatePicker("Calendar", selection: $selectedDates)
+
+
                 
                 List{
                     HStack{
@@ -73,11 +83,13 @@ struct CalendarView: View {
 
                             Text("May 28th- May 31st, 2024")
                                 .font(.body) // Style for title text
+
                         }
                         
                         Spacer()
                         
                         Button(action: {
+
                            print("Sign Up")
                         }){
                             Text("Sign Up")
@@ -293,8 +305,19 @@ struct CalendarView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
+        
+        
     }
     
+    private func isPredefinedDate(_ dateComponents: DateComponents) -> Bool {
+        let predefinedDates: Set<DateComponents> = [
+            DateComponents(year: 2024, month: 5, day: 28),
+            DateComponents(year: 2024, month: 5, day: 29),
+            DateComponents(year: 2024, month: 5, day: 30),
+            DateComponents(year: 2024, month: 5, day: 31)
+        ]
+        return predefinedDates.contains(dateComponents)
+    }
     
 }
 

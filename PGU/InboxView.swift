@@ -12,15 +12,15 @@ struct InboxView: View {
 
     @State private var isMenuOpen: Bool = false
 
-    
     //MARK: LOGIC TO DISPLAY FCM NOTIFICATION ON THE INBOXVIEW
     @Environment(\.managedObjectContext) private var viewContext
+    
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Notifi.title, ascending: true)],
         animation: .default)
+    
     private var notifications: FetchedResults<Notifi>
     
-   
     var body: some View {
         ZStack {
             VStack {
@@ -62,10 +62,6 @@ struct InboxView: View {
                     
                 }
                 
-                
-                //FOOTER MENU
-//                FooterMenu()
-                
                 Divider()
                 
                 HStack {
@@ -90,7 +86,6 @@ struct InboxView: View {
                     
                     Spacer()
                     
-//                    NavigationLink(destination: InboxView()) {
                         VStack{
                             Image(systemName: "tray.full")
                                 .resizable()
@@ -102,15 +97,11 @@ struct InboxView: View {
                                 .fontWeight(.bold)
 
                         }
-//                    }
 
                         
                     
                     Spacer()
-                    
-        //            Button(action: {
-        //                // Action for the third icon
-        //            }) {
+  
                     NavigationLink(destination: CampsView()) {
                         VStack{
                             Image(systemName: "mappin.and.ellipse")
@@ -126,7 +117,6 @@ struct InboxView: View {
                     }
 
                         
-        //            }
                     
                     Spacer()
                     
@@ -163,10 +153,10 @@ struct InboxView: View {
                     .zIndex(1) // Ensure the menu is on top
             }
         }
+  
     }
     
 
-    
     
     //MARK: LOGIC TO DELETE NOTIFICATIOMN FROM USERS DEVICE AND CORE DATA.
     private func deleteNotifications(offsets: IndexSet) {
@@ -182,11 +172,6 @@ struct InboxView: View {
         }
     }
     
-    
-    
-//    func deleteMessage(at offsets: IndexSet) {
-//        messages.remove(atOffsets: offsets)
-//    }
     
 }
 

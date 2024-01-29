@@ -9,6 +9,7 @@ import SwiftUI
 import FirebaseAuth
 import FirebaseFirestore
 
+
 struct MenuView: View {
  
     
@@ -135,22 +136,43 @@ struct MenuView: View {
                     .padding(.top)
                     .fontWeight(.bold)
                 
+    
                 HStack {
-                    Link(destination: URL(string: "https://www.facebook.com/handlethegame")!) {
-                        Image("facebook-icon")
+                    // Facebook Link
+                    VStack {
+                        Link(destination: URL(string: "https://www.facebook.com/handlethegame")!) {
+                            Image("facebook-icon")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 40, height: 40)
+                        }
                     }
-                    
-                    Link(destination: URL(string: "https://www.instagram.com/handlethegame/")!) {
-                        Image("instagram-icon")
+
+                    // Instagram Link
+                    VStack {
+                        Link(destination: URL(string: "https://www.instagram.com/handlethegame/")!) {
+                            Image("instagram-icon")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 40, height: 40)
+                        }
                     }
-                    
-                    Link(destination: URL(string: "https://www.tiktok.com/@pointguardu")!) {
-                        Image("tik-tok-icon")
+
+                    // TikTok Link
+                    VStack {
+                        Link(destination: URL(string: "https://www.tiktok.com/@pointguardu")!) {
+                            Image("tik-tok-icon")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 40, height: 40)
+                        }
                     }
                 }
                 .listRowBackground(Color(hex: "0f2d53"))
-                .foregroundColor(Color.white)
-                .font(.title3)
+                .background(Color(hex: "0f2d53")) // Set background color
+                .foregroundColor(.white) // Set foreground color
+                .font(.title3) // Set font
+
             
                 
             }
@@ -179,10 +201,7 @@ struct MenuView: View {
         NavigationLink(destination: LoginView(), isActive: $navigateToLogin) {
             EmptyView()
         }
-        
-        
 
-        
     }
     
     
@@ -200,24 +219,9 @@ struct MenuView: View {
             }
         }
     }
-    
-//    func handleTap(with urlString: String) {
-//        print("URL Tapped: \(urlString)") // Add this for debugging
-//
-//        if let url = URL(string: urlString) {
-//            openURL(url)
-//        } else {
-//            print("Invalid URL")
-//        }
-//    }
- 
+
 }
 
-
-//MARK: LOGIC FOR OPENING AN EXTERIOR LINK LIKE FACEBOOK AND TIKTOK
-//func openURL(_ url: URL) {
-//    UIApplication.shared.open(url, options: [:], completionHandler: nil)
-//}
 
 
 

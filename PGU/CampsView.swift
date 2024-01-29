@@ -87,11 +87,19 @@ struct CampsView: View {
                         Button(action: {
                             openMapForDirections(to: location)
                         }) {
-                            Image(systemName: "mappin.circle.fill")
-                                .foregroundColor(Color(hex: "c7972b"))
-                                .imageScale(.large)
-                                .background(Color(hex: "0f2d53"))
-                                .cornerRadius(20)
+                            VStack {
+                                Text(location.title)  // Always display the title for testing
+                                    .font(.caption)
+                                    .padding(5)
+                                    .background(Color.white)
+                                    .cornerRadius(10)
+                                    .shadow(radius: 3)
+                                Image(systemName: "mappin.circle.fill")
+                                    .foregroundColor(Color(hex: "c7972b"))
+                                    .imageScale(.large)
+                                    .background(Color(hex: "0f2d53"))
+                                    .cornerRadius(20)
+                            }
                         }
                     }
                 }

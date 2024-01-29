@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreLocation
 
 struct ContactView: View {
     
@@ -14,25 +15,102 @@ struct ContactView: View {
 
     var body: some View {
         ZStack {
-            // Image background
-            Image("contact-us-pgu")
-                .resizable()
-                .scaledToFill() // Adjusts the image size while maintaining aspect ratio
-                .frame(maxWidth: .infinity, maxHeight: .infinity) // Allows the image to expand
-                .zIndex(0) // Lower zIndex so it stays in the background
 
-            // Header
             VStack {
                 HamburgerMenu(isMenuOpen: $isMenuOpen)
-                    .padding(.top, 50)
                     .navigationBarBackButtonHidden(true)
-                    .frame(height: 100)
-                    .zIndex(1) // Higher zIndex ensures it's above the image
+                    .frame(height: 50)
+                    .padding(.bottom, 5)
 
-                Spacer() // This spacer pushes the footer to the bottom
+//                Spacer() // This spacer pushes the footer to the bottom
+                
+                VStack{
+                    Image(systemName: "phone.circle.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 40, height: 40)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading)
+                        .padding(.top, 50)
+                        .foregroundColor(Color(hex: "0f2d53"))
+                    
+                    Button(action: {
+                        callPhoneNumber()
+                    }) {
+                        Text("585-451-6244")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.leading)
+                            .underline()
+                    }
 
+                    
+                }
+                .padding(.leading)
+
+                    
+                    Spacer()
+                    
+                VStack{
+                    Image(systemName: "envelope.circle.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 40, height: 40)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading)
+                        .foregroundColor(Color(hex: "0f2d53"))
+
+                    
+                    Text("info@pointguarduniversity.com")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading)
+                        .underline()
+                    
+                    
+                }
+                .padding(.leading)
+                .padding(.top)
+
+
+                Spacer()
+                    
+                    
+                VStack{
+                    Image(systemName: "mappin.and.ellipse.circle.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 40, height: 40)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading)
+                        .foregroundColor(Color(hex: "0f2d53"))
+
+                    
+                    Button(action: {
+                        openMapForAddress()
+                    }) {
+                        Text("201 W Monroe St, South Bend, Indiana, 46601")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.leading)
+                            .underline()
+                    }
+                    
+                    
+                }
+                .padding(.leading)
+                .padding(.top)
+
+                Spacer()
+                
+                Image("pgu")
+                    .resizable()
+                    .scaledToFit()
+//                    .padding(.top)
+                    
+                
+                Spacer()
+
+                
                 FooterMenu()
-                    .padding(.bottom, 40)
+//                    .padding(.bottom, 40)
                     .zIndex(1) // Same higher zIndex for the footer
             }
 
@@ -43,6 +121,29 @@ struct ContactView: View {
                     .transition(.move(edge: .leading))
                     .zIndex(2) // Even higher zIndex to ensure it's above everything else
             }
+        }
+    }
+    
+    func openMapForAddress() {
+        let address = "201 W Monroe St, South Bend, Indiana, 46601"
+        let geocoder = CLGeocoder()
+        
+        geocoder.geocodeAddressString(address) { placemarks, error in
+            guard let placemark = placemarks?.first, let location = placemark.location else {
+                print("No location found")
+                return
+            }
+            let query = "?ll=\(location.coordinate.latitude),\(location.coordinate.longitude)"
+            let path = "http://maps.apple.com/" + query
+            if let url = URL(string: path) {
+                UIApplication.shared.open(url)
+            }
+        }
+    }
+    
+    func callPhoneNumber() {
+        if let url = URL(string: "tel://5854516244"), UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url)
         }
     }
 }

@@ -52,7 +52,7 @@ struct FilmReviewView: View {
                     
                     Spacer() // Spacing between buttons
                     
-                    Text("Film Review")
+                    Text("Rob's Videos")
                         .padding(10)
                         .frame(minWidth: 0, maxWidth: .infinity) // Flexible frame
                         .background(Color(hex: "c7972b"))
