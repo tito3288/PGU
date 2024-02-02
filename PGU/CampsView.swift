@@ -7,14 +7,26 @@
 
 import SwiftUI
 import MapKit
+import CoreLocation
+
 
 struct Location: Identifiable {
     let id = UUID()
     var title: String
     var coordinate: CLLocationCoordinate2D
+    var isUserLocation: Bool = false
+
 }
 
-
+struct UserLocationView: View {
+    var body: some View {
+        Image(systemName: "person.circle.fill")
+            .foregroundColor(.blue)
+            .background(Circle().fill(Color.white))
+            .shadow(radius: 3)
+            .imageScale(.large)
+    }
+}
 
 struct CampsView: View {
     @State private var isMenuOpen: Bool = false
@@ -32,6 +44,9 @@ struct CampsView: View {
 
     ]
     
+    
+    @StateObject private var locationManager = LocationManager()
+    @State private var regions = MKCoordinateRegion()
 
     @State private var region = MKCoordinateRegion(
         center: CLLocationCoordinate2D(latitude: 39.50, longitude: -98.35), // Geographic center of the contiguous US
@@ -50,15 +65,15 @@ struct CampsView: View {
                 
                 HStack {
                     
-                        Text("Find Camps")
-                            .padding(10)
-                            .frame(minWidth: 0, maxWidth: .infinity) // Flexible frame
-                            .background(Color(hex: "c7972b"))
-                            .foregroundColor(.white)
-                            .clipShape(RoundedRectangle(cornerRadius: 20))
-
+                    Text("Find Camps")
+                        .padding(10)
+                        .frame(minWidth: 0, maxWidth: .infinity) // Flexible frame
+                        .background(Color(hex: "c7972b"))
+                        .foregroundColor(.white)
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                    
                     Spacer() // Spacing between buttons
-
+                    
                     NavigationLink(destination: CalendarView()) {
                         Text("Calendar")
                             .padding(10)
@@ -67,9 +82,9 @@ struct CampsView: View {
                             .foregroundColor(.white)
                             .clipShape(RoundedRectangle(cornerRadius: 20))
                     }
-
+                    
                     Spacer() // Spacing between buttons
-
+                    
                     NavigationLink(destination: CampInfoView()) {
                         Text("Camp Info")
                             .padding(10)
@@ -82,29 +97,61 @@ struct CampsView: View {
                 .padding()
                 
                 
-                Map(coordinateRegion: $region, annotationItems: locations) { location in
-                    MapAnnotation(coordinate: location.coordinate) {
-                        Button(action: {
-                            openMapForDirections(to: location)
-                        }) {
-                            VStack {
-                                Text(location.title)  // Always display the title for testing
-                                    .font(.caption)
-                                    .padding(5)
-                                    .background(Color.white)
-                                    .cornerRadius(10)
-                                    .shadow(radius: 3)
-                                Image(systemName: "mappin.circle.fill")
-                                    .foregroundColor(Color(hex: "c7972b"))
-                                    .imageScale(.large)
-                                    .background(Color(hex: "0f2d53"))
-                                    .cornerRadius(20)
+                
+                ZStack {
+                    Map(coordinateRegion: $region, annotationItems: locations + (locationManager.userLocation != nil ? [locationManager.userLocation!] : [])) { location in
+                        MapAnnotation(coordinate: location.coordinate) {
+                            if location.isUserLocation {
+                                UserLocationView() // Custom view for user's location
+                            } else {
+                                // Your existing button for other locations
+                                Button(action: {
+                                    openMapForDirections(to: location)
+                                }) {
+                                    //                                VStack {
+                                    //                                    Text(location.title)
+                                    //                                        .font(.caption)
+                                    //                                        .padding(5)
+                                    //                                        .background(Color.white)
+                                    //                                        .cornerRadius(10)
+                                    //                                        .shadow(radius: 3)
+                                    Image(systemName: "mappin.circle.fill")
+                                        .foregroundColor(Color(hex: "c7972b"))
+                                        .imageScale(.medium)
+                                        .background(Color(hex: "0f2d53"))
+                                        .cornerRadius(20)
+                                    //                                }
+                                }
                             }
                         }
                     }
+//                    .onAppear {
+//                        locationManager.requestLocation()
+//                    }
+                    .onChange(of: locationManager.lastLocation) { newValue in
+                        if let newLocation = newValue {
+                            regions = MKCoordinateRegion(center: newLocation.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
+                        }
+                    }
+                    .mapStyle(.standard)
+                    .frame(height: 250)
+                    
+                    VStack {
+                        Spacer() // Pushes the button to the bottom
+                        HStack {
+                            Spacer() // Pushes the button to the right
+                            Button(action: zoomToUserLocation) {
+                                Image(systemName: "location.fill")
+                                    .padding()
+                                    .foregroundColor(.white)
+                                    .background(Circle().fill(Color(hex: "c7972b")))
+                                    .shadow(radius: 3)
+                            }
+                            .padding() // Adds some space around the button
+                        }
+                    }
                 }
-                .mapStyle(.standard)
-                .frame(height: 250)
+                
                 
                 
                 Text("FIND A CAMP NEAR YOU")
@@ -495,6 +542,21 @@ struct CampsView: View {
         }
     }
     
+    private func zoomToUserLocation() {
+        if let userLocation = locationManager.lastLocation {
+            print("Zooming to user location: \(userLocation.coordinate.latitude), \(userLocation.coordinate.longitude)")
+            withAnimation {
+                region = MKCoordinateRegion(
+                    center: userLocation.coordinate,
+                    span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
+                )
+            }
+        } else {
+            print("User location not available")
+        }
+    }
+
+    
     private func updateMapToNearestLocation(userLocation: CLLocation) {
         var nearestLocation: Location? = nil
         var smallestDistance: CLLocationDistance?
@@ -531,6 +593,7 @@ struct CampsView: View {
     }
 
 }
+
 
 #Preview {
     CampsView()
