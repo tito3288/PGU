@@ -73,7 +73,7 @@ struct CalendarView: View {
                 
                 TabView(selection: $currentPageIndex) {
                     ForEach(0..<3, id: \.self) { index in
-                        Image("Calendar")
+                        Image("Calendar_\(index + 1)")
                             .resizable()
                             .scaledToFit()
                             .tag(index)

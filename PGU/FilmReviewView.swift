@@ -75,6 +75,7 @@ struct FilmReviewView: View {
                 }
                 
                 
+                
                 List{
                     
                     HStack{
@@ -261,7 +262,7 @@ struct VideoPlayerView: View {
 
     var body: some View {
         VideoPlayer(player: player)
-            .onAppear {
+                    .onAppear {
                 player.play()
             }
             .onDisappear {

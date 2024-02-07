@@ -149,27 +149,68 @@ class AudioPlayerManager: ObservableObject {
 
     
     func setupPlaybackProgressTracking() {
-        // Ensure player is initialized
+        // Remove any existing observer to avoid duplicates
+        if let timeObserverToken = timeObserverToken {
+            player?.removeTimeObserver(timeObserverToken)
+            self.timeObserverToken = nil
+        }
+
         guard let player = player else { return }
 
-        // Add a time observer to update playbackProgress
         let interval = CMTime(seconds: 1, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-        player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] time in
-            guard let currentItem = player.currentItem else { return }
+        timeObserverToken = player.addPeriodicTimeObserver(forInterval: interval, queue: DispatchQueue.main) { [weak self] time in
+            guard let self = self, let currentItem = self.player?.currentItem else { return }
             let duration = currentItem.duration.seconds
-            let currentTime = player.currentTime().seconds
+            let currentTime = time.seconds
+            self.currentTime = currentTime // Update current time
+            self.duration = duration // Update duration
+
             let progress = currentTime / duration
-            self?.playbackProgress = progress.isNaN ? 0.0 : progress
+            self.playbackProgress = progress.isNaN ? 0.0 : progress
+        }
+    }
+
+    
+    
+//    func prepareToPlay(episode: PodcastEpisode) {
+//        let playerItem = AVPlayerItem(url: episode.audioURL)
+//        if self.player == nil {
+//            self.player = AVPlayer(playerItem: playerItem)
+//        } else {
+//            self.player?.replaceCurrentItem(with: playerItem)
+//        }
+//        play()
+//        setupPlaybackProgressTracking() // Ensure tracking is updated for the new item
+//    }
+    
+    func prepareToPlay(episode: PodcastEpisode) {
+        let playerItem = AVPlayerItem(url: episode.audioURL)
+        NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd), name: .AVPlayerItemDidPlayToEndTime, object: playerItem)
+        if self.player == nil {
+            self.player = AVPlayer(playerItem: playerItem)
+        } else {
+            self.player?.replaceCurrentItem(with: playerItem)
+        }
+        play()
+        setupPlaybackProgressTracking() // Ensure tracking is updated for the new item
+    }
+
+    @objc func playerItemDidReachEnd(notification: Notification) {
+        DispatchQueue.main.async {
+            self.isPlaying = false
+            self.playbackProgress = 0.0 // Reset progress
+            self.currentTime = 0 // Reset current time
         }
     }
 
     func seek(to progress: Double) {
-        guard let duration = player?.currentItem?.duration else { return }
-        let totalSeconds = CMTimeGetSeconds(duration)
-        let value = totalSeconds * progress
-        let seekTime = CMTime(value: Int64(value), timescale: 1)
-        player?.seek(to: seekTime)
+        guard let duration = player?.currentItem?.duration.seconds, duration > 0 else { return }
+        let totalSeconds = progress * duration
+        let seekTime = CMTime(seconds: totalSeconds, preferredTimescale: 1)
+        player?.seek(to: seekTime, toleranceBefore: .zero, toleranceAfter: .zero)
     }
+
+
 
  
     
@@ -206,13 +247,8 @@ class AudioPlayerManager: ObservableObject {
     }
 
 
-    // Prepares the player to play the specified episode
-    func prepareToPlay(episode: PodcastEpisode) {
-        // Prepare the player with the new episode's URL
-        let playerItem = AVPlayerItem(url: episode.audioURL)
-        self.player = AVPlayer(playerItem: playerItem)
-        play()
-    }
+
+
     
     func play(episode: PodcastEpisode) {
         // Directly use episode.audioURL if it's already a URL
@@ -649,9 +685,8 @@ struct EpisodeDetailView: View {
     var body: some View {
         ZStack {
             // Background blur
-            BlurView(style: .systemUltraThinMaterial)
-                .edgesIgnoringSafeArea(.all)
-            
+            Color(hex: "0f2d53").edgesIgnoringSafeArea(.all) // Set the background to red
+
             VStack(alignment: .center, spacing: 20) {
                 
                 if let imageURL = episode.imageURL {
@@ -662,9 +697,9 @@ struct EpisodeDetailView: View {
                         case .success(let image):
                             image.resizable()
                                 .aspectRatio(contentMode: .fill)
-                                .frame(width: 200, height: 200)
-                                .clipShape(Circle()) // Makes the image circular
-                                .shadow(radius: 10) // Optional: Adds a shadow for depth
+                                .frame(width: 300, height: 300)
+//                                .clipShape(Circle()) // Makes the image circular
+//                                .shadow(radius: 10) // Optional: Adds a shadow for depth
                         case .failure:
                             Image(systemName: "photo") // An image to display in case of failure
                                 .font(.largeTitle)
@@ -680,16 +715,26 @@ struct EpisodeDetailView: View {
                     .font(.title)
                     .fontWeight(.bold)
                     .multilineTextAlignment(.center)
+                    .foregroundColor(Color.white)
                 
-                Slider(value: $audioPlayerManager.playbackProgress, in: 0...1, onEditingChanged: { editing in
+                Slider(value: $audioPlayerManager.playbackProgress, in: 0...1) { editing in
                     if !editing {
-                        // Seek when the user stops dragging the slider
                         audioPlayerManager.seek(to: audioPlayerManager.playbackProgress)
+
+                        
                     }
-                })
-                .accentColor(.blue)
+                }
+                .accentColor(Color(hex: "c7972b"))
                 
-                
+                HStack {
+                    Text(audioPlayerManager.currentTime.asMinuteSecondString())
+                    Spacer()
+                    // Correct calculation of the remaining time
+                    let remainingTime = audioPlayerManager.duration - audioPlayerManager.currentTime
+                    Text("-\(remainingTime.asMinuteSecondString())")
+                }
+                .foregroundColor(.white)
+
                 
                 HStack(spacing: 40) { // Adjust spacing as needed
                     // Skip backward 15 seconds
@@ -697,31 +742,39 @@ struct EpisodeDetailView: View {
                         audioPlayerManager.skipBackward()
                     }) {
                         Image(systemName: "gobackward.15")
-                            .foregroundColor(Color.blue)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 40, height: 40)
+                            .foregroundColor(Color(hex: "c7972b"))
                             .padding()
-                            .background(Circle().fill(Color.white))
-                            .shadow(radius: 5)
+                    
+
                     }
                     
                     // Play/Pause Button
                     Button(action: {
-                        // Directly interact with the audioPlayerManager to play the selected episode
-                        // Check if the episode to play is the same as the current playing episode
                         if audioPlayerManager.currentEpisode?.id == episode.id {
-                            // If it's the same episode, simply toggle play/pause
-                            audioPlayerManager.togglePlayPause()
+                            if !audioPlayerManager.isPlaying || audioPlayerManager.playbackProgress >= 1.0 {
+                                audioPlayerManager.playbackProgress = 0.0 // Reset progress
+                                audioPlayerManager.currentTime = 0 // Reset current time
+                                audioPlayerManager.player?.seek(to: .zero) // Seek to start
+                                audioPlayerManager.play()
+                            } else {
+                                audioPlayerManager.togglePlayPause()
+                            }
                         } else {
-                            // If it's a different episode, play the new one
                             audioPlayerManager.play(episode: episode)
                         }
                     }) {
                         // Determine the correct button image
                         Image(systemName: audioPlayerManager.isPlaying && audioPlayerManager.currentEpisode?.id == episode.id ? "pause.fill" : "play.fill")
-                            .foregroundColor(Color.blue)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 40, height: 40)
+                            .foregroundColor(Color.white)
                             .padding()
-                            .background(Circle().fill(Color.white))
-                            .shadow(radius: 5)
                     }
+
 
                     
                     // Skip forward 30 seconds
@@ -729,10 +782,11 @@ struct EpisodeDetailView: View {
                         audioPlayerManager.skipForward()
                     }) {
                         Image(systemName: "goforward.30")
-                            .foregroundColor(Color.blue)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 40, height: 40)
+                            .foregroundColor(Color(hex: "c7972b"))
                             .padding()
-                            .background(Circle().fill(Color.white))
-                            .shadow(radius: 5)
                     }
                 }
                 
@@ -748,14 +802,14 @@ struct EpisodeDetailView: View {
 }
 
 extension TimeInterval {
-    func asString(style: DateComponentsFormatter.UnitsStyle = .positional) -> String {
-        let formatter = DateComponentsFormatter()
-        formatter.allowedUnits = [.hour, .minute, .second]
-        formatter.zeroFormattingBehavior = [.pad]
-        formatter.unitsStyle = style
-        return formatter.string(from: self) ?? "0:00"
+    func asMinuteSecondString() -> String {
+        let totalSeconds = Int(self)
+        let minutes = totalSeconds / 60
+        let seconds = totalSeconds % 60
+        return String(format: "%d:%02d", minutes, seconds) // Ensures the format is MM:SS
     }
 }
+
 
 
 
