@@ -15,11 +15,11 @@ import MediaPlayer
 
 struct BlurView: UIViewRepresentable {
     var style: UIBlurEffect.Style
-
+    
     func makeUIView(context: Context) -> UIVisualEffectView {
         return UIVisualEffectView(effect: UIBlurEffect(style: style))
     }
-
+    
     func updateUIView(_ uiView: UIVisualEffectView, context: Context) {
         uiView.effect = UIBlurEffect(style: style)
     }
@@ -34,21 +34,31 @@ struct PodcastEpisode: Identifiable {
 }
 
 
+class ViewState: ObservableObject {
+    @Published var isPlaybackControlsVisible: Bool = false
+    static let shared = ViewState()
+}
+
 class AudioPlayerManager: ObservableObject {
+    
+    static let shared = AudioPlayerManager()
     
     @Published var isPlaying = false
     @Published var currentPlayingURL: URL?
     
+    @Published var currentEpisode: PodcastEpisode?
+    
     var player: AVPlayer?
     
-    @Published var playbackProgress: Double = 0
+    @Published var playbackProgress: Double = 0.0
+    
     private var timeObserverToken: Any?
     
     @Published var currentTime: TimeInterval = 0
     @Published var duration: TimeInterval = 0
 
     init() {
-        setupProgressTracking()
+        setupPlaybackProgressTracking()
         configureAudioSession()
         configureRemoteCommandCenter()
     }
@@ -91,66 +101,65 @@ class AudioPlayerManager: ObservableObject {
             return .success
         }
         
+        
+        
     }
     
     
     
-    func updateNowPlayingInfo() {
-        guard let currentItem = player?.currentItem, let url = currentPlayingURL else { return }
-        
+    func updateNowPlayingInfo(for episode: PodcastEpisode) {
         var nowPlayingInfo = [String: Any]()
-        nowPlayingInfo[MPMediaItemPropertyTitle] = "Episode Title" // Set dynamically if you have the info
+        nowPlayingInfo[MPMediaItemPropertyTitle] = episode.title
         
-        if let image = UIImage(named: "yourImageName") { // Replace with dynamic image loading if applicable
-            nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
+        // Prepare other now playing info properties
+        if let playerItem = player?.currentItem {
+            let duration = CMTimeGetSeconds(playerItem.asset.duration)
+            if !duration.isNaN {
+                nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = duration
+                nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = CMTimeGetSeconds(playerItem.currentTime())
+                nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = player?.rate ?? 0
+            }
         }
         
-        nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = currentItem.currentTime().seconds
-        nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = currentItem.asset.duration.seconds
-        nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = isPlaying ? 1.0 : 0.0
-        
-        MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+        // Asynchronously load the artwork if available
+        let imageURL = episode.imageURL ?? URL(string: "https://example.com/defaultImage.png")! // Fallback URL
+        URLSession.shared.dataTask(with: imageURL) { data, response, error in
+            guard let data = data, let image = UIImage(data: data) else { return }
+            let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
+            
+            nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
+            
+            DispatchQueue.main.async {
+                MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+            }
+        }.resume()
     }
 
-    
-    func setupRemoteTransportControls() {
-        let commandCenter = MPRemoteCommandCenter.shared()
 
-        commandCenter.playCommand.addTarget { [unowned self] _ in
-            self.play()
-            return .success
-        }
 
-        commandCenter.pauseCommand.addTarget { [unowned self] _ in
-            self.pause()
-            return .success
-        }
-        
-        // Add skip forward and backward commands as needed
-    }
-
-    func play() {
-        player?.play()
-        isPlaying = true
-        updateNowPlayingInfo()
-    }
 
     func pause() {
         player?.pause()
         isPlaying = false
-        updateNowPlayingInfo()
+        if let currentEpisode = currentEpisode {
+            updateNowPlayingInfo(for: currentEpisode)
+        }
     }
 
+
     
-    func setupProgressTracking() {
+    func setupPlaybackProgressTracking() {
+        // Ensure player is initialized
+        guard let player = player else { return }
+
+        // Add a time observer to update playbackProgress
         let interval = CMTime(seconds: 1, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-        timeObserverToken = player?.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] time in
-            DispatchQueue.main.async {
-                self?.currentTime = time.seconds
-                if let duration = self?.player?.currentItem?.duration.seconds, !duration.isNaN, duration.isFinite {
-                    self?.duration = duration
-                }
-            }
+        player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] time in
+            guard let currentItem = player.currentItem else { return }
+            let duration = currentItem.duration.seconds
+            let currentTime = player.currentTime().seconds
+            let progress = currentTime / duration
+            self?.playbackProgress = progress.isNaN ? 0.0 : progress
         }
     }
 
@@ -162,46 +171,106 @@ class AudioPlayerManager: ObservableObject {
         player?.seek(to: seekTime)
     }
 
+ 
     
+    func setCurrentEpisode(_ episode: PodcastEpisode) {
+        // Stop any existing playback
+        player?.pause()
+
+        // Check if a new episode is selected or if it's the same as the current one
+        if let currentEpisode = self.currentEpisode, currentEpisode.id == episode.id {
+            // If the same episode is selected, toggle play/pause
+            togglePlayPause()
+        } else {
+            // If a new episode is selected, prepare to play it
+            self.currentEpisode = episode
+            prepareToPlay(episode: episode)
+        }
+    }
+
     
+    func togglePlayPause() {
+        guard let player = self.player else { return }
+        
+        isPlaying.toggle()
+        if isPlaying {
+            player.play()
+        } else {
+            player.pause()
+        }
+        
+        // Update lock screen controls
+        if let currentEpisode = currentEpisode {
+            updateNowPlayingInfo(for: currentEpisode)
+        }
+    }
+
+
+    // Prepares the player to play the specified episode
+    func prepareToPlay(episode: PodcastEpisode) {
+        // Prepare the player with the new episode's URL
+        let playerItem = AVPlayerItem(url: episode.audioURL)
+        self.player = AVPlayer(playerItem: playerItem)
+        play()
+    }
     
-    
-    
-    func playAudio(from url: URL) {
-        // If there's an existing time observer, remove it
+    func play(episode: PodcastEpisode) {
+        // Directly use episode.audioURL if it's already a URL
+        let url = episode.audioURL
+        self.currentEpisode = episode
+        self.currentPlayingURL = url
+        
+        // Check and remove any existing observers to avoid memory leaks
         if let timeObserverToken = timeObserverToken {
             player?.removeTimeObserver(timeObserverToken)
             self.timeObserverToken = nil
         }
-
-        // Initialize the player with the new URL
-        self.player = AVPlayer(url: url)
+        
+        // Create a new player item and assign it to the player
+        let playerItem = AVPlayerItem(url: url)
+        self.player = AVPlayer(playerItem: playerItem)
         self.player?.play()
         self.isPlaying = true
-        self.currentPlayingURL = url
-
-        // Now that player is not nil, set up the time observer
-        setupProgressTracking()
+        
+        // Update the lock screen info
+        updateNowPlayingInfo(for: episode)
+        
+        // Setup progress tracking for the new player
+        setupPlaybackProgressTracking()
     }
-    
-    func togglePlayPause(for url: URL) {
-        // Check if we're trying to play the same episode
-        if let currentPlayingURL = currentPlayingURL, currentPlayingURL == url {
-            // Toggle play/pause
-            isPlaying.toggle()
-            if isPlaying {
-                player?.play()
-            } else {
-                player?.pause()
-            }
-        } else {
-            // New episode selected, play it
-            self.currentPlayingURL = url
-            isPlaying = true
-            player = AVPlayer(url: url)
-            player?.play()
+
+
+
+    func play() {
+        player?.play()
+        isPlaying = true
+        if let episode = currentEpisode {
+            updateNowPlayingInfo(for: episode)
         }
     }
+    
+//    func togglePlayPause(for url: URL) {
+//        // Check if we're trying to play the same episode
+//        if let currentPlayingURL = currentPlayingURL, currentPlayingURL == url {
+//            // Toggle play/pause
+//            isPlaying.toggle()
+//            if isPlaying {
+//                player?.play()
+//            } else {
+//                player?.pause()
+//            }
+//        } else {
+//            // New episode selected, play it
+//            self.currentPlayingURL = url
+//            isPlaying = true
+//            player = AVPlayer(url: url)
+//            player?.play()
+//        }
+//    }
+    
+    
+    
+    
     
     func skipBackward() {
         guard let player = player else { return }
@@ -273,8 +342,11 @@ class PodcastService {
 
 struct ResourcesView: View {
     
+    @EnvironmentObject var audioPlayerManager: AudioPlayerManager
+//    @StateObject private var audioPlayerManager = AudioPlayerManager()
+    @EnvironmentObject var viewState: ViewState // Add this line to access ViewState in ResourcesView.
+    
     @State private var isMenuOpen: Bool = false
-    @StateObject private var audioPlayerManager = AudioPlayerManager()
     @State private var episodes: [PodcastEpisode] = []
     @State private var items: [String] = []
     
@@ -359,18 +431,24 @@ struct ResourcesView: View {
                             
                             Button(action: {
                                 self.selectedEpisode = episode
-                                audioPlayerManager.togglePlayPause(for: episode.audioURL)
+                                if audioPlayerManager.currentPlayingURL == episode.audioURL {
+                                    // If the same episode, toggle play/pause
+                                    audioPlayerManager.togglePlayPause()
+                                } else {
+                                    // If a different episode, start playing the new episode
+                                    audioPlayerManager.setCurrentEpisode(episode)
+                                }
                                 withAnimation {
                                     showPlaybackControls = true
                                 }
                             }) {
-                                Image(systemName: audioPlayerManager.isPlaying && audioPlayerManager.currentPlayingURL == episode.audioURL ? "pause.fill" : "play.fill")
+                                Image(systemName: audioPlayerManager.isPlaying && audioPlayerManager.currentEpisode?.id == episode.id ? "pause.fill" : "play.fill")
                                     .frame(alignment: .trailing)
                                     .padding(10)
                                     .background(Color(hex: "c7972b"))
                                     .foregroundColor(.white)
                                     .cornerRadius(20)
-                                
+
                             }
                             
                         }
@@ -495,8 +573,8 @@ struct PlaybackControlsView: View {
     @ObservedObject var audioPlayerManager: AudioPlayerManager
     var selectedEpisode: PodcastEpisode?
     @State private var showDetailSheet = false // State to control sheet presentation
-
-
+    
+    
     var body: some View {
         HStack {
             // Display episode image
@@ -512,7 +590,7 @@ struct PlaybackControlsView: View {
                     self.showDetailSheet = true // Show sheet when image is tapped
                 }
             }
-
+            
             // Display episode title if available
             if let title = selectedEpisode?.title {
                 Text(title)
@@ -522,20 +600,31 @@ struct PlaybackControlsView: View {
                         self.showDetailSheet = true // Show sheet when title is tapped
                     }
             }
-
+            
             Spacer()
-
+            
             // Play/Pause Button
             Button(action: {
-                guard let episodeURL = selectedEpisode?.audioURL else { return }
-                audioPlayerManager.togglePlayPause(for: episodeURL)
+                // Ensure we have a selected episode to work with
+                if let selected = selectedEpisode {
+                    // If the selected episode is the same as the current playing episode, toggle play/pause
+                    if audioPlayerManager.currentEpisode?.id == selected.id {
+                        audioPlayerManager.togglePlayPause()
+                    } else {
+                        // If a different episode is selected, start playing the new episode
+                        audioPlayerManager.play(episode: selected)
+                    }
+                }
             }) {
-                Image(systemName: audioPlayerManager.isPlaying && audioPlayerManager.currentPlayingURL == selectedEpisode?.audioURL ? "pause.fill" : "play.fill")
+                // Use the episode ID comparison to determine the correct button image
+                Image(systemName: audioPlayerManager.isPlaying && audioPlayerManager.currentEpisode?.id == selectedEpisode?.id ? "pause.fill" : "play.fill")
                     .foregroundColor(Color(hex: "c7972b"))
                     .padding()
                     .background(Circle().fill(Color.white))
             }
+ 
         }
+        
         .padding()
         .background(BlurView(style: .systemUltraThinMaterial)) // Use BlurView here
         .cornerRadius(20)
@@ -546,7 +635,6 @@ struct PlaybackControlsView: View {
                 EpisodeDetailView(audioPlayerManager: audioPlayerManager, episode: episode)
             }
         }
-
     }
 }
 
@@ -617,15 +705,24 @@ struct EpisodeDetailView: View {
                     
                     // Play/Pause Button
                     Button(action: {
-                        audioPlayerManager.togglePlayPause(for: episode.audioURL) // Directly use episode.audioURL
+                        // Directly interact with the audioPlayerManager to play the selected episode
+                        // Check if the episode to play is the same as the current playing episode
+                        if audioPlayerManager.currentEpisode?.id == episode.id {
+                            // If it's the same episode, simply toggle play/pause
+                            audioPlayerManager.togglePlayPause()
+                        } else {
+                            // If it's a different episode, play the new one
+                            audioPlayerManager.play(episode: episode)
+                        }
                     }) {
-                        Image(systemName: audioPlayerManager.isPlaying && audioPlayerManager.currentPlayingURL == episode.audioURL ? "pause.fill" : "play.fill")
+                        // Determine the correct button image
+                        Image(systemName: audioPlayerManager.isPlaying && audioPlayerManager.currentEpisode?.id == episode.id ? "pause.fill" : "play.fill")
                             .foregroundColor(Color.blue)
                             .padding()
                             .background(Circle().fill(Color.white))
                             .shadow(radius: 5)
                     }
-                    
+
                     
                     // Skip forward 30 seconds
                     Button(action: {

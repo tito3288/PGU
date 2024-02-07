@@ -41,6 +41,10 @@ struct PGUApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView().environment(\.managedObjectContext, persistenceController.persistentContainer.viewContext)
+                .environmentObject(AudioPlayerManager.shared)
+                .environmentObject(ViewState.shared) // Add this line to share ViewState across your views.
+
+
 //                .environmentObject(navigationState) // Pass it as an EnvironmentObject
 
         }

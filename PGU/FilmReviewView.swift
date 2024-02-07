@@ -85,7 +85,7 @@ struct FilmReviewView: View {
                     
                     HStack{
                         VStack(alignment: .leading, spacing: 0) {
-                            Text("Episode 4: Video Name")
+                            Text("Coach Rob Shows You Ball-Handling Drills Without Dribbling")
                                 .font(.title2)
                                 .fontWeight(.bold)
                                 .foregroundColor(Color(hex: "0f2d53"))// Style for 
@@ -94,7 +94,7 @@ struct FilmReviewView: View {
                         Spacer()
                         
                         Button(action: {
-                            self.selectedVideo = "pgu-video" // Set the video to play
+                            self.selectedVideo = "pgu-video2" // Set the video to play
                         }) {
                             Image(systemName: "play.fill") // Your button text
                                 .frame(alignment: .trailing)
@@ -108,7 +108,7 @@ struct FilmReviewView: View {
                     
                     HStack{
                         VStack(alignment: .leading, spacing: 0) {
-                            Text("Episode 3: Video Name")
+                            Text("Coach Rob Teaches Shooting Mechanics")
                                 .font(.title2)
                                 .fontWeight(.bold)
                                 .foregroundColor(Color(hex: "0f2d53"))// Style for regular text
@@ -117,7 +117,7 @@ struct FilmReviewView: View {
                         Spacer()
                         
                         Button(action: {
-                            // Your button action here
+                            self.selectedVideo = "pgu-video3" // Set the video to play
                             print("Sign Up pressed")
                         }) {
                             Image(systemName: "play.fill") // Your button text
@@ -134,7 +134,7 @@ struct FilmReviewView: View {
                     
                     HStack{
                         VStack(alignment: .leading, spacing: 0) {
-                            Text("Episode 2: Video Name")
+                            Text("Coach Rob Teaches The Between-The-Legs Into Shot Move")
                                 .font(.title2)
                                 .fontWeight(.bold)
                                 .foregroundColor(Color(hex: "0f2d53"))// Style for regular text
@@ -143,7 +143,7 @@ struct FilmReviewView: View {
                         Spacer()
                         
                         Button(action: {
-                            // Your button action here
+                            self.selectedVideo = "pgu-video4" // Set the video to play
                             print("Sign Up pressed")
                         }) {
                             Image(systemName: "play.fill") // Your button text
@@ -159,7 +159,7 @@ struct FilmReviewView: View {
                     
                     HStack{
                         VStack(alignment: .leading, spacing: 0) {
-                            Text("Epospde 1: Video Name")
+                            Text("Coach Rob Teaches The Spin Move")
                                 .font(.title2)
                                 .fontWeight(.bold)
                                 .foregroundColor(Color(hex: "0f2d53"))// Style for regular text
@@ -168,7 +168,33 @@ struct FilmReviewView: View {
                         Spacer()
                         
                         Button(action: {
-                            // Your button action here
+                            self.selectedVideo = "pgu-video5" // Set the video to play
+                            print("Sign Up pressed")
+                        }) {
+                            Image(systemName: "play.fill") // Your button text
+                                .frame(alignment: .trailing)
+                                .padding(10)
+                                .background(Color(hex: "c7972b"))
+                                .foregroundColor(.white)
+                                .cornerRadius(20)
+                            
+                        }
+                        
+                    }
+                    
+                    
+                    HStack{
+                        VStack(alignment: .leading, spacing: 0) {
+                            Text("Coach Rob Teaches You The Art Of The Floater")
+                                .font(.title2)
+                                .fontWeight(.bold)
+                                .foregroundColor(Color(hex: "0f2d53"))// Style for regular text
+                        }
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            self.selectedVideo = "pgu-video6" // Set the video to play
                             print("Sign Up pressed")
                         }) {
                             Image(systemName: "play.fill") // Your button text

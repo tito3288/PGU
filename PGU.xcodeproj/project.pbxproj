@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E1A7E5D2B71201000639E06 /* pgu-video2.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 2E1A7E5C2B71201000639E06 /* pgu-video2.mp4 */; };
+		2E1A7E5F2B71217700639E06 /* pgu-video3.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 2E1A7E5E2B71217600639E06 /* pgu-video3.mp4 */; };
+		2E1A7E652B71226700639E06 /* pgu-video6.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 2E1A7E642B71226600639E06 /* pgu-video6.mp4 */; };
+		2E269DDA2B733B780092FF8A /* pgu-video5.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 2E269DD92B733B780092FF8A /* pgu-video5.mp4 */; };
+		2E269DDC2B733D800092FF8A /* pgu-video4.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 2E269DDB2B733D800092FF8A /* pgu-video4.mp4 */; };
 		2E2A3A282B41FCAE00ECDD3E /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2A3A272B41FCAE00ECDD3E /* SignUpView.swift */; };
 		2E2A3A2A2B41FE6400ECDD3E /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2A3A292B41FE6400ECDD3E /* EditProfileView.swift */; };
 		2E51F70A2B1E03DF00039270 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E51F7092B1E03DF00039270 /* ProfileView.swift */; };
@@ -17,7 +22,6 @@
 		2E5FB1542B0CF25100E77CBF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E5FB1532B0CF25100E77CBF /* Assets.xcassets */; };
 		2E5FB1572B0CF25100E77CBF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E5FB1562B0CF25100E77CBF /* Preview Assets.xcassets */; };
 		2E62D0752B5B99B50050AC47 /* FilmReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E62D0742B5B99B50050AC47 /* FilmReviewView.swift */; };
-		2E62D0792B5BAD160050AC47 /* pgu-video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 2E62D0782B5BAD160050AC47 /* pgu-video.mp4 */; };
 		2E6EA5F52B5E360900AB6A19 /* ContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6EA5F42B5E360900AB6A19 /* ContactView.swift */; };
 		2E717BED2B548EC600D2E41F /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E717BEC2B548EC600D2E41F /* AuthenticationViewModel.swift */; };
 		2E7B822F2B6B7B5E00A52BA2 /* SWXMLHash in Frameworks */ = {isa = PBXBuildFile; productRef = 2E7B822E2B6B7B5E00A52BA2 /* SWXMLHash */; };
@@ -69,6 +73,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2E1A7E5C2B71201000639E06 /* pgu-video2.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "pgu-video2.mp4"; sourceTree = "<group>"; };
+		2E1A7E5E2B71217600639E06 /* pgu-video3.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "pgu-video3.mp4"; sourceTree = "<group>"; };
+		2E1A7E642B71226600639E06 /* pgu-video6.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "pgu-video6.mp4"; sourceTree = "<group>"; };
+		2E269DD92B733B780092FF8A /* pgu-video5.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "pgu-video5.mp4"; sourceTree = "<group>"; };
+		2E269DDB2B733D800092FF8A /* pgu-video4.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "pgu-video4.mp4"; sourceTree = "<group>"; };
 		2E2A3A272B41FCAE00ECDD3E /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		2E2A3A292B41FE6400ECDD3E /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
 		2E51F7092B1E03DF00039270 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
@@ -80,7 +89,6 @@
 		2E5FB1532B0CF25100E77CBF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2E5FB1562B0CF25100E77CBF /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2E62D0742B5B99B50050AC47 /* FilmReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmReviewView.swift; sourceTree = "<group>"; };
-		2E62D0782B5BAD160050AC47 /* pgu-video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "pgu-video.mp4"; sourceTree = "<group>"; };
 		2E66461C2B4F353B004CD248 /* PGU.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PGU.entitlements; sourceTree = "<group>"; };
 		2E6EA5F42B5E360900AB6A19 /* ContactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactView.swift; sourceTree = "<group>"; };
 		2E717BEC2B548EC600D2E41F /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
@@ -164,7 +172,11 @@
 			isa = PBXGroup;
 			children = (
 				2EC47F402B68D40100D38138 /* Info.plist */,
-				2E62D0782B5BAD160050AC47 /* pgu-video.mp4 */,
+				2E1A7E642B71226600639E06 /* pgu-video6.mp4 */,
+				2E1A7E5E2B71217600639E06 /* pgu-video3.mp4 */,
+				2E1A7E5C2B71201000639E06 /* pgu-video2.mp4 */,
+				2E269DD92B733B780092FF8A /* pgu-video5.mp4 */,
+				2E269DDB2B733D800092FF8A /* pgu-video4.mp4 */,
 				2E66461C2B4F353B004CD248 /* PGU.entitlements */,
 				2E5FB14F2B0CF25000E77CBF /* PGUApp.swift */,
 				2EA8114C2B1E41C700364ACB /* CampInfoView.swift */,
@@ -300,8 +312,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E62D0792B5BAD160050AC47 /* pgu-video.mp4 in Resources */,
+				2E1A7E5D2B71201000639E06 /* pgu-video2.mp4 in Resources */,
+				2E269DDA2B733B780092FF8A /* pgu-video5.mp4 in Resources */,
+				2E1A7E652B71226700639E06 /* pgu-video6.mp4 in Resources */,
+				2E269DDC2B733D800092FF8A /* pgu-video4.mp4 in Resources */,
 				2EB20AAF2B4E62C700F27C83 /* GoogleService-Info.plist in Resources */,
+				2E1A7E5F2B71217700639E06 /* pgu-video3.mp4 in Resources */,
 				2E5FB1572B0CF25100E77CBF /* Preview Assets.xcassets in Resources */,
 				2E5FB1542B0CF25100E77CBF /* Assets.xcassets in Resources */,
 			);
