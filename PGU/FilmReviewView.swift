@@ -13,6 +13,8 @@ struct FilmReviewView: View {
     
     @State private var isMenuOpen: Bool = false
     @State private var selectedVideo: String? = nil // State for the selected video
+    @State private var player: AVPlayer = AVPlayer() // Initialize an empty player
+    @State private var isVideoPlaying: Bool = false // Track if the video is playing
 
     
     var body: some View {
@@ -62,19 +64,11 @@ struct FilmReviewView: View {
                 .padding()
                 
                 
-                if let videoName = selectedVideo {
-                    if let url = Bundle.main.url(forResource: videoName, withExtension: "mp4") {
-                        let player = AVPlayer(url: url)
-                        VideoPlayer(player: player)
-                            .onAppear {
-                                player.play()
-                            }
-                    } else {
-                        Text("Video not found")
-                            .foregroundColor(.red)
-                    }
+                if let videoName = selectedVideo, Bundle.main.url(forResource: videoName, withExtension: "mp4") != nil {
+                    VideoPlayer(player: player)
+                        // Additional logic to control play/pause based on `isVideoPlaying`
                 } else {
-                    Image("logo")
+                    Image("logo") // Placeholder
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .padding()
@@ -94,9 +88,10 @@ struct FilmReviewView: View {
                         Spacer()
                         
                         Button(action: {
-                            self.selectedVideo = "pgu-video2" // Set the video to play
+                            let videoName = "pgu-video2" // Example video name
+                            togglePlayPause(for: videoName)
                         }) {
-                            Image(systemName: "play.fill") // Your button text
+                            Image(systemName: selectedVideo == "pgu-video2" && isVideoPlaying ? "pause.fill" : "play.fill")
                                 .frame(alignment: .trailing)
                                 .padding(10)
                                 .background(Color(hex: "c7972b"))
@@ -117,16 +112,14 @@ struct FilmReviewView: View {
                         Spacer()
                         
                         Button(action: {
-                            self.selectedVideo = "pgu-video3" // Set the video to play
-                            print("Sign Up pressed")
-                        }) {
-                            Image(systemName: "play.fill") // Your button text
-                                .frame(alignment: .trailing)
-                                .padding(10)
-                                .background(Color(hex: "c7972b"))
-                                .foregroundColor(.white)
-                                .cornerRadius(20)
-                            
+                            let videoName = "pgu-video3" // Example video name
+                            togglePlayPause(for: videoName)                        }) {
+                                Image(systemName: selectedVideo == "pgu-video3" && isVideoPlaying ? "pause.fill" : "play.fill")
+                                    .frame(alignment: .trailing)
+                                    .padding(10)
+                                    .background(Color(hex: "c7972b"))
+                                    .foregroundColor(.white)
+                                    .cornerRadius(20)
                         }
                         
                     }
@@ -143,15 +136,14 @@ struct FilmReviewView: View {
                         Spacer()
                         
                         Button(action: {
-                            self.selectedVideo = "pgu-video4" // Set the video to play
-                            print("Sign Up pressed")
-                        }) {
-                            Image(systemName: "play.fill") // Your button text
-                                .frame(alignment: .trailing)
-                                .padding(10)
-                                .background(Color(hex: "c7972b"))
-                                .foregroundColor(.white)
-                                .cornerRadius(20)
+                            let videoName = "pgu-video4" // Example video name
+                            togglePlayPause(for: videoName)                        }) {
+                                Image(systemName: selectedVideo == "pgu-video4" && isVideoPlaying ? "pause.fill" : "play.fill")
+                                    .frame(alignment: .trailing)
+                                    .padding(10)
+                                    .background(Color(hex: "c7972b"))
+                                    .foregroundColor(.white)
+                                    .cornerRadius(20)
                             
                         }
                     }
@@ -168,16 +160,14 @@ struct FilmReviewView: View {
                         Spacer()
                         
                         Button(action: {
-                            self.selectedVideo = "pgu-video5" // Set the video to play
-                            print("Sign Up pressed")
-                        }) {
-                            Image(systemName: "play.fill") // Your button text
-                                .frame(alignment: .trailing)
-                                .padding(10)
-                                .background(Color(hex: "c7972b"))
-                                .foregroundColor(.white)
-                                .cornerRadius(20)
-                            
+                            let videoName = "pgu-video5" // Example video name
+                            togglePlayPause(for: videoName)                        }) {
+                                Image(systemName: selectedVideo == "pgu-video5" && isVideoPlaying ? "pause.fill" : "play.fill")
+                                    .frame(alignment: .trailing)
+                                    .padding(10)
+                                    .background(Color(hex: "c7972b"))
+                                    .foregroundColor(.white)
+                                    .cornerRadius(20)
                         }
                         
                     }
@@ -194,15 +184,14 @@ struct FilmReviewView: View {
                         Spacer()
                         
                         Button(action: {
-                            self.selectedVideo = "pgu-video6" // Set the video to play
-                            print("Sign Up pressed")
-                        }) {
-                            Image(systemName: "play.fill") // Your button text
-                                .frame(alignment: .trailing)
-                                .padding(10)
-                                .background(Color(hex: "c7972b"))
-                                .foregroundColor(.white)
-                                .cornerRadius(20)
+                            let videoName = "pgu-video6" // Example video name
+                            togglePlayPause(for: videoName)                        }) {
+                                Image(systemName: selectedVideo == "pgu-video6" && isVideoPlaying ? "pause.fill" : "play.fill")
+                                    .frame(alignment: .trailing)
+                                    .padding(10)
+                                    .background(Color(hex: "c7972b"))
+                                    .foregroundColor(.white)
+                                    .cornerRadius(20)
                             
                         }
                         
@@ -224,21 +213,63 @@ struct FilmReviewView: View {
         .navigationBarBackButtonHidden(true)
     }
     
+    func togglePlayPause(for videoName: String) {
+        if let currentVideo = selectedVideo, currentVideo == videoName {
+            // If the clicked video is already selected, toggle play/pause
+            if isVideoPlaying {
+                player.pause()
+            } else {
+                player.play()
+            }
+            isVideoPlaying.toggle() // Toggle the play/pause state
+        } else {
+            // If a different video is selected, play the new video
+            playVideo(named: videoName)
+        }
+    }
+
+    func playVideo(named videoName: String) {
+        if let url = Bundle.main.url(forResource: videoName, withExtension: "mp4") {
+            player.pause() // Ensure any currently playing video is paused
+            let playerItem = AVPlayerItem(url: url)
+            player.replaceCurrentItem(with: playerItem)
+            player.play()
+            
+            selectedVideo = videoName
+            isVideoPlaying = true // Mark the video as playing
+        }
+    }
 
     
 }
 
+
+
 struct VideoPlayerView: View {
     var videoName: String
-    
+    private var player: AVPlayer
+
+    init(videoName: String) {
+        self.videoName = videoName
+        if let url = Bundle.main.url(forResource: videoName, withExtension: "mp4") {
+            self.player = AVPlayer(url: url)
+        } else {
+            // Handle the error of missing file appropriately
+            self.player = AVPlayer() // Placeholder to avoid optional AVPlayer
+        }
+    }
+
     var body: some View {
-        let player = AVPlayer(url: Bundle.main.url(forResource: videoName, withExtension: "mp4")!)
         VideoPlayer(player: player)
             .onAppear {
                 player.play()
             }
+            .onDisappear {
+                player.pause()
+            }
     }
 }
+
 
 #Preview {
     FilmReviewView()

@@ -18,10 +18,12 @@ struct CalendarView: View {
         DateComponents(year: 2024, month: 5, day: 30),
         DateComponents(year: 2024, month: 5, day: 31)
     ]
+    
+    @State private var currentPageIndex = 0
+    @State private var currentPage = 0
 
-    @State private var currentMonth: Date = Calendar.current.date(from: DateComponents(year: 2024, month: 5)) ?? Date()
 
-
+    
     var body: some View {
         
 
@@ -68,22 +70,59 @@ struct CalendarView: View {
                     
                 }
                 .padding()
+                
+                TabView(selection: $currentPageIndex) {
+                    ForEach(0..<3, id: \.self) { index in
+                        Image("Calendar")
+                            .resizable()
+                            .scaledToFit()
+                            .tag(index)
+                    }
+                }
+                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                .frame(height: 300)
 
+                // Custom page indicators
+                HStack(spacing: 10) {
+                    ForEach(0..<3, id: \.self) { index in
+                        Circle()
+                            .fill(currentPageIndex == index ? Color(hex: "c7972b") : Color(hex: "0f2d53"))
+                            .frame(width: 8, height: 8)
+                    }
+                }
+                .padding(.top, 10)
+
+//                TabView(selection: $currentPageIndex) {
+//                    ForEach(0..<3, id: \.self) { monthIndex in
+//                        Image("Calendar")
+//                            .resizable()
+//                            .scaledToFit()
+//                            .padding(.bottom, 22)
+//                            .tag(monthIndex) // Ensure this tag matches the index
+//                    }
+//                }
+//                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
+//                .frame(height: 350)
 
                 
-                MultiDatePicker("Calendar", selection: $selectedDates)
-
-
                 
+//                MultiDatePicker("Calendar", selection: $selectedDates)
+
                 List{
                     HStack{
                         VStack(alignment: .leading, spacing: 0) {
                             Text("Dodge City, KS")
                                 .font(.title2) // Style for regular text
 
+
                             Text("May 28th- May 31st, 2024")
                                 .font(.body) // Style for title text
 
+                        }
+                        .onTapGesture {
+                            withAnimation(.easeInOut) {
+                                currentPageIndex = 0 // Adjust this index based on the tapped item
+                            }
                         }
                         
                         Spacer()
@@ -110,6 +149,11 @@ struct CalendarView: View {
                             Text("June 3rd- June 6th, 2024")
                                 .font(.body) // Style for title text
                         }
+                        .onTapGesture {
+                            withAnimation(.easeInOut) {
+                                currentPageIndex = 1 // Adjust this index based on the tapped item
+                            }
+                        }
                         
                         Spacer()
                         
@@ -133,8 +177,14 @@ struct CalendarView: View {
                             Text("Goodland, KS")
                                 .font(.title2) // Style for regular text
 
+
                             Text("June 10th- June 13th, 2024")
                                 .font(.body) // Style for title text
+                        }
+                        .onTapGesture {
+                            withAnimation(.easeInOut) {
+                                currentPageIndex = 1 // Adjust this index based on the tapped item
+                            }
                         }
                         
                         Spacer()
@@ -158,8 +208,14 @@ struct CalendarView: View {
                             Text("Canton, KS")
                                 .font(.title2) // Style for regular text
 
+
                             Text("June 17th- June 20th, 2024")
                                 .font(.body) // Style for title text
+                        }
+                        .onTapGesture {
+                            withAnimation(.easeInOut) {
+                                currentPageIndex = 1 // Adjust this index based on the tapped item
+                            }
                         }
                         
                         Spacer()
@@ -182,8 +238,14 @@ struct CalendarView: View {
                             Text("Grand Rapids, MI")
                                 .font(.title2) // Style for regular text
 
+
                             Text("June 17th- June 20th, 2024")
                                 .font(.body) // Style for title text
+                        }
+                        .onTapGesture {
+                            withAnimation(.easeInOut) {
+                                currentPageIndex = 1 // Adjust this index based on the tapped item
+                            }
                         }
                         
                         Spacer()
@@ -205,8 +267,14 @@ struct CalendarView: View {
                             Text("Lafayette, IN")
                                 .font(.title2) // Style for regular text
 
+
                             Text("June 24th- June 27th, 2024")
                                 .font(.body) // Style for title text
+                        }
+                        .onTapGesture {
+                            withAnimation(.easeInOut) {
+                                currentPageIndex = 1 // Adjust this index based on the tapped item
+                            }
                         }
                         
                         Spacer()
@@ -228,8 +296,14 @@ struct CalendarView: View {
                             Text("South Bend, IN")
                                 .font(.title2) // Style for regular text
 
+
                             Text("July 8th- July 11th, 2024")
                                 .font(.body) // Style for title text
+                        }
+                        .onTapGesture {
+                            withAnimation(.easeInOut) {
+                                currentPageIndex = 2 // Adjust this index based on the tapped item
+                            }
                         }
                         
                         Spacer()
@@ -251,8 +325,14 @@ struct CalendarView: View {
                             Text("Hornell, NY")
                                 .font(.title2) // Style for regular text
 
+
                             Text("July 22nd- July 25th, 2024")
                                 .font(.body) // Style for title text
+                        }
+                        .onTapGesture {
+                            withAnimation(.easeInOut) {
+                                currentPageIndex = 2 // Adjust this index based on the tapped item
+                            }
                         }
                         
                         Spacer()
@@ -273,9 +353,15 @@ struct CalendarView: View {
                         VStack(alignment: .leading, spacing: 0) {
                             Text("Rochester, NY")
                                 .font(.title2) // Style for regular text
+ 
 
                             Text("July 29- August 1st, 2024")
                                 .font(.body) // Style for title text
+                        }
+                        .onTapGesture {
+                            withAnimation(.easeInOut) {
+                                currentPageIndex = 2 // Adjust this index based on the tapped item
+                            }
                         }
                         
                         Spacer()
@@ -308,7 +394,7 @@ struct CalendarView: View {
         
         
     }
-    
+
     private func isPredefinedDate(_ dateComponents: DateComponents) -> Bool {
         let predefinedDates: Set<DateComponents> = [
             DateComponents(year: 2024, month: 5, day: 28),
