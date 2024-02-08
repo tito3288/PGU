@@ -7,7 +7,7 @@
 
 import SwiftUI
 import AVKit
-
+import Combine
 
 struct FilmReviewView: View {
     
@@ -15,7 +15,8 @@ struct FilmReviewView: View {
     @State private var selectedVideo: String? = nil // State for the selected video
     @State private var player: AVPlayer = AVPlayer() // Initialize an empty player
     @State private var isVideoPlaying: Bool = false // Track if the video is playing
-
+    @Environment(\.scenePhase) private var scenePhase // Observe scenePhase
+    private var scenePhaseCancellable: AnyCancellable? // Subscription
     
     var body: some View {
 
@@ -212,7 +213,27 @@ struct FilmReviewView: View {
             
         }
         .navigationBarBackButtonHidden(true)
+        .onChange(of: scenePhase) { newScenePhase in
+            switch newScenePhase {
+            case .active:
+                // App is active, you might want to resume playing if that fits your use case
+                break
+            case .inactive, .background:
+                // App is inactive or in the background, pause the video
+                pauseVideo()
+            @unknown default:
+                break
+            }
+        }
+        .onDisappear {
+            // Ensure the video is paused when the view disappears
+            pauseVideo()
+        }
     }
+
+    
+    
+    
     
     func togglePlayPause(for videoName: String) {
         if let currentVideo = selectedVideo, currentVideo == videoName {
@@ -240,6 +261,14 @@ struct FilmReviewView: View {
             isVideoPlaying = true // Mark the video as playing
         }
     }
+    
+    private func pauseVideo() {
+        if isVideoPlaying {
+            player.pause()
+            isVideoPlaying = false
+        }
+    }
+
 
     
 }
@@ -249,7 +278,7 @@ struct FilmReviewView: View {
 struct VideoPlayerView: View {
     var videoName: String
     private var player: AVPlayer
-
+    
     init(videoName: String) {
         self.videoName = videoName
         if let url = Bundle.main.url(forResource: videoName, withExtension: "mp4") {
@@ -259,16 +288,17 @@ struct VideoPlayerView: View {
             self.player = AVPlayer() // Placeholder to avoid optional AVPlayer
         }
     }
-
+    
     var body: some View {
         VideoPlayer(player: player)
-                    .onAppear {
+            .onAppear {
                 player.play()
             }
             .onDisappear {
                 player.pause()
             }
     }
+    
 }
 
 

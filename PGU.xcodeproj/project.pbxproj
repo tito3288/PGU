@@ -19,7 +19,6 @@
 		2E5769972B68014400FA944D /* PodbeanAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E5769962B68014400FA944D /* PodbeanAuthService.swift */; };
 		2E5FB1502B0CF25000E77CBF /* PGUApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E5FB14F2B0CF25000E77CBF /* PGUApp.swift */; };
 		2E5FB1522B0CF25000E77CBF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E5FB1512B0CF25000E77CBF /* ContentView.swift */; };
-		2E5FB1542B0CF25100E77CBF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E5FB1532B0CF25100E77CBF /* Assets.xcassets */; };
 		2E5FB1572B0CF25100E77CBF /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E5FB1562B0CF25100E77CBF /* Preview Assets.xcassets */; };
 		2E62D0752B5B99B50050AC47 /* FilmReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E62D0742B5B99B50050AC47 /* FilmReviewView.swift */; };
 		2E6EA5F52B5E360900AB6A19 /* ContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6EA5F42B5E360900AB6A19 /* ContactView.swift */; };
@@ -69,6 +68,7 @@
 		2EB20AE62B4E6C7B00F27C83 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 2EB20AE52B4E6C7B00F27C83 /* FirebaseStorageCombine-Community */; };
 		2EBDD8892B3E31AD00AB4296 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBDD8882B3E31AD00AB4296 /* HomeView.swift */; };
 		2ECD2A812B4529DF00B29C2B /* ResourcesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECD2A802B4529DF00B29C2B /* ResourcesView.swift */; };
+		2EDD02152B75398F0024FBAB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EDD02142B75398F0024FBAB /* Assets.xcassets */; };
 		2EF6A9EA2B64D1B300A61DC8 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF6A9E92B64D1B300A61DC8 /* NotificationManager.swift */; };
 		2EFD63222B6C39B200D30BA3 /* SWXMLHash in Frameworks */ = {isa = PBXBuildFile; productRef = 2EFD63212B6C39B200D30BA3 /* SWXMLHash */; };
 /* End PBXBuildFile section */
@@ -87,7 +87,6 @@
 		2E5FB14C2B0CF25000E77CBF /* PGU.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PGU.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E5FB14F2B0CF25000E77CBF /* PGUApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PGUApp.swift; sourceTree = "<group>"; };
 		2E5FB1512B0CF25000E77CBF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		2E5FB1532B0CF25100E77CBF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2E5FB1562B0CF25100E77CBF /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2E62D0742B5B99B50050AC47 /* FilmReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilmReviewView.swift; sourceTree = "<group>"; };
 		2E66461C2B4F353B004CD248 /* PGU.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PGU.entitlements; sourceTree = "<group>"; };
@@ -111,6 +110,7 @@
 		2EBDD8882B3E31AD00AB4296 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		2EC47F402B68D40100D38138 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		2ECD2A802B4529DF00B29C2B /* ResourcesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourcesView.swift; sourceTree = "<group>"; };
+		2EDD02142B75398F0024FBAB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = "../../../Downloads/PGU-2/PGU/Assets.xcassets"; sourceTree = "<group>"; };
 		2EF6A9E92B64D1B300A61DC8 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -183,8 +183,8 @@
 				2E66461C2B4F353B004CD248 /* PGU.entitlements */,
 				2E5FB14F2B0CF25000E77CBF /* PGUApp.swift */,
 				2EA8114C2B1E41C700364ACB /* CampInfoView.swift */,
+				2EDD02142B75398F0024FBAB /* Assets.xcassets */,
 				2E5FB1512B0CF25000E77CBF /* ContentView.swift */,
-				2E5FB1532B0CF25100E77CBF /* Assets.xcassets */,
 				2E5FB1552B0CF25100E77CBF /* Preview Content */,
 				2E51F7092B1E03DF00039270 /* ProfileView.swift */,
 				2EA811442B1E311000364ACB /* FooterMenu.swift */,
@@ -319,11 +319,11 @@
 				2E269DDA2B733B780092FF8A /* pgu-video5.mp4 in Resources */,
 				2E1A7E652B71226700639E06 /* pgu-video6.mp4 in Resources */,
 				2E269DDC2B733D800092FF8A /* pgu-video4.mp4 in Resources */,
+				2EDD02152B75398F0024FBAB /* Assets.xcassets in Resources */,
 				2EB20AAF2B4E62C700F27C83 /* GoogleService-Info.plist in Resources */,
 				2E1A7E5F2B71217700639E06 /* pgu-video3.mp4 in Resources */,
 				2E5FB1572B0CF25100E77CBF /* Preview Assets.xcassets in Resources */,
 				2E7283032B7443A200F686D8 /* .gitignore in Resources */,
-				2E5FB1542B0CF25100E77CBF /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

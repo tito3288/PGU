@@ -753,20 +753,30 @@ struct EpisodeDetailView: View {
                     
                     // Play/Pause Button
                     Button(action: {
+                        // Check if the selected episode is the current episode
                         if audioPlayerManager.currentEpisode?.id == episode.id {
-                            if !audioPlayerManager.isPlaying || audioPlayerManager.playbackProgress >= 1.0 {
-                                audioPlayerManager.playbackProgress = 0.0 // Reset progress
-                                audioPlayerManager.currentTime = 0 // Reset current time
-                                audioPlayerManager.player?.seek(to: .zero) // Seek to start
-                                audioPlayerManager.play()
+                            // If the episode has finished playing (indicated by playbackProgress),
+                            // and the user wants to replay it
+                            if audioPlayerManager.playbackProgress >= 1.0 {
+                                // Reset the playback progress and current time
+                                audioPlayerManager.playbackProgress = 0.0
+                                audioPlayerManager.currentTime = 0
+                                // Seek to the beginning of the episode
+                                audioPlayerManager.player?.seek(to: .zero) { _ in
+                                    // After seeking to the beginning, start playback
+                                    audioPlayerManager.play(episode: episode)
+                                }
                             } else {
+                                // For any other case, simply toggle play/pause
+                                // This will either pause the currently playing episode
+                                // or resume playback from the current position
                                 audioPlayerManager.togglePlayPause()
                             }
                         } else {
+                            // If a different episode is selected, start it
                             audioPlayerManager.play(episode: episode)
                         }
                     }) {
-                        // Determine the correct button image
                         Image(systemName: audioPlayerManager.isPlaying && audioPlayerManager.currentEpisode?.id == episode.id ? "pause.fill" : "play.fill")
                             .resizable()
                             .scaledToFit()
@@ -774,6 +784,45 @@ struct EpisodeDetailView: View {
                             .foregroundColor(Color.white)
                             .padding()
                     }
+
+
+
+                    
+                    
+                    //MARK: LOGIC THAT DOES NOT REPLAY PODCAST WHEN ITS DONE.
+//                    Button(action: {
+//                        if audioPlayerManager.currentEpisode?.id == episode.id {
+//                            if !audioPlayerManager.isPlaying {
+//                                // If the episode has finished playing or if playbackProgress is at 1.0,
+//                                // seek to the beginning and play again.
+//                                if audioPlayerManager.playbackProgress >= 1.0 {
+//                                    audioPlayerManager.player?.seek(to: .zero) { _ in
+//                                        audioPlayerManager.play()
+//                                    }
+//                                    // Reset progress and current time if necessary
+//                                    audioPlayerManager.playbackProgress = 0.0
+//                                    audioPlayerManager.currentTime = 0
+//                                } else {
+//                                    // Resume playing from the current position
+//                                    audioPlayerManager.play()
+//                                }
+//                            } else {
+//                                // Pause the playback
+//                                audioPlayerManager.pause()
+//                            }
+//                        } else {
+//                            // If a different episode is selected, start it
+//                            audioPlayerManager.play(episode: episode)
+//                        }
+//                    }) {
+//                        Image(systemName: audioPlayerManager.isPlaying && audioPlayerManager.currentEpisode?.id == episode.id ? "pause.fill" : "play.fill")
+//                            .resizable()
+//                            .scaledToFit()
+//                            .frame(width: 40, height: 40)
+//                            .foregroundColor(Color.white)
+//                            .padding()
+//                    }
+
 
 
                     

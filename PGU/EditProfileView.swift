@@ -38,7 +38,7 @@ struct EditProfileView: View {
                 Image(uiImage: selectedImage)
                     .resizable()
                     .scaledToFill() // Ensures the image fills the frame
-                    .frame(width: 90, height: 90) // Set the same size as your person.fill icon
+                    .frame(width: 150, height: 150) // Set the same size as your person.fill icon
                     .clipShape(Circle()) // Makes the image round
                     .overlay(Circle().stroke(Color(hex: "c7972b"), lineWidth: 2))
                 // additional styling if needed

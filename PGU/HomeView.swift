@@ -68,11 +68,7 @@ struct HomeView: View {
                     }
                     
                 }
-                
-                
-//                Spacer()
-                
-                
+       
                 // Bottom Menu
                 FooterMenu()
                     .zIndex(1) // Same higher zIndex for the footer
