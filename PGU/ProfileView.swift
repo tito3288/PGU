@@ -36,7 +36,7 @@ struct ProfileView: View {
                     Image(uiImage: selectedImage)
                         .resizable()
                         .scaledToFill() // Ensures the image fills the frame
-                        .frame(width: 100, height: 100) // Set the same size as your person.fill icon
+                        .frame(width: 150, height: 150) // Set the same size as your person.fill icon
                         .clipShape(Circle()) // Makes the image round
                         .overlay(Circle().stroke(Color(hex: "c7972b"), lineWidth: 2))
                     // additional styling if needed
@@ -64,8 +64,8 @@ struct ProfileView: View {
                 
                 ScrollView {
                     VStack {
-                        ForEach(["Edit Profile", "Camp Information", "Terms and Condition", "Contact Us", "FAQ", "Log Out"], id: \.self) { item in
-                            if item == "Terms and Condition" {
+                        ForEach(["Edit Profile", "Camp Information", "Terms & Conditions", "Contact Us", "FAQ", "Log Out"], id: \.self) { item in
+                            if item == "Terms & Conditions" {
                                 // Navigation link for "Terms and Condition"
                                 NavigationLink(destination: TermsandCondView()) {
                                     HStack {

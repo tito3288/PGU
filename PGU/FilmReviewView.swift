@@ -18,6 +18,8 @@ struct FilmReviewView: View {
     @Environment(\.scenePhase) private var scenePhase // Observe scenePhase
     private var scenePhaseCancellable: AnyCancellable? // Subscription
     
+
+    
     var body: some View {
 
         
@@ -69,7 +71,7 @@ struct FilmReviewView: View {
                     VideoPlayer(player: player)
                         // Additional logic to control play/pause based on `isVideoPlaying`
                 } else {
-                    Image("logo") // Placeholder
+                    Image("coach-rob") // Placeholder
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .padding()

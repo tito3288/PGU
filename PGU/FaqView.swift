@@ -110,7 +110,7 @@ struct FaqView: View {
                         .listRowInsets(EdgeInsets())
                         
                         if expanded3 {
-                            Text("Yes! We usually partner with hotels. We will post them on Facebook and send out emails ahead of camp.")
+                            Text("While we not an overcame camp and do not offer lodging, we do sometimes partner with hotels that will have special rates. If this is the case for your camp, we will let you know via email and on social media..")
                                 .padding()
                                 .transition(.slide)
                         }
@@ -222,7 +222,7 @@ struct FaqView: View {
                         .listRowInsets(EdgeInsets())
                         
                         if expanded7 {
-                            Text("Full refunds are available up to seven (7) days after initial registration. No refunds will be available after May 31, 2023, regardless of when you registered. This is due to facilities, coaches, materials and travel arrangements being paid for by this time. If there is an injury or illness, there are potential options for rolling over your registration to another camp or giving your registration to another would-be camper. Refunds will be given due to injury or illness with a doctors note.")
+                            Text("Full refunds are available up to seven (7) days after initial registration. No refunds will be available after May 26, 2024, regardless of when you registered. This is due to facilities, coaches, materials and travel arrangements being paid for by this time. If there is an injury or illness, there are potential options for rolling over your registration to another camp or giving your registration to another would-be camper. Refunds will be given due to injury or illness with a doctors note.")
                                 .padding()
                                 .transition(.slide)
                         }

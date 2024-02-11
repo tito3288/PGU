@@ -25,6 +25,7 @@ struct PGUApp: App {
     // Register app delegate for Firebase setup
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     let persistenceController = PersistenceController.shared
+    
 //    let navigationState = NavigationState() // The NavigationState instance
     
 //    init() {
@@ -36,13 +37,16 @@ struct PGUApp: App {
     init() {
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
+
     }
+
     
     var body: some Scene {
         WindowGroup {
             ContentView().environment(\.managedObjectContext, persistenceController.persistentContainer.viewContext)
                 .environmentObject(AudioPlayerManager.shared)
                 .environmentObject(ViewState.shared) // Add this line to share ViewState across your views.
+
 
 
 //                .environmentObject(navigationState) // Pass it as an EnvironmentObject

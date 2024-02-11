@@ -443,7 +443,6 @@ struct ResourcesView: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                 
-                ZStack{
                     
                     List(episodes) { episode in
                         HStack{
@@ -500,16 +499,16 @@ struct ResourcesView: View {
                     
 
                     
-                    PlaybackControlsView(audioPlayerManager: audioPlayerManager, selectedEpisode: selectedEpisode)
-                        .offset(y: 80)
-                        .padding(.horizontal)
-                        .offset(y: showPlaybackControls ? 0 : UIScreen.main.bounds.height) // Start off-screen
-                        .opacity(showPlaybackControls ? 1 : 0) // Fully visible when controls should be shown
-                        .animation(.easeOut(duration: 0.5), value: showPlaybackControls) // Animate the appearance
+                PlaybackControlsView(audioPlayerManager: audioPlayerManager)
+
+//                        .offset(y: 80)
+//                        .padding(.horizontal)
+//                        .offset(y: showPlaybackControls ? 0 : UIScreen.main.bounds.height) // Start off-screen
+//                        .opacity(showPlaybackControls ? 1 : 0) // Fully visible when controls should be shown
+//                        .animation(.easeOut(duration: 0.5), value: showPlaybackControls)
                     
                     
 
-                }
 
      
                 Divider()
@@ -607,72 +606,57 @@ struct ResourcesView: View {
 
 struct PlaybackControlsView: View {
     @ObservedObject var audioPlayerManager: AudioPlayerManager
-    var selectedEpisode: PodcastEpisode?
     @State private var showDetailSheet = false // State to control sheet presentation
     
-    
     var body: some View {
-        HStack {
-            // Display episode image
-            if let imageURL = selectedEpisode?.imageURL {
-                AsyncImage(url: imageURL) { image in
-                    image.resizable()
-                } placeholder: {
-                    ProgressView()
+        // Directly use audioPlayerManager.currentEpisode
+        if let episode = audioPlayerManager.currentEpisode {
+            HStack {
+                // Display episode image
+                if let imageURL = episode.imageURL {
+                    AsyncImage(url: imageURL) { image in
+                        image.resizable()
+                    } placeholder: {
+                        ProgressView()
+                    }
+                    .frame(width: 50, height: 50)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    .onTapGesture {
+                        self.showDetailSheet = true // Show sheet when image is tapped
+                    }
                 }
-                .frame(width: 50, height: 50)
-                .clipShape(RoundedRectangle(cornerRadius: 8))
-                .onTapGesture {
-                    self.showDetailSheet = true // Show sheet when image is tapped
-                }
-            }
-            
-            // Display episode title if available
-            if let title = selectedEpisode?.title {
-                Text(title)
+                
+                // Display episode title
+                Text(episode.title)
                     .font(.headline)
                     .padding(.leading, 5)
                     .onTapGesture {
                         self.showDetailSheet = true // Show sheet when title is tapped
                     }
-            }
-            
-            Spacer()
-            
-            // Play/Pause Button
-            Button(action: {
-                // Ensure we have a selected episode to work with
-                if let selected = selectedEpisode {
-                    // If the selected episode is the same as the current playing episode, toggle play/pause
-                    if audioPlayerManager.currentEpisode?.id == selected.id {
-                        audioPlayerManager.togglePlayPause()
-                    } else {
-                        // If a different episode is selected, start playing the new episode
-                        audioPlayerManager.play(episode: selected)
-                    }
+                
+                Spacer()
+                
+                // Play/Pause Button
+                Button(action: {
+                    // Toggle play/pause for the current episode
+                    audioPlayerManager.togglePlayPause()
+                }) {
+                    Image(systemName: audioPlayerManager.isPlaying ? "pause.fill" : "play.fill")
+                        .foregroundColor(Color(hex: "c7972b"))
+                        .padding()
+                        .background(Circle().fill(Color.white))
                 }
-            }) {
-                // Use the episode ID comparison to determine the correct button image
-                Image(systemName: audioPlayerManager.isPlaying && audioPlayerManager.currentEpisode?.id == selectedEpisode?.id ? "pause.fill" : "play.fill")
-                    .foregroundColor(Color(hex: "c7972b"))
-                    .padding()
-                    .background(Circle().fill(Color.white))
             }
- 
-        }
-        
-        .padding()
-        .background(BlurView(style: .systemUltraThinMaterial)) // Use BlurView here
-        .cornerRadius(20)
-        .frame(maxWidth: .infinity)
-        .sheet(isPresented: $showDetailSheet) {
-            // Provide the detailed view as the sheet's content
-            if let episode = selectedEpisode {
+            .padding()
+            .background(BlurView(style: .systemUltraThinMaterial))
+            .frame(maxWidth: .infinity)
+            .sheet(isPresented: $showDetailSheet) {
                 EpisodeDetailView(audioPlayerManager: audioPlayerManager, episode: episode)
             }
         }
     }
 }
+
 
 
 

@@ -37,7 +37,7 @@ struct ContactView: View {
                     Button(action: {
                         callPhoneNumber()
                     }) {
-                        Text("585-451-6244")
+                        Text("574-208-3941")
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.leading)
                             .underline()
@@ -133,16 +133,18 @@ struct ContactView: View {
                 print("No location found")
                 return
             }
-            let query = "?ll=\(location.coordinate.latitude),\(location.coordinate.longitude)"
-            let path = "http://maps.apple.com/" + query
+            // Directions to the location
+            let destinationCoordinates = "\(location.coordinate.latitude),\(location.coordinate.longitude)"
+            let path = "http://maps.apple.com/?daddr=\(destinationCoordinates)&dirflg=d"
             if let url = URL(string: path) {
                 UIApplication.shared.open(url)
             }
         }
     }
+
     
     func callPhoneNumber() {
-        if let url = URL(string: "tel://5854516244"), UIApplication.shared.canOpenURL(url) {
+        if let url = URL(string: "tel://5742083941"), UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url)
         }
     }

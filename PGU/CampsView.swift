@@ -108,19 +108,20 @@ struct CampsView: View {
                                 Button(action: {
                                     openMapForDirections(to: location)
                                 }) {
-                                    //                                VStack {
-                                    //                                    Text(location.title)
-                                    //                                        .font(.caption)
-                                    //                                        .padding(5)
-                                    //                                        .background(Color.white)
-                                    //                                        .cornerRadius(10)
-                                    //                                        .shadow(radius: 3)
+                                    VStack {
+                                        Text(location.title)
+                                            .font(.caption)
+                                            .padding(5)
+                                            .background(Color.white)
+                                            .foregroundColor(Color(hex: "c7972b"))
+                                            .cornerRadius(10)
+                                            .shadow(radius: 3)
                                     Image(systemName: "mappin.circle.fill")
                                         .foregroundColor(Color(hex: "c7972b"))
                                         .imageScale(.medium)
                                         .background(Color(hex: "0f2d53"))
                                         .cornerRadius(20)
-                                    //                                }
+                                    }
                                 }
                             }
                         }
@@ -133,7 +134,7 @@ struct CampsView: View {
                             regions = MKCoordinateRegion(center: newLocation.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
                         }
                     }
-                    .mapStyle(.standard)
+//                    .mapStyle(.standard)
                     .frame(height: 250)
                     
                     VStack {
