@@ -12,12 +12,12 @@ struct CalendarView: View {
     
     @State private var isMenuOpen: Bool = false
     
-    @State private var selectedDates: Set<DateComponents> = [
-        DateComponents(year: 2024, month: 5, day: 28),
-        DateComponents(year: 2024, month: 5, day: 29),
-        DateComponents(year: 2024, month: 5, day: 30),
-        DateComponents(year: 2024, month: 5, day: 31)
-    ]
+//    @State private var selectedDates: Set<DateComponents> = [
+//        DateComponents(year: 2024, month: 5, day: 28),
+//        DateComponents(year: 2024, month: 5, day: 29),
+//        DateComponents(year: 2024, month: 5, day: 30),
+//        DateComponents(year: 2024, month: 5, day: 31)
+//    ]
     
     @State private var currentPageIndex = 0
     @State private var currentPage = 0
@@ -73,7 +73,7 @@ struct CalendarView: View {
                 
                 TabView(selection: $currentPageIndex) {
                     ForEach(0..<3, id: \.self) { index in
-                        Image("Calendar_\(index + 1)")
+                        Image("Calendar-\(index + 1)")
                             .resizable()
                             .scaledToFit()
                             .tag(index)
@@ -128,8 +128,14 @@ struct CalendarView: View {
                         Spacer()
                         
                         Button(action: {
-
-                           print("Sign Up")
+                            DispatchQueue.main.async {
+                                if let url = URL(string: "https://campscui.active.com/orgs/PointGuardU?season=3455345&session=62004034") {
+                                    // This checks if the URL can be opened and then opens it
+                                    if UIApplication.shared.canOpenURL(url) {
+                                        UIApplication.shared.open(url)
+                                    }
+                                }
+                            }
                         }){
                             Text("Sign Up")
                                 .frame(alignment: .trailing)
@@ -158,7 +164,14 @@ struct CalendarView: View {
                         Spacer()
                         
                         Button(action: {
-                            print("Sign Up")
+                            DispatchQueue.main.async {
+                                if let url = URL(string: "https://campscui.active.com/orgs/PointGuardU?season=3455345&session=62024637") {
+                                    // This checks if the URL can be opened and then opens it
+                                    if UIApplication.shared.canOpenURL(url) {
+                                        UIApplication.shared.open(url)
+                                    }
+                                }
+                            }
                         }){
                             Text("Sign Up")
                                 .frame(alignment: .trailing)
@@ -190,7 +203,14 @@ struct CalendarView: View {
                         Spacer()
                         
                         Button(action: {
-                            print("Sign Up")
+                            DispatchQueue.main.async {
+                                if let url = URL(string: "https://campscui.active.com/orgs/PointGuardU?season=3455345&session=62024737") {
+                                    // This checks if the URL can be opened and then opens it
+                                    if UIApplication.shared.canOpenURL(url) {
+                                        UIApplication.shared.open(url)
+                                    }
+                                }
+                            }
                         }){
                             Text("Sign Up")
                                 .frame(alignment: .trailing)
@@ -221,7 +241,14 @@ struct CalendarView: View {
                         Spacer()
                         
                         Button(action: {
-                            print("Sign Up")
+                            DispatchQueue.main.async {
+                                if let url = URL(string: "https://campscui.active.com/orgs/PointGuardU?season=3455345&session=62025037") {
+                                    // This checks if the URL can be opened and then opens it
+                                    if UIApplication.shared.canOpenURL(url) {
+                                        UIApplication.shared.open(url)
+                                    }
+                                }
+                            }
                         }){
                             Text("Sign Up")
                                 .frame(alignment: .trailing)
@@ -251,7 +278,14 @@ struct CalendarView: View {
                         Spacer()
                         
                         Button(action: {
-                            print("Sign Up")
+                            DispatchQueue.main.async {
+                                if let url = URL(string: "https://campscui.active.com/orgs/PointGuardU?season=3455345&session=62024837") {
+                                    // This checks if the URL can be opened and then opens it
+                                    if UIApplication.shared.canOpenURL(url) {
+                                        UIApplication.shared.open(url)
+                                    }
+                                }
+                            }
                         }){
                             Text("Sign Up")
                                 .frame(alignment: .trailing)
@@ -280,7 +314,14 @@ struct CalendarView: View {
                         Spacer()
                         
                         Button(action: {
-                            print("Sign Up")
+                            DispatchQueue.main.async {
+                                if let url = URL(string: "https://campscui.active.com/orgs/PointGuardU?season=3455345&session=62024937") {
+                                    // This checks if the URL can be opened and then opens it
+                                    if UIApplication.shared.canOpenURL(url) {
+                                        UIApplication.shared.open(url)
+                                    }
+                                }
+                            }
                         }){
                             Text("Sign Up")
                                 .frame(alignment: .trailing)
@@ -309,7 +350,51 @@ struct CalendarView: View {
                         Spacer()
                         
                         Button(action: {
-                            print("Sign Up")
+                            DispatchQueue.main.async {
+                                if let url = URL(string: "https://campscui.active.com/orgs/PointGuardU?season=3455345&session=62025137") {
+                                    // This checks if the URL can be opened and then opens it
+                                    if UIApplication.shared.canOpenURL(url) {
+                                        UIApplication.shared.open(url)
+                                    }
+                                }
+                            }
+                        }){
+                            Text("Sign Up")
+                                .frame(alignment: .trailing)
+                                .padding(10)
+                                .background(Color(hex: "c7972b"))
+                                .foregroundColor(.white)
+                                .cornerRadius(20)
+                        }
+                    }
+                    
+                    
+                    HStack{
+                        VStack(alignment: .leading, spacing: 0) {
+                            Text("Indianapolis, IN")
+                                .font(.title2) // Style for regular text
+
+
+                            Text("June 15th- June 18th, 2024")
+                                .font(.body) // Style for title text
+                        }
+                        .onTapGesture {
+                            withAnimation(.easeInOut) {
+                                currentPageIndex = 2 // Adjust this index based on the tapped item
+                            }
+                        }
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            DispatchQueue.main.async {
+                                if let url = URL(string: "https://campscui.active.com/orgs/PointGuardU?season=3455345&session=62025237") {
+                                    // This checks if the URL can be opened and then opens it
+                                    if UIApplication.shared.canOpenURL(url) {
+                                        UIApplication.shared.open(url)
+                                    }
+                                }
+                            }
                         }){
                             Text("Sign Up")
                                 .frame(alignment: .trailing)
@@ -338,7 +423,14 @@ struct CalendarView: View {
                         Spacer()
                         
                         Button(action: {
-                            print("Sign Up")
+                            DispatchQueue.main.async {
+                                if let url = URL(string: "https://campscui.active.com/orgs/PointGuardU?season=3455345&session=62025337") {
+                                    // This checks if the URL can be opened and then opens it
+                                    if UIApplication.shared.canOpenURL(url) {
+                                        UIApplication.shared.open(url)
+                                    }
+                                }
+                            }
                         }){
                             Text("Sign Up")
                                 .frame(alignment: .trailing)
@@ -367,7 +459,14 @@ struct CalendarView: View {
                         Spacer()
                         
                         Button(action: {
-                            print("Sign Up")
+                            DispatchQueue.main.async {
+                                if let url = URL(string: "https://campscui.active.com/orgs/PointGuardU?season=3455345&session=62025437") {
+                                    // This checks if the URL can be opened and then opens it
+                                    if UIApplication.shared.canOpenURL(url) {
+                                        UIApplication.shared.open(url)
+                                    }
+                                }
+                            }
                         }){
                             Text("Sign Up")
                                 .frame(alignment: .trailing)

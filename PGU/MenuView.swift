@@ -137,48 +137,57 @@ struct MenuView: View {
                     .fontWeight(.bold)
                 
     
-                HStack {
-                    // Facebook Link
-                    VStack {
-                        Link(destination: URL(string: "https://www.facebook.com/handlethegame")!) {
-                            Image("facebook-icon")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 40, height: 40)
-                        }
+                // Facebook Button
+                Button(action: {
+                    if let url = URL(string: "https://www.facebook.com/handlethegame") {
+                        UIApplication.shared.open(url)
                     }
-
-                    // Instagram Link
-                    VStack {
-                        Link(destination: URL(string: "https://www.instagram.com/handlethegame/")!) {
-                            Image("instagram-icon")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 40, height: 40)
-                        }
-                    }
-
-                    // TikTok Link
-                    VStack {
-                        Link(destination: URL(string: "https://www.tiktok.com/@pointguardu")!) {
-                            Image("tik-tok-icon")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 40, height: 40)
-                        }
-                    }
+                }) {
+                    Text("facebook")
+  
                 }
+                .foregroundColor(Color(hex: "c7972b"))
                 .listRowBackground(Color(hex: "0f2d53"))
                 .background(Color(hex: "0f2d53")) // Set background color
-                .foregroundColor(.white) // Set foreground color
                 .font(.title3) // Set font
+
+                
+                // Instagram Button
+                Button(action: {
+                    if let url = URL(string: "https://www.instagram.com/handlethegame/") {
+                        UIApplication.shared.open(url)
+                    }
+                }) {
+                    Text("Instagram")
+
+                }
+                .foregroundColor(Color(hex: "c7972b"))
+                .listRowBackground(Color(hex: "0f2d53"))
+                .background(Color(hex: "0f2d53")) // Set background color
+                .font(.title3) // Set font
+
+                // TikTok Button
+                Button(action: {
+                    if let url = URL(string: "https://www.tiktok.com/@pointguardu") {
+                        UIApplication.shared.open(url)
+                    }
+                }) {
+                    Text("TikTok")
+                    
+                }
+                .foregroundColor(Color(hex: "c7972b"))
+                .listRowBackground(Color(hex: "0f2d53"))
+                .background(Color(hex: "0f2d53")) // Set background color
+                .font(.title3) // Set font
+                .padding(.bottom)
+
 
             
                 
             }
             .onAppear(perform: loadUserData)
             .listStyle(PlainListStyle())
-            .padding(.top, 110)//THIS CREATES PADDING FOR THE TOP OF THE ENTIRE VSTACK
+            .padding(.top, 85)//THIS CREATES PADDING FOR THE TOP OF THE ENTIRE VSTACK
             .background(Color(hex: "0f2d53"))
             .edgesIgnoringSafeArea(.all) // Ignore safe areas to extend to the top and bottom of the screen
         }

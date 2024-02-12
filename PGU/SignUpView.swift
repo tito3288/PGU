@@ -115,30 +115,65 @@ struct SignUpView: View {
                         Menu {
                             Button("Dodge City, KS", action: {
                                 selectedLocation = "Dodge City, KS"
+                                Analytics.logEvent("signup_location", parameters: [
+                                    "location": selectedLocation
+                                ])
                                 Analytics.setUserProperty(selectedLocation, forName: "location_preference")
+
                             })
                             Button("Limon, CO", action: { selectedLocation = "Limon, CO"
+                                Analytics.logEvent("signup_location", parameters: [
+                                    "location": selectedLocation
+                                ])
                                 Analytics.setUserProperty(selectedLocation, forName: "location_preference")
                             })
                             Button("Goodland, KS", action: { selectedLocation = "Goodland, KS"
+                                Analytics.logEvent("signup_location", parameters: [
+                                    "location": selectedLocation
+                                ])
                                 Analytics.setUserProperty(selectedLocation, forName: "location_preference")
                             })
                             Button("Canton, KS", action: { selectedLocation = "Canton, KS"
+                                Analytics.logEvent("signup_location", parameters: [
+                                    "location": selectedLocation
+                                ])
                                 Analytics.setUserProperty(selectedLocation, forName: "location_preference")
+
                             })
                             Button("Grand Rapids, MI", action: { selectedLocation = "Grand Rapids, MI"
+                                Analytics.logEvent("signup_location", parameters: [
+                                    "location": selectedLocation
+                                ])
                                 Analytics.setUserProperty(selectedLocation, forName: "location_preference")
                             })
                             Button("Lafayette, IN", action: { selectedLocation = "Lafayette, IN"
+                                Analytics.logEvent("signup_location", parameters: [
+                                    "location": selectedLocation
+                                ])
                                 Analytics.setUserProperty(selectedLocation, forName: "location_preference")
                             })
                             Button("South Bend, IN", action: { selectedLocation = "South Bend, IN"
+                                Analytics.logEvent("signup_location", parameters: [
+                                    "location": selectedLocation
+                                ])
+                                Analytics.setUserProperty(selectedLocation, forName: "location_preference")
+                            })
+                            Button("Indianapolis, IN", action: { selectedLocation = "Indianapolis, IN"
+                                Analytics.logEvent("signup_location", parameters: [
+                                    "location": selectedLocation
+                                ])
                                 Analytics.setUserProperty(selectedLocation, forName: "location_preference")
                             })
                             Button("Hornell, NY", action: { selectedLocation = "Hornell, NY"
+                                Analytics.logEvent("signup_location", parameters: [
+                                    "location": selectedLocation
+                                ])
                                 Analytics.setUserProperty(selectedLocation, forName: "location_preference")
                             })
                             Button("Rochester, NY", action: { selectedLocation = "Rochester, NY"
+                                Analytics.logEvent("signup_location", parameters: [
+                                    "location": selectedLocation
+                                ])
                                 Analytics.setUserProperty(selectedLocation, forName: "location_preference")
                             })
                             

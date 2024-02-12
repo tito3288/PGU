@@ -10,19 +10,24 @@ import FirebaseAuth
 
 struct ContentView: View {
     @StateObject var authViewModel = AuthenticationViewModel()
-  
+    @EnvironmentObject var navigationState: NavigationState  // Add this line
+
 
     var body: some View {
         NavigationView {
             if authViewModel.isAuthenticated {
-                HomeView()
-                    .navigationBarHidden(true)
+                if navigationState.showInbox {  // Check if should navigate to Inbox
+                    InboxView()
+                        .navigationBarHidden(true)
+                } else {
+                    HomeView()
+                        .navigationBarHidden(true)
+                }
             } else {
                 LoginView()
                     .navigationBarHidden(true)
             }
-        }
-        .accentColor(Color(hex: "c7972b"))
+        }        .accentColor(Color(hex: "c7972b"))
     }
 }
 

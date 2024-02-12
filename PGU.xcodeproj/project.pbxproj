@@ -14,6 +14,7 @@
 		2E269DDC2B733D800092FF8A /* pgu-video4.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 2E269DDB2B733D800092FF8A /* pgu-video4.mp4 */; };
 		2E2A3A282B41FCAE00ECDD3E /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2A3A272B41FCAE00ECDD3E /* SignUpView.swift */; };
 		2E2A3A2A2B41FE6400ECDD3E /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2A3A292B41FE6400ECDD3E /* EditProfileView.swift */; };
+		2E45A8EE2B7A44C500486503 /* NavigationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E45A8ED2B7A44C500486503 /* NavigationState.swift */; };
 		2E51F70A2B1E03DF00039270 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E51F7092B1E03DF00039270 /* ProfileView.swift */; };
 		2E55886B2B3C7E9A005B3444 /* HideDisclosureIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E55886A2B3C7E9A005B3444 /* HideDisclosureIndicator.swift */; };
 		2E5769972B68014400FA944D /* PodbeanAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E5769962B68014400FA944D /* PodbeanAuthService.swift */; };
@@ -69,6 +70,7 @@
 		2EBDD8892B3E31AD00AB4296 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBDD8882B3E31AD00AB4296 /* HomeView.swift */; };
 		2ECD2A812B4529DF00B29C2B /* ResourcesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECD2A802B4529DF00B29C2B /* ResourcesView.swift */; };
 		2EDD02152B75398F0024FBAB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EDD02142B75398F0024FBAB /* Assets.xcassets */; };
+		2EE1FB372B7A6B050063A07A /* CoachDrills.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE1FB362B7A6B050063A07A /* CoachDrills.swift */; };
 		2EF6A9EA2B64D1B300A61DC8 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF6A9E92B64D1B300A61DC8 /* NotificationManager.swift */; };
 		2EFD63222B6C39B200D30BA3 /* SWXMLHash in Frameworks */ = {isa = PBXBuildFile; productRef = 2EFD63212B6C39B200D30BA3 /* SWXMLHash */; };
 /* End PBXBuildFile section */
@@ -81,6 +83,7 @@
 		2E269DDB2B733D800092FF8A /* pgu-video4.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "pgu-video4.mp4"; sourceTree = "<group>"; };
 		2E2A3A272B41FCAE00ECDD3E /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		2E2A3A292B41FE6400ECDD3E /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
+		2E45A8ED2B7A44C500486503 /* NavigationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationState.swift; sourceTree = "<group>"; };
 		2E51F7092B1E03DF00039270 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		2E55886A2B3C7E9A005B3444 /* HideDisclosureIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HideDisclosureIndicator.swift; sourceTree = "<group>"; };
 		2E5769962B68014400FA944D /* PodbeanAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PodbeanAuthService.swift; sourceTree = "<group>"; };
@@ -111,6 +114,7 @@
 		2EC47F402B68D40100D38138 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		2ECD2A802B4529DF00B29C2B /* ResourcesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourcesView.swift; sourceTree = "<group>"; };
 		2EDD02142B75398F0024FBAB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = "../../../Downloads/PGU-2/PGU/Assets.xcassets"; sourceTree = "<group>"; };
+		2EE1FB362B7A6B050063A07A /* CoachDrills.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachDrills.swift; sourceTree = "<group>"; };
 		2EF6A9E92B64D1B300A61DC8 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -210,6 +214,8 @@
 				2E6EA5F42B5E360900AB6A19 /* ContactView.swift */,
 				2EF6A9E92B64D1B300A61DC8 /* NotificationManager.swift */,
 				2E5769962B68014400FA944D /* PodbeanAuthService.swift */,
+				2E45A8ED2B7A44C500486503 /* NavigationState.swift */,
+				2EE1FB362B7A6B050063A07A /* CoachDrills.swift */,
 			);
 			path = PGU;
 			sourceTree = "<group>";
@@ -353,6 +359,8 @@
 				2EA8114F2B1E49FD00364ACB /* MenuView.swift in Sources */,
 				2E2A3A282B41FCAE00ECDD3E /* SignUpView.swift in Sources */,
 				2E51F70A2B1E03DF00039270 /* ProfileView.swift in Sources */,
+				2E45A8EE2B7A44C500486503 /* NavigationState.swift in Sources */,
+				2EE1FB372B7A6B050063A07A /* CoachDrills.swift in Sources */,
 				2EA811492B1E38C000364ACB /* CampsView.swift in Sources */,
 				2E6EA5F52B5E360900AB6A19 /* ContactView.swift in Sources */,
 				2E5FB1502B0CF25000E77CBF /* PGUApp.swift in Sources */,

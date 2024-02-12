@@ -26,31 +26,17 @@ struct PGUApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     let persistenceController = PersistenceController.shared
     
-//    let navigationState = NavigationState() // The NavigationState instance
-    
-//    init() {
-//        appDelegate.navigationState = navigationState // Initialize navigationState in AppDelegate
-//    }
+    let navigationState = NavigationState() // The NavigationState instance
+
 
     let locationManager = CLLocationManager()
-    
-    init() {
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
 
-    }
-
-    
     var body: some Scene {
         WindowGroup {
             ContentView().environment(\.managedObjectContext, persistenceController.persistentContainer.viewContext)
                 .environmentObject(AudioPlayerManager.shared)
                 .environmentObject(ViewState.shared) // Add this line to share ViewState across your views.
-
-
-
-//                .environmentObject(navigationState) // Pass it as an EnvironmentObject
-
+                .environmentObject(NavigationState.shared) // Provide NavigationState to the environment
         }
     }
 }
@@ -74,7 +60,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         FirebaseApp.configure()
 
-//        configureAudioSession()
 
         // Request notification authorization
         let center = UNUserNotificationCenter.current()
@@ -95,126 +80,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
          }
          center.delegate = self
 
-//        application.registerForRemoteNotifications()
 
         // Set up FIRMessaging's delegate
         Messaging.messaging().delegate = self
       
-//        fetchAndHandleNotifications()
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleInterruption), name: AVAudioSession.interruptionNotification, object: AVAudioSession.sharedInstance())
 
-//        _ = AudioPlayerManager.shared
-
-        
         return true
      
     }
-    
-    
-//    class AudioPlayerManager {
-//        static let shared = AudioPlayerManager() // Singleton instance
-//        var player: AVPlayer?
-//        
-//        init() {
-//            configureAudioSession()
-//            configureRemoteCommandCenter()
-//        }
-//        
-//        
-//        private func configureAudioSession() {
-//            do {
-//                try AVAudioSession.sharedInstance().setCategory(.playback)
-//                try AVAudioSession.sharedInstance().setActive(true)
-//            } catch {
-//                print("Failed to set audio session category: \(error)")
-//            }
-//            
-//            
-//        }
-//        
-//        
-//        private func configureRemoteCommandCenter() {
-//            let commandCenter = MPRemoteCommandCenter.shared()
-//            
-//            // Play command
-//            commandCenter.playCommand.isEnabled = true
-//            commandCenter.playCommand.addTarget { [weak self] event in
-//                // Check if the player is available and resume playback
-//                guard let self = self, let player = self.player else { return .commandFailed }
-//                if player.rate == 0 {
-//                    player.play()
-//                    self.updateNowPlayingPlaybackRate(1.0)
-//                }
-//                return .success
-//            }
-//            
-//            // Pause command
-//            commandCenter.pauseCommand.isEnabled = true
-//            commandCenter.pauseCommand.addTarget { [weak self] event in
-//                // Check if the player is available and pause playback
-//                guard let self = self, let player = self.player else { return .commandFailed }
-//                if player.rate != 0 {
-//                    player.pause()
-//                    self.updateNowPlayingPlaybackRate(0.0)
-//                }
-//                return .success
-//            }
-//            
-//            // Skip forward command
-//            commandCenter.skipForwardCommand.isEnabled = true
-//            commandCenter.skipForwardCommand.preferredIntervals = [15]  // 15 seconds
-//            commandCenter.skipForwardCommand.addTarget { [weak self] event in
-//                // Implement skipping forward
-//                guard let self = self else { return .commandFailed }
-//                self.skip(forwards: true)
-//                return .success
-//            }
-//            
-//            // Skip backward command
-//            commandCenter.skipBackwardCommand.isEnabled = true
-//            commandCenter.skipBackwardCommand.preferredIntervals = [15]  // 15 seconds
-//            commandCenter.skipBackwardCommand.addTarget { [weak self] event in
-//                // Implement skipping backward
-//                guard let self = self else { return .commandFailed }
-//                self.skip(forwards: false)
-//                return .success
-//            }
-//        }
-//
-//        // Helper method to update the playback rate in the now playing info
-//        private func updateNowPlayingPlaybackRate(_ rate: Float) {
-//            var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo ?? [String: Any]()
-//            nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = rate
-//            MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
-//        }
-//
-//        // Implement the skip method
-//        private func skip(forwards: Bool) {
-//            guard let player = player, let duration = player.currentItem?.duration.seconds else { return }
-//            let currentTime = player.currentTime().seconds
-//            let skipInterval = forwards ? 15.0 : -15.0  // 15 seconds
-//            let newTime = currentTime + skipInterval
-//            player.seek(to: CMTime(seconds: min(max(newTime, 0), duration), preferredTimescale: 1))
-//        }
-//
-//        
-//        
-//        func play(url: URL) {
-//            player = AVPlayer(url: url)
-//            player?.play()
-//        }
-//        
-//        func pause() {
-//            player?.pause()
-//        }
-//        
-//
-//
-//        
-//    }
-
-    
 
     
     @objc func handleInterruption(notification: Notification) {
@@ -238,12 +113,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         NotificationCenter.default.removeObserver(self, name: AVAudioSession.interruptionNotification, object: nil)
     }
 
-    
 
-    
-    
-    
-  
     func applicationDidBecomeActive(_ application: UIApplication) {
 //        fetchAndHandleNotifications()
     }
@@ -300,6 +170,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+        
+        completionHandler([.alert, .badge, .sound])
+
+
         let userInfo = notification.request.content.userInfo
         
         if let notificationDict = userInfo["aps"] as? [String: AnyObject],
@@ -311,7 +186,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         saveNotificationToFirestore(userInfo)
 
-        completionHandler([.alert, .sound])
     }
     
 
@@ -326,37 +200,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
            let body = alertDict["body"] as? String {
             saveNotificationToCoreData(title: title, body: body)
         }
-        
-
-        
+ 
         saveNotificationToFirestore(userInfo)
-
+        
+        DispatchQueue.main.async {
+            NavigationState.shared.showInbox = true
+        }
+        
         completionHandler()
     }
-    
-    
-    
-    
-    
-//    func fetchNotificationsFromFirestore() {
-//        let db = Firestore.firestore()
-//        let userId = "yourUserId" // Replace with actual user ID
-//
-//        db.collection("notifications").whereField("userId", isEqualTo: userId)
-//          .getDocuments { (querySnapshot, err) in
-//              if let err = err {
-//                  print("Error getting notifications: \(err)")
-//              } else {
-//                  for document in querySnapshot!.documents {
-//                      // Assuming the document contains 'title' and 'body'
-//                      let title = document.data()["title"] as? String ?? "No Title"
-//                      let body = document.data()["body"] as? String ?? "No Body"
-//                      self.triggerLocalNotification(title: title, body: body)
-//                  }
-//              }
-//          }
-//    }
-    
+
     
     func saveNotificationToFirestore(_ userInfo: [AnyHashable: Any]) {
         guard let aps = userInfo["aps"] as? [String: AnyObject],
@@ -384,7 +237,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
         }
         
-//        triggerLocalNotification(title: title, body: body)
 
     }
 
@@ -420,10 +272,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             print("Could not fetch. \(error), \(error.userInfo)")
         }
     }
-
-
-    
-
 
 }
 
