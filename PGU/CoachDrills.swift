@@ -11,79 +11,17 @@ import UIKit
 import ImageIO
 
 
-//
-//struct GIFImage: UIViewRepresentable {
-//    var imageName: String
-//
-//    func makeUIView(context: Context) -> UIImageView {
-//        guard let gifImage = UIImage.gif(name: imageName) else {
-//            return UIImageView()
-//        }
-//        let imageView = UIImageView(image: gifImage)
-//        imageView.contentMode = .scaleAspectFit
-//
-//        // Set up constraints after adding the view to a parent if necessary
-//        imageView.translatesAutoresizingMaskIntoConstraints = false
-//        NSLayoutConstraint.activate([
-//            imageView.widthAnchor.constraint(equalToConstant: 100) // Adjust width directly
-//        ])
-//
-//        return imageView
-//    }
-//
-//    func updateUIView(_ uiView: UIImageView, context: Context) {
-//        // Update the view if necessary.
-//    }
-//}
-//
-//
-//extension UIImage {
-//    static func gif(name: String) -> UIImage? {
-//        guard let bundleURL = Bundle.main.url(forResource: name, withExtension: "gif") else {
-//            return nil
-//        }
-//        guard let imageData = try? Data(contentsOf: bundleURL) else {
-//            return nil
-//        }
-//        guard let source = CGImageSourceCreateWithData(imageData as CFData, nil) else {
-//            return nil
-//        }
-//        let count = CGImageSourceGetCount(source)
-//        var images = [UIImage]()
-//        var totalDuration: TimeInterval = 0
-//
-//        for i in 0..<count {
-//            if let image = CGImageSourceCreateImageAtIndex(source, i, nil) {
-//                let propertiesOptions = CGImageSourceCopyPropertiesAtIndex(source, i, nil) as NSDictionary?
-//                let gifProperties = propertiesOptions?[kCGImagePropertyGIFDictionary as NSString] as? NSDictionary
-//                if let duration = gifProperties?[kCGImagePropertyGIFDelayTime as NSString] as? NSNumber {
-//                    totalDuration += duration.doubleValue // Corrected
-//                    images.append(UIImage(cgImage: image))
-//                }
-//            }
-//        }
-//
-//        return UIImage.animatedImage(with: images, duration: totalDuration)
-//    }
-//}
-
-
-
 struct CoachDrills: View {
     
     @State private var isMenuOpen: Bool = false
 
     var body: some View {
-        ZStack{
+        ZStack {
             VStack {
-                
                 HamburgerMenu(isMenuOpen: $isMenuOpen)
                     .navigationBarBackButtonHidden(true)
                     .frame(height: 50)
                     .padding(.bottom, 30)
-                
-//                Spacer()
-                
                 
                 HStack {
                     NavigationLink(destination: ResourcesView()) {
@@ -117,38 +55,30 @@ struct CoachDrills: View {
                     
                 }
                 .padding()
-                
-//                    GIFImage(imageName: "coach-drills3")
-                
-                Spacer()
+
+                Spacer() // Pushes everything above towards the top
 
                 Image("coach-drills5")
                     .resizable()
+                    .scaledToFit()
                     .frame(width: 350, height: 350)
-                
-                Spacer()
 
-     
+                Spacer() // Creates space between the image and the footer
+
+                FooterMenu()
+                    .zIndex(1) // Ensures the footer is above other elements if needed
             }
-            
 
+            if isMenuOpen {
+                MenuView(isMenuOpen: $isMenuOpen)
+                    .frame(width: UIScreen.main.bounds.width)
+                    .transition(.move(edge: .leading))
+                    .zIndex(2) // Ensures the menu is above everything else
+            }
         }
-        
-        Spacer()
-        
-        FooterMenu()
-        
-        if isMenuOpen {
-            MenuView(isMenuOpen: $isMenuOpen)
-                .frame(width: UIScreen.main.bounds.width)
-                .transition(.move(edge: .leading))
-        }
-
     }
-    
-    
-    
 }
+
 
 #Preview {
     CoachDrills()

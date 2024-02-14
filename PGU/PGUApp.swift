@@ -59,7 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         print("Application didFinishLaunchingWithOptions called")
         
         FirebaseApp.configure()
-
+        Firestore.firestore()
 
         // Request notification authorization
         let center = UNUserNotificationCenter.current()

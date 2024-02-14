@@ -78,33 +78,64 @@ class AudioPlayerManager: ObservableObject {
     
     private func configureRemoteCommandCenter() {
         let commandCenter = MPRemoteCommandCenter.shared()
-        
+
         // Play command
         commandCenter.playCommand.isEnabled = true
-        commandCenter.playCommand.addTarget { [weak self] event in
-            // Check if the player is available and resume playback
+        commandCenter.playCommand.addTarget { [weak self] event -> MPRemoteCommandHandlerStatus in
             guard let self = self, let player = self.player else { return .commandFailed }
             if player.rate == 0 {
                 player.play()
+                self.isPlaying = true // Make sure to update your isPlaying state
+                return .success
             }
-            return .success
+            return .commandFailed
         }
         
         // Pause command
         commandCenter.pauseCommand.isEnabled = true
-        commandCenter.pauseCommand.addTarget { [weak self] event in
-            // Check if the player is available and pause playback
+        commandCenter.pauseCommand.addTarget { [weak self] event -> MPRemoteCommandHandlerStatus in
             guard let self = self, let player = self.player else { return .commandFailed }
             if player.rate != 0 {
                 player.pause()
+                self.isPlaying = false // Make sure to update your isPlaying state
+                return .success
             }
+            return .commandFailed
+        }
+        
+        // Skip forward command
+        commandCenter.skipForwardCommand.isEnabled = true
+        commandCenter.skipForwardCommand.preferredIntervals = [30] // Define the skip interval
+        commandCenter.skipForwardCommand.addTarget { [weak self] event -> MPRemoteCommandHandlerStatus in
+            self?.skipForward()
             return .success
         }
         
+        // Skip backward command
+        commandCenter.skipBackwardCommand.isEnabled = true
+        commandCenter.skipBackwardCommand.preferredIntervals = [15] // Define the skip interval
+        commandCenter.skipBackwardCommand.addTarget { [weak self] event -> MPRemoteCommandHandlerStatus in
+            self?.skipBackward()
+            return .success
+        }
         
+//        commandCenter.changePlaybackPositionCommand.isEnabled = true
+//        commandCenter.changePlaybackPositionCommand.addTarget(self, action: #selector(handleChangePlaybackPositionCommand(event:)))
+       
         
     }
-    
+
+
+//    @objc func handleChangePlaybackPositionCommand(event: MPChangePlaybackPositionCommandEvent) -> MPRemoteCommandHandlerStatus {
+//        guard let player = player else { return .noSuchContent }
+//        let newPosition = event.positionTime
+//        let seekTime = CMTime(seconds: newPosition, preferredTimescale: 1)
+//        player.seek(to: seekTime, toleranceBefore: .zero, toleranceAfter: .zero) { [weak self] _ in
+//            self?.updateNowPlayingInfoPlaybackPosition() // Update the now playing info to reflect the new position
+//        }
+//        return .success
+//    }
+
     
     
     func updateNowPlayingInfo(for episode: PodcastEpisode) {
@@ -170,19 +201,6 @@ class AudioPlayerManager: ObservableObject {
         }
     }
 
-    
-    
-//    func prepareToPlay(episode: PodcastEpisode) {
-//        let playerItem = AVPlayerItem(url: episode.audioURL)
-//        if self.player == nil {
-//            self.player = AVPlayer(playerItem: playerItem)
-//        } else {
-//            self.player?.replaceCurrentItem(with: playerItem)
-//        }
-//        play()
-//        setupPlaybackProgressTracking() // Ensure tracking is updated for the new item
-//    }
-    
     func prepareToPlay(episode: PodcastEpisode) {
         let playerItem = AVPlayerItem(url: episode.audioURL)
         NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidReachEnd), name: .AVPlayerItemDidPlayToEndTime, object: playerItem)
@@ -284,45 +302,40 @@ class AudioPlayerManager: ObservableObject {
             updateNowPlayingInfo(for: episode)
         }
     }
-    
-//    func togglePlayPause(for url: URL) {
-//        // Check if we're trying to play the same episode
-//        if let currentPlayingURL = currentPlayingURL, currentPlayingURL == url {
-//            // Toggle play/pause
-//            isPlaying.toggle()
-//            if isPlaying {
-//                player?.play()
-//            } else {
-//                player?.pause()
-//            }
-//        } else {
-//            // New episode selected, play it
-//            self.currentPlayingURL = url
-//            isPlaying = true
-//            player = AVPlayer(url: url)
-//            player?.play()
-//        }
-//    }
-    
-    
-    
-    
+
     
     func skipBackward() {
         guard let player = player else { return }
         let currentTime = player.currentTime()
         let skipInterval = CMTime(seconds: -15, preferredTimescale: 1) // 15 seconds back
         let newTime = CMTimeAdd(currentTime, skipInterval)
-        player.seek(to: newTime, toleranceBefore: .zero, toleranceAfter: .zero)
+        player.seek(to: newTime, toleranceBefore: .zero, toleranceAfter: .zero) { [weak self] _ in
+            guard let self = self else { return }
+            self.updateNowPlayingInfoPlaybackPosition()
+        }
     }
+
 
     func skipForward() {
         guard let player = player else { return }
         let currentTime = player.currentTime()
         let skipInterval = CMTime(seconds: 30, preferredTimescale: 1) // 30 seconds forward
         let newTime = CMTimeAdd(currentTime, skipInterval)
-        player.seek(to: newTime, toleranceBefore: .zero, toleranceAfter: .zero)
+        player.seek(to: newTime, toleranceBefore: .zero, toleranceAfter: .zero) { [weak self] _ in
+            guard let self = self else { return }
+            self.updateNowPlayingInfoPlaybackPosition()
+        }
     }
+
+    
+    func updateNowPlayingInfoPlaybackPosition() {
+        guard let player = player, let playerItem = player.currentItem else { return }
+        var nowPlayingInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo ?? [String: Any]()
+        let currentTime = CMTimeGetSeconds(player.currentTime())
+        nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = currentTime
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+    }
+
     
     deinit {
         if let timeObserverToken = timeObserverToken {
@@ -501,15 +514,6 @@ struct ResourcesView: View {
                     
                 PlaybackControlsView(audioPlayerManager: audioPlayerManager)
 
-//                        .offset(y: 80)
-//                        .padding(.horizontal)
-//                        .offset(y: showPlaybackControls ? 0 : UIScreen.main.bounds.height) // Start off-screen
-//                        .opacity(showPlaybackControls ? 1 : 0) // Fully visible when controls should be shown
-//                        .animation(.easeOut(duration: 0.5), value: showPlaybackControls)
-                    
-                    
-
-
      
                 Divider()
                 
@@ -682,8 +686,6 @@ struct EpisodeDetailView: View {
                             image.resizable()
                                 .aspectRatio(contentMode: .fill)
                                 .frame(width: 300, height: 300)
-//                                .clipShape(Circle()) // Makes the image circular
-//                                .shadow(radius: 10) // Optional: Adds a shadow for depth
                         case .failure:
                             Image(systemName: "photo") // An image to display in case of failure
                                 .font(.largeTitle)
