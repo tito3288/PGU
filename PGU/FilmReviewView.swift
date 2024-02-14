@@ -238,21 +238,45 @@ struct FilmReviewView: View {
     
     
     func togglePlayPause(for videoName: String) {
+        // Check if a new video is selected or if it's the same as the current one.
+        if selectedVideo != videoName || !isVideoPlaying {
+            // A new video will start playing, or the same video will start playing from a paused state.
+            // So, pause any podcast playback.
+            NotificationCenter.default.post(name: .pausePodcastPlayback, object: nil)
+        }
+        
         if let currentVideo = selectedVideo, currentVideo == videoName {
-            // If the clicked video is already selected, toggle play/pause
+            // If the clicked video is already selected, toggle play/pause.
             if isVideoPlaying {
                 player.pause()
+                // Since the video is paused, you might consider sending a resume notification here,
+                // but only if it aligns with your app's logic (e.g., the podcast was playing before the video started).
+                // NotificationCenter.default.post(name: .resumePodcastPlayback, object: nil)
             } else {
                 player.play()
             }
-            isVideoPlaying.toggle() // Toggle the play/pause state
+            isVideoPlaying.toggle() // Toggle the play/pause state.
         } else {
-            // If a different video is selected, play the new video
+            // If a different video is selected, play the new video.
             playVideo(named: videoName)
         }
+
+        // If toggling resulted in pausing and there's a desire to automatically resume podcast playback,
+        // consider carefully where to place the resume notification.
+        // It might depend on additional state logic not shown here.
     }
 
+
     func playVideo(named videoName: String) {
+        do {
+            // Set the audio session category to playback
+            try AVAudioSession.sharedInstance().setCategory(.playback)
+            // Activate the audio session
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch {
+            print("Failed to set audio session category or activate it: \(error)")
+        }
+
         if let url = Bundle.main.url(forResource: videoName, withExtension: "mp4") {
             player.pause() // Ensure any currently playing video is paused
             let playerItem = AVPlayerItem(url: url)
@@ -263,13 +287,21 @@ struct FilmReviewView: View {
             isVideoPlaying = true // Mark the video as playing
         }
     }
-    
+
     private func pauseVideo() {
         if isVideoPlaying {
             player.pause()
             isVideoPlaying = false
+
+            do {
+                // Deactivate the audio session
+                try AVAudioSession.sharedInstance().setActive(false)
+            } catch {
+                print("Failed to deactivate audio session: \(error)")
+            }
         }
     }
+
 
 
     

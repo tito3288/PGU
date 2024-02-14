@@ -61,8 +61,24 @@ class AudioPlayerManager: ObservableObject {
         setupPlaybackProgressTracking()
         configureAudioSession()
         configureRemoteCommandCenter()
+        setupNotifications()
+
     }
     
+    
+    func setupNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(pausePlayback), name: .pausePodcastPlayback, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(maybeResumePlayback), name: .resumePodcastPlayback, object: nil)
+    }
+    
+    @objc func pausePlayback() {
+        pause()
+    }
+    
+    @objc func maybeResumePlayback() {
+        // Implement logic to decide if playback should resume
+        // For example, check if the podcast was playing before it was interrupted
+    }
 
     //MARK: THIS HELPS FOR AUDIO TO PLAY WHEN APP IS CLOSED OR LOCKED
     private func configureAudioSession() {
@@ -342,6 +358,8 @@ class AudioPlayerManager: ObservableObject {
             player?.removeTimeObserver(timeObserverToken)
             self.timeObserverToken = nil
         }
+        NotificationCenter.default.removeObserver(self)
+
     }
     
     
@@ -846,7 +864,10 @@ extension TimeInterval {
 }
 
 
-
+extension Notification.Name {
+    static let pausePodcastPlayback = Notification.Name("pausePodcastPlayback")
+    static let resumePodcastPlayback = Notification.Name("resumePodcastPlayback")
+}
 
 
 #Preview {
