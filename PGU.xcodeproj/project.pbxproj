@@ -68,6 +68,9 @@
 		2EB20AE42B4E6C7B00F27C83 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 2EB20AE32B4E6C7B00F27C83 /* FirebaseStorage */; };
 		2EB20AE62B4E6C7B00F27C83 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 2EB20AE52B4E6C7B00F27C83 /* FirebaseStorageCombine-Community */; };
 		2EBDD8892B3E31AD00AB4296 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBDD8882B3E31AD00AB4296 /* HomeView.swift */; };
+		2EC243C92B7DCCED00BDA0DF /* camp-video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 2EC243C82B7DCCEC00BDA0DF /* camp-video.mp4 */; };
+		2EC243CB2B7DDDF200BDA0DF /* ChatBotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC243CA2B7DDDF200BDA0DF /* ChatBotView.swift */; };
+		2EC243CD2B7DDE8D00BDA0DF /* ChatBotModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC243CC2B7DDE8D00BDA0DF /* ChatBotModel.swift */; };
 		2ECD2A812B4529DF00B29C2B /* ResourcesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECD2A802B4529DF00B29C2B /* ResourcesView.swift */; };
 		2EDD02152B75398F0024FBAB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EDD02142B75398F0024FBAB /* Assets.xcassets */; };
 		2EE1FB372B7A6B050063A07A /* CoachDrills.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE1FB362B7A6B050063A07A /* CoachDrills.swift */; };
@@ -111,6 +114,9 @@
 		2EB1CB772B51E11E0073D19A /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		2EB20AAE2B4E62C700F27C83 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2EBDD8882B3E31AD00AB4296 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		2EC243C82B7DCCEC00BDA0DF /* camp-video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "camp-video.mp4"; sourceTree = "<group>"; };
+		2EC243CA2B7DDDF200BDA0DF /* ChatBotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBotView.swift; sourceTree = "<group>"; };
+		2EC243CC2B7DDE8D00BDA0DF /* ChatBotModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBotModel.swift; sourceTree = "<group>"; };
 		2EC47F402B68D40100D38138 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		2ECD2A802B4529DF00B29C2B /* ResourcesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourcesView.swift; sourceTree = "<group>"; };
 		2EDD02142B75398F0024FBAB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = "../../../Downloads/PGU-2/PGU/Assets.xcassets"; sourceTree = "<group>"; };
@@ -184,6 +190,7 @@
 				2E1A7E5C2B71201000639E06 /* pgu-video2.mp4 */,
 				2E269DD92B733B780092FF8A /* pgu-video5.mp4 */,
 				2E269DDB2B733D800092FF8A /* pgu-video4.mp4 */,
+				2EC243C82B7DCCEC00BDA0DF /* camp-video.mp4 */,
 				2E66461C2B4F353B004CD248 /* PGU.entitlements */,
 				2E5FB14F2B0CF25000E77CBF /* PGUApp.swift */,
 				2EA8114C2B1E41C700364ACB /* CampInfoView.swift */,
@@ -216,6 +223,8 @@
 				2E5769962B68014400FA944D /* PodbeanAuthService.swift */,
 				2E45A8ED2B7A44C500486503 /* NavigationState.swift */,
 				2EE1FB362B7A6B050063A07A /* CoachDrills.swift */,
+				2EC243CA2B7DDDF200BDA0DF /* ChatBotView.swift */,
+				2EC243CC2B7DDE8D00BDA0DF /* ChatBotModel.swift */,
 			);
 			path = PGU;
 			sourceTree = "<group>";
@@ -325,6 +334,7 @@
 				2E269DDA2B733B780092FF8A /* pgu-video5.mp4 in Resources */,
 				2E1A7E652B71226700639E06 /* pgu-video6.mp4 in Resources */,
 				2E269DDC2B733D800092FF8A /* pgu-video4.mp4 in Resources */,
+				2EC243C92B7DCCED00BDA0DF /* camp-video.mp4 in Resources */,
 				2EDD02152B75398F0024FBAB /* Assets.xcassets in Resources */,
 				2EB20AAF2B4E62C700F27C83 /* GoogleService-Info.plist in Resources */,
 				2E1A7E5F2B71217700639E06 /* pgu-video3.mp4 in Resources */,
@@ -349,11 +359,13 @@
 				2EA811452B1E311000364ACB /* FooterMenu.swift in Sources */,
 				2EA696AD2B3FC5530045A60C /* TermsandCondView.swift in Sources */,
 				2EBDD8892B3E31AD00AB4296 /* HomeView.swift in Sources */,
+				2EC243CB2B7DDDF200BDA0DF /* ChatBotView.swift in Sources */,
 				2ECD2A812B4529DF00B29C2B /* ResourcesView.swift in Sources */,
 				2E5FB1522B0CF25000E77CBF /* ContentView.swift in Sources */,
 				2EA8114B2B1E40D700364ACB /* CalendarView.swift in Sources */,
 				2EA696AF2B3FCF190045A60C /* FaqView.swift in Sources */,
 				2EA811472B1E33BD00364ACB /* HamburgerMenu.swift in Sources */,
+				2EC243CD2B7DDE8D00BDA0DF /* ChatBotModel.swift in Sources */,
 				2EA037AF2B31D8C100A55C59 /* ColorHex.swift in Sources */,
 				2EA811432B1E18C900364ACB /* InboxView.swift in Sources */,
 				2EA8114F2B1E49FD00364ACB /* MenuView.swift in Sources */,

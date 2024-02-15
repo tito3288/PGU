@@ -18,8 +18,8 @@ struct FilmReviewView: View {
     @Environment(\.scenePhase) private var scenePhase // Observe scenePhase
     private var scenePhaseCancellable: AnyCancellable? // Subscription
     
+    @State private var rateObserver: AnyCancellable?
 
-    
     var body: some View {
 
         
@@ -47,7 +47,7 @@ struct FilmReviewView: View {
                     Spacer() // Spacing between buttons
                     
                     NavigationLink(destination: CoachDrills()) {
-                        Text("Coach Drills")
+                        Text("Camp Video")
                             .padding(10)
                             .frame(minWidth: 0, maxWidth: .infinity) // Flexible frame
                             .background(Color(hex: "0f2d53"))
@@ -227,10 +227,22 @@ struct FilmReviewView: View {
                 break
             }
         }
-        .onDisappear {
-            // Ensure the video is paused when the view disappears
-            pauseVideo()
+        .onAppear {
+            rateObserver = player.publisher(for: \.rate)
+                .receive(on: RunLoop.main)
+                .sink(receiveValue: { rate in
+                    DispatchQueue.main.async {
+                        self.isVideoPlaying = rate > 0
+                    }
+                })
         }
+        .onDisappear {
+            // Cancel the observer when the view disappears to prevent memory leaks
+            rateObserver?.cancel()
+            pauseVideo()
+
+        }
+
     }
 
     
@@ -309,31 +321,31 @@ struct FilmReviewView: View {
 
 
 
-struct VideoPlayerView: View {
-    var videoName: String
-    private var player: AVPlayer
-    
-    init(videoName: String) {
-        self.videoName = videoName
-        if let url = Bundle.main.url(forResource: videoName, withExtension: "mp4") {
-            self.player = AVPlayer(url: url)
-        } else {
-            // Handle the error of missing file appropriately
-            self.player = AVPlayer() // Placeholder to avoid optional AVPlayer
-        }
-    }
-    
-    var body: some View {
-        VideoPlayer(player: player)
-            .onAppear {
-                player.play()
-            }
-            .onDisappear {
-                player.pause()
-            }
-    }
-    
-}
+//struct VideoPlayerView: View {
+//    var videoName: String
+//    private var player: AVPlayer
+//    
+//    init(videoName: String) {
+//        self.videoName = videoName
+//        if let url = Bundle.main.url(forResource: videoName, withExtension: "mp4") {
+//            self.player = AVPlayer(url: url)
+//        } else {
+//            // Handle the error of missing file appropriately
+//            self.player = AVPlayer() // Placeholder to avoid optional AVPlayer
+//        }
+//    }
+//    
+//    var body: some View {
+//        VideoPlayer(player: player)
+//            .onAppear {
+//                player.play()
+//            }
+//            .onDisappear {
+//                player.pause()
+//            }
+//    }
+//    
+//}
 
 
 #Preview {

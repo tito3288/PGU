@@ -10,6 +10,9 @@ import CoreData
 
 struct InboxView: View {
 
+    @StateObject private var chatBotModel = ChatBotModel() // Instantiate ChatBotModel
+    @State private var isChatPresented = false // To control chat view presentation
+
     @State private var isMenuOpen: Bool = false
 
     //MARK: LOGIC TO DISPLAY FCM NOTIFICATION ON THE INBOXVIEW
@@ -54,11 +57,15 @@ struct InboxView: View {
                 HStack{
                     Spacer()
                     Button(action: {
-                        print("Chat icon pressed")
+                        isChatPresented = true
                     }, label: {
-                        Image("chat-icon")
+                        Image("chat-icon") // Ensure you have this image in your assets
                             .padding()
                     })
+                    .sheet(isPresented: $isChatPresented) {
+                        ChatBotView(chatBotModel: chatBotModel) // Pass the chatBotModel to the chat view
+                    }
+
                     
                 }
                 
