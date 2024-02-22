@@ -19,6 +19,8 @@ struct LoginView: View {
     
     @State private var email = ""
     @State private var password = ""
+    @State private var isPasswordVisible: Bool = false
+
     @State private var isAuthenticated = false
     
     @State private var showAlertReset = false
@@ -69,26 +71,46 @@ struct LoginView: View {
                 .padding(.top, 0)
                 
                 ZStack(alignment: .trailing) {
-                    SecureField("Password", text: $password)
-                        .padding(EdgeInsets(top: 15, leading: 20, bottom: 15, trailing: 50)) // Adjust left padding
-                        .background(.white)
-                        .foregroundColor(Color(hex: "0f2d53"))
-                        .font(.body)
-                        .bold()
-                        .cornerRadius(37)
-                        .frame(width: 300) // Set a specific width
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 37)
-                                .stroke(Color(hex: "0f2d53"), lineWidth: 2) // Customize border color and line width
-                        )
+                    if isPasswordVisible {
+                        TextField("Password", text: $password) // TextField for visible password
+                            .autocapitalization(.none) // Prevent automatic capitalization
+
+                            .padding(EdgeInsets(top: 15, leading: 20, bottom: 15, trailing: 50))
+                            .background(.white)
+                            .foregroundColor(Color(hex: "0f2d53"))
+                            .font(.body)
+                            .bold()
+                            .cornerRadius(37)
+                            .frame(width: 300)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 37)
+                                    .stroke(Color(hex: "0f2d53"), lineWidth: 2)
+                            )
+                    } else {
+                        SecureField("Password", text: $password) // SecureField for hidden password
+                            .padding(EdgeInsets(top: 15, leading: 20, bottom: 15, trailing: 50))
+                            .background(.white)
+                            .foregroundColor(Color(hex: "0f2d53"))
+                            .font(.body)
+                            .bold()
+                            .cornerRadius(37)
+                            .frame(width: 300)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 37)
+                                    .stroke(Color(hex: "0f2d53"), lineWidth: 2)
+                            )
+                    }
                     
-                    Image(systemName: "key.fill")
-                        .resizable() // Make the image resizable
-                        .aspectRatio(contentMode: .fit) // Keep the image aspect ratio
-                        .frame(width: 25, height: 25)
-                        .foregroundColor(Color(hex: "0f2d53")) // Adjust the color as needed
-                        .padding(.trailing, 20) // Adjust the right padding to position the image
-                    
+                    Button(action: {
+                        self.isPasswordVisible.toggle() // Toggle the visibility state
+                    }) {
+                        Image(systemName: isPasswordVisible ? "eye.fill" : "eye.slash.fill") // Change icon based on visibility
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 25, height: 25)
+                            .foregroundColor(Color(hex: "0f2d53"))
+                            .padding(.trailing, 20)
+                    }
                 }
                 .padding(.top, 15)
                 
@@ -187,12 +209,21 @@ struct PasswordResetView: View {
                 .font(.title)
                 .fontWeight(.bold)
             
-            Text("Enter yout email for password recovery")
+            Text("Enter your email for password recovery")
                 .font(.body)
 
             TextField("Email", text: $emailReset)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
+                .padding(EdgeInsets(top: 15, leading: 20, bottom: 15, trailing: 50)) // Adjust left padding
+                .background(.white)
+                .foregroundColor(Color(hex: "0f2d53"))
+                .font(.body)
+                .bold()
+                .cornerRadius(37)
+                .frame(width: 300) // Set a specific width
+                .overlay(
+                    RoundedRectangle(cornerRadius: 37)
+                        .stroke(Color(hex: "0f2d53"), lineWidth: 2) // Customize border color and line width
+                )
 
             Button("Submit") {
                 resetPassword(email: emailReset)

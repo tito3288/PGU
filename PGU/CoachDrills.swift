@@ -80,6 +80,10 @@ struct CoachDrills: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .padding()
+                        .onTapGesture {
+                            let videoName = "camp-video"
+                            togglePlayPause(for: videoName)
+                        }
                 }
                 
                 

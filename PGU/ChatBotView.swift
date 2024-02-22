@@ -10,23 +10,25 @@ import SwiftUI
 struct ChatBotView: View {
     @ObservedObject var chatBotModel = ChatBotModel()
     @State private var userInput: String = ""
-    @State private var chatHistory: [(String, Bool)] = [] // Bool represents if the message is from the user (true) or the bot (false)
+    @State private var chatHistory: [(id: UUID, message: String, isUser: Bool)] = []
     @State private var isBotTyping = false
+
+    @State private var scrollToMessageId: UUID?
 
     
     var body: some View {
 
 
-            VStack {
+        VStack {
+            ScrollViewReader { scrollView in
                 List {
-                    ForEach(chatHistory, id: \.0) { chat, isUser in
+                    ForEach(chatHistory, id: \.id) { chatEntry in
                         HStack {
-                            if isUser {
+                            if chatEntry.isUser {
                                 Spacer()
-                                Text(chat).foregroundColor(Color(hex: "0f2d53"))
+                                Text(chatEntry.message).foregroundColor(Color(hex: "0f2d53"))
                             } else {
-                                Text(chat)                    .foregroundColor(Color(hex: "c7972b"))
-
+                                Text(chatEntry.message).foregroundColor(Color(hex: "c7972b"))
                                 Spacer()
                             }
                         }
@@ -39,6 +41,14 @@ struct ChatBotView: View {
                         }.transition(.opacity) // Optional: add a fade transition
                     }
                 }
+                .onChange(of: scrollToMessageId) { _ in
+                    if let messageId = scrollToMessageId {
+                        withAnimation {
+                            scrollView.scrollTo(messageId, anchor: .bottom)
+                        }
+                    }
+                }
+            }
 //                .listStyle(PlainListStyle()) // Removes list lines
 //                .background(Color.clear) // Makes list background transparent
 
@@ -46,44 +56,69 @@ struct ChatBotView: View {
                 
                 HStack {
                     TextField("Ask me something...", text: $userInput)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding(EdgeInsets(top: 15, leading: 20, bottom: 15, trailing: 20)) // Adjust left padding
+                        .background(.white)
+                        .foregroundColor(Color(hex: "0f2d53"))
+                        .font(.body)
+                        .bold()
+                        .cornerRadius(37)
+                        .frame(width: 300) // Set a specific width
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 37)
+                                .stroke(Color(hex: "0f2d53"), lineWidth: 2) // Customize border color and line width
+                        )
                     
-                    Button("Send") {
+                    Button(action: {
                         sendMessage()
+                        
+                    }) {
+                        Image(systemName: "arrow.up.circle.fill")
+                            .font(.largeTitle)
                     }
-                    .foregroundColor(Color(hex: "c7972b"))
-                }.padding()
+                    .padding(.leading)
+
+                    .foregroundColor(userInput.isEmpty ? Color.gray.opacity(0.5) : Color(hex: "c7972b")) // Change color based on userInput
+                    .disabled(userInput.isEmpty) // Disable button when userInput is empty
+
+                }
+                .padding()
                 
             }
-//            .background(Color.blue.edgesIgnoringSafeArea(.all)) // Sets the entire background to blue, extending to the screen's edges
-
             .onAppear {
-                chatHistory.append(("Is there anything I can help you with?", false))
+                chatHistory.append((id: UUID(), message: "Is there anything I can help you with?", isUser: false))
             }
     }
     
     func sendMessage() {
         guard !userInput.isEmpty else { return }
         
-        let userQuestion = userInput // Capture userInput before clearing
-        chatHistory.append((userInput, true)) // Append user message
-        userInput = "" // Clear input field immediately for better UX
-
-        isBotTyping = true // Start typing indicator
-
-        let delayInSeconds = 2.0 // Adjust the delay as needed
+        let userMessage = userInput // Capture userInput before clearing it
+        let userMessageId = UUID() // Generate UUID for the user message
+        chatHistory.append((id: userMessageId, message: userInput, isUser: true))
+        scrollToMessageId = userMessageId // Update scrollToMessageId to trigger scroll
+        
+        userInput = "" // Clear input field
+        
+        isBotTyping = true
+        
+        let delayInSeconds = 2.0
         DispatchQueue.main.asyncAfter(deadline: .now() + delayInSeconds) {
-            // Use userQuestion inside the closure
-            if let answer = self.chatBotModel.answer(for: userQuestion) {
-                self.chatHistory.append((answer, false))
+            if let answer = self.chatBotModel.answer(for: userMessage) { // Use captured userInput value
+                let botMessageId = UUID()
+                self.chatHistory.append((id: botMessageId, message: answer, isUser: false))
+                self.scrollToMessageId = botMessageId
             } else {
-                self.chatHistory.append(("I'm not sure about that. Please email us for more information.", false))
+                let fallbackMessageId = UUID()
+                self.chatHistory.append((id: fallbackMessageId, message: "I'm not sure about that. Please email us for more information.", isUser: false))
+                self.scrollToMessageId = fallbackMessageId
             }
-            self.isBotTyping = false // Stop typing indicator
+            self.isBotTyping = false
         }
     }
 
 
+    
+    
 }
 
 

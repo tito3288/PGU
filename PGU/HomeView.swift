@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Firebase // Ensure Firebase is imported
 
 struct HomeView: View {
     
@@ -32,13 +33,7 @@ struct HomeView: View {
                     
                     HStack {
                         ZStack {
-                            
-                            //MAKE SURE THIS IMAGE LOOKS GOOD IN ALL DISPLAYS
-//                            Image("logo2")
-//                                .resizable()
-//                                .scaledToFit()
-//                                .frame(maxWidth: .infinity, maxHeight: .infinity)
-//                                .zIndex(0) // Lower zIndex for the b
+
                             
                             Image("logo2")
                                 .resizable()
@@ -95,6 +90,7 @@ struct HomeView: View {
                 }
                 
             }
+
         }
     }
 }

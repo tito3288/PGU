@@ -11,13 +11,7 @@ import SwiftUI
 struct CalendarView: View {
     
     @State private var isMenuOpen: Bool = false
-    
-//    @State private var selectedDates: Set<DateComponents> = [
-//        DateComponents(year: 2024, month: 5, day: 28),
-//        DateComponents(year: 2024, month: 5, day: 29),
-//        DateComponents(year: 2024, month: 5, day: 30),
-//        DateComponents(year: 2024, month: 5, day: 31)
-//    ]
+
     
     @State private var currentPageIndex = 0
     @State private var currentPage = 0
@@ -72,7 +66,7 @@ struct CalendarView: View {
                 .padding()
                 
                 TabView(selection: $currentPageIndex) {
-                    ForEach(0..<3, id: \.self) { index in
+                    ForEach(0..<4, id: \.self) { index in
                         Image("Calendar-\(index + 1)")
                             .resizable()
                             .scaledToFit()
@@ -84,7 +78,7 @@ struct CalendarView: View {
 
                 // Custom page indicators
                 HStack(spacing: 10) {
-                    ForEach(0..<3, id: \.self) { index in
+                    ForEach(0..<4, id: \.self) { index in
                         Circle()
                             .fill(currentPageIndex == index ? Color(hex: "c7972b") : Color(hex: "0f2d53"))
                             .frame(width: 8, height: 8)

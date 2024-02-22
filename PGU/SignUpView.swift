@@ -49,7 +49,7 @@ struct SignUpView: View {
                         .frame(width: 200, height: 200)
                     
                     TextField("Full Name", text: $name)
-                        .padding(EdgeInsets(top: 15, leading: 20, bottom: 15, trailing: 50)) // Adjust left padding
+                        .padding(EdgeInsets(top: 15, leading: 20, bottom: 15, trailing: 20)) // Adjust left padding
                         .background(.white)
                         .foregroundColor(Color(hex: "0f2d53"))
                         .font(.body)
@@ -89,6 +89,8 @@ struct SignUpView: View {
                                 .stroke(Color(hex: "0f2d53"), lineWidth: 2) // Customize border color and line width
                         )
                         .padding(.top, 15)
+                        .padding(.leading)
+                        .padding(.trailing)
                     
                     SecureField("Password", text: $password)
                         .padding(EdgeInsets(top: 15, leading: 20, bottom: 15, trailing: 50)) // Adjust left padding
@@ -224,13 +226,14 @@ struct SignUpView: View {
                     }) {
                         Text("Create Account")
                         // ... Button styling
-                    }            .padding(EdgeInsets(top: 15, leading: 50, bottom: 15, trailing: 50))
-                        .background(Color(red: 0.78, green: 0.592, blue: 0.169))
-                        .foregroundColor(.white)
-                        .font(.title3)
-                        .bold()
-                        .cornerRadius(37)
-                        .padding()
+                    }            
+                    .padding(EdgeInsets(top: 15, leading: 50, bottom: 15, trailing: 50))
+                    .background(Color(red: 0.78, green: 0.592, blue: 0.169))
+                    .foregroundColor(.white)
+                    .font(.title3)
+                    .bold()
+                    .cornerRadius(37)
+                    .padding()
                     
                     
                 }

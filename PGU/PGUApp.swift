@@ -60,6 +60,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         FirebaseApp.configure()
         Firestore.firestore()
+        
+        Analytics.logEvent("app_launch", parameters: nil)
+
+        
+        Installations.installations().installationID { (installationID, error) in
+          if let error = error {
+            print("Error fetching installation ID: \(error)")
+            return
+          }
+          print("Installation ID: \(installationID ?? "None")")
+        }
 
         // Request notification authorization
         let center = UNUserNotificationCenter.current()
@@ -86,11 +97,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
       
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleInterruption), name: AVAudioSession.interruptionNotification, object: AVAudioSession.sharedInstance())
+        Analytics.logEvent("on_foreground", parameters: nil)
 
+        
+        application.registerForRemoteNotifications()
+
+        
         return true
      
     }
+    
+    
+    
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        Analytics.logEvent("on_foreground", parameters: nil)
+    }
 
+    
+    
     
     @objc func handleInterruption(notification: Notification) {
         guard let info = notification.userInfo,
@@ -157,10 +181,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         
-        print("Received remote notification: \(userInfo)")
-        completionHandler(.newData)
-
-
+        print("hello world")
+  
     }
 
 
@@ -241,8 +263,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
 
-    
-    
     func saveNotificationToCoreData(title: String, body: String) {
         let context = PersistenceController.shared.persistentContainer.viewContext
         let newNotification = Notifi(context: context)

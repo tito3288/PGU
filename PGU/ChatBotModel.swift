@@ -38,7 +38,7 @@ class ChatBotModel: ObservableObject {
         
         FAQ(question: "How can I watch my athlete during your camps?",
             answer: "We always have seating in the gyms, you are welcome to hang out and watch. We also broadcast every minute of camp live on Facebook. We also post daily recaps on our Instagram.",
-            keywords: ["watch", "observe", "look", "cheerlead", "spectate"]),
+            keywords: ["watch", "observe", "look", "cheerlead", "spectate", "parents stay"]),
         
         FAQ(question: "Can my athlete move up or down a group?",
             answer: "Yep! Just shoot us an email at info@pointguarduniversity.com to let us know.",
