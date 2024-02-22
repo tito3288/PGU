@@ -158,9 +158,9 @@ struct CampsView: View {
                 
                 
                 Text("FIND A CAMP NEAR YOU")
-                    .font(.title2)
+                    .font(.title3)
                     .fontWeight(.bold)
-                    .padding()
+                    .padding(.top)
                     .foregroundColor(Color(hex: "0f2d53"))
 
                 
