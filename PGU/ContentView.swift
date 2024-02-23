@@ -27,7 +27,10 @@ struct ContentView: View {
                 LoginView()
                     .navigationBarHidden(true)
             }
-        }        .accentColor(Color(hex: "c7972b"))
+        }  
+        .accentColor(Color(hex: "c7972b"))
+        .navigationViewStyle(StackNavigationViewStyle())
+
     }
 }
 

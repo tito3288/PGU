@@ -38,7 +38,7 @@ struct HomeView: View {
                             Image("logo2")
                                 .resizable()
                                 .aspectRatio(contentMode: geometry.size.width <= 320 ? .fit : .fill) // Dynamically change contentMode
-                                .frame(width: geometry.size.width, height: geometry.size.height * 0.79) // Limit height to half of screen height
+                                .frame(width: geometry.size.width, height: geometry.size.height * (geometry.size.height >= 1300 ? 0.89 : 0.79))
                                 .clipped() // Ensure the image does not overflow its bounds
                                 .zIndex(0)
                             

@@ -58,526 +58,528 @@ struct CampsView: View {
     
     
     var body: some View {
-        ZStack { // Root view
-            VStack {
-                HamburgerMenu(isMenuOpen: $isMenuOpen)
-                    .navigationBarBackButtonHidden(true)
-                    .frame(height: 50)
-                    .padding(.bottom, 30)
-                
-                HStack {
+        GeometryReader { geometry in
+            
+            ZStack { // Root view
+                VStack {
+                    HamburgerMenu(isMenuOpen: $isMenuOpen)
+                        .navigationBarBackButtonHidden(true)
+                        .frame(height: 50)
+                        .padding(.bottom, 30)
                     
-                    Text("Find Camps")
-                        .padding(10)
-                        .frame(minWidth: 0, maxWidth: .infinity) // Flexible frame
-                        .background(Color(hex: "c7972b"))
-                        .foregroundColor(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
-                    
-                    Spacer() // Spacing between buttons
-                    
-                    NavigationLink(destination: CalendarView()) {
-                        Text("Calendar")
+                    HStack {
+                        
+                        Text("Find Camps")
                             .padding(10)
                             .frame(minWidth: 0, maxWidth: .infinity) // Flexible frame
-                            .background(Color(hex: "0f2d53"))
+                            .background(Color(hex: "c7972b"))
                             .foregroundColor(.white)
                             .clipShape(RoundedRectangle(cornerRadius: 20))
+                        
+                        Spacer() // Spacing between buttons
+                        
+                        NavigationLink(destination: CalendarView()) {
+                            Text("Calendar")
+                                .padding(10)
+                                .frame(minWidth: 0, maxWidth: .infinity) // Flexible frame
+                                .background(Color(hex: "0f2d53"))
+                                .foregroundColor(.white)
+                                .clipShape(RoundedRectangle(cornerRadius: 20))
+                        }
+                        
+                        Spacer() // Spacing between buttons
+                        
+                        NavigationLink(destination: CampInfoView()) {
+                            Text("Camp Info")
+                                .padding(10)
+                                .frame(minWidth: 0, maxWidth: .infinity) // Flexible frame
+                                .background(Color(hex: "0f2d53"))
+                                .foregroundColor(.white)
+                                .clipShape(RoundedRectangle(cornerRadius: 20))
+                        }
                     }
+                    .padding()
                     
-                    Spacer() // Spacing between buttons
                     
-                    NavigationLink(destination: CampInfoView()) {
-                        Text("Camp Info")
-                            .padding(10)
-                            .frame(minWidth: 0, maxWidth: .infinity) // Flexible frame
-                            .background(Color(hex: "0f2d53"))
-                            .foregroundColor(.white)
-                            .clipShape(RoundedRectangle(cornerRadius: 20))
-                    }
-                }
-                .padding()
-                
-                
-                
-                ZStack {
-                    Map(coordinateRegion: $region, annotationItems: locations + (locationManager.userLocation != nil ? [locationManager.userLocation!] : [])) { location in
-                        MapAnnotation(coordinate: location.coordinate) {
-                            if location.isUserLocation {
-                                UserLocationView() // Custom view for user's location
-                            } else {
-                                // Your existing button for other locations
-                                Button(action: {
-                                    openMapForDirections(to: location)
-                                }) {
-                                    VStack {
-                                        Text(location.title)
-                                            .font(.caption)
-                                            .padding(5)
-                                            .background(Color.white)
-                                            .foregroundColor(Color(hex: "c7972b"))
-                                            .cornerRadius(10)
-                                            .shadow(radius: 3)
-                                    Image(systemName: "mappin.circle.fill")
-                                        .foregroundColor(Color(hex: "c7972b"))
-                                        .imageScale(.medium)
-                                        .background(Color(hex: "0f2d53"))
-                                        .cornerRadius(20)
+                    
+                    ZStack {
+                        Map(coordinateRegion: $region, annotationItems: locations + (locationManager.userLocation != nil ? [locationManager.userLocation!] : [])) { location in
+                            MapAnnotation(coordinate: location.coordinate) {
+                                if location.isUserLocation {
+                                    UserLocationView() // Custom view for user's location
+                                } else {
+                                    // Your existing button for other locations
+                                    Button(action: {
+                                        openMapForDirections(to: location)
+                                    }) {
+                                        VStack {
+                                            Text(location.title)
+                                                .font(.caption)
+                                                .padding(5)
+                                                .background(Color.white)
+                                                .foregroundColor(Color(hex: "c7972b"))
+                                                .cornerRadius(10)
+                                                .shadow(radius: 3)
+                                            Image(systemName: "mappin.circle.fill")
+                                                .foregroundColor(Color(hex: "c7972b"))
+                                                .imageScale(.medium)
+                                                .background(Color(hex: "0f2d53"))
+                                                .cornerRadius(20)
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
-//                    .onAppear {
-//                        locationManager.requestLocation()
-//                    }
-                    .onChange(of: locationManager.lastLocation) { newValue in
-                        if let newLocation = newValue {
-                            regions = MKCoordinateRegion(center: newLocation.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
-                        }
-                    }
-//                    .mapStyle(.standard)
-                    .frame(height: 250)
-                    
-                    VStack {
-                        Spacer() // Pushes the button to the bottom
-                        HStack {
-                            Spacer() // Pushes the button to the right
-                            Button(action: zoomToUserLocation) {
-                                Image(systemName: "location.fill")
-                                    .padding()
-                                    .foregroundColor(.white)
-                                    .background(Circle().fill(Color(hex: "c7972b")))
-                                    .shadow(radius: 3)
+                        //                    .onAppear {
+                        //                        locationManager.requestLocation()
+                        //                    }
+                        .onChange(of: locationManager.lastLocation) { newValue in
+                            if let newLocation = newValue {
+                                regions = MKCoordinateRegion(center: newLocation.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
                             }
-                            .padding() // Adds some space around the button
+                        }
+                        //                    .mapStyle(.standard)
+                        .frame(width: geometry.size.width, height: geometry.size.height >= 1300 ? 450 : 250)
+
+                        VStack {
+                            Spacer() // Pushes the button to the bottom
+                            HStack {
+                                Spacer() // Pushes the button to the right
+                                Button(action: zoomToUserLocation) {
+                                    Image(systemName: "location.fill")
+                                        .padding()
+                                        .foregroundColor(.white)
+                                        .background(Circle().fill(Color(hex: "c7972b")))
+                                        .shadow(radius: 3)
+                                }
+                                .padding() // Adds some space around the button
+                            }
                         }
                     }
-                }
-                
-                
-                
-                Text("FIND A CAMP NEAR YOU")
-                    .font(.title3)
-                    .fontWeight(.bold)
-                    .padding(.top)
-                    .foregroundColor(Color(hex: "0f2d53"))
-
-                
-                
-                HStack{
                     
-                    TextField("Zip Code", text: $searchText)
+                    
+                    
+                    Text("FIND A CAMP NEAR YOU")
+                        .font(.title3)
+                        .fontWeight(.bold)
+                        .padding(.top)
+                        .foregroundColor(Color(hex: "0f2d53"))
+                    
+                    
+                    
+                    HStack{
+                        
+                        TextField("Zip Code", text: $searchText)
+                            .padding(7)
+                            .background(Color(.systemGray6))
+                            .cornerRadius(8)
+                            .padding(.leading)
+                        //                        .padding(.horizontal)
+                        
+                        Button(action:{
+                            findNearestLocation()
+                            
+                        }){
+                            Image(systemName: "magnifyingglass")
+                                .foregroundColor(Color(hex: "0f2d53"))
+                        }
                         .padding(7)
                         .background(Color(.systemGray6))
                         .cornerRadius(8)
-                        .padding(.leading)
-//                        .padding(.horizontal)
-                    
-                    Button(action:{
-                        findNearestLocation()
-
-                    }){
-                        Image(systemName: "magnifyingglass")
-                            .foregroundColor(Color(hex: "0f2d53"))
+                        .padding(.trailing)
+                        
                     }
-                    .padding(7)
-                    .background(Color(.systemGray6))
-                    .cornerRadius(8)
-                    .padding(.trailing)
                     
-                }
-                
-                
-                List{
-                    HStack{
-                        VStack(alignment: .leading, spacing: 0) {
-                            Text("Dodge City, KS")
-                                .font(.title2) // Style for regular text
-
-                            Text("May 28th- May 31st, 2024")
-                                .font(.body) // Style for title text
-                        }
-                        .onTapGesture {
-                            zoomToLocation(Location(title: "Dodge City High School, Dodge City, KS", coordinate: CLLocationCoordinate2D(latitude: 37.78280790545586, longitude: -100.04471873960134)))
-                        }
-                        
-                        Spacer()
-                        
-                        Button(action: {
-                            DispatchQueue.main.async {
-                                if let url = URL(string: "https://campscui.active.com/orgs/PointGuardU?season=3455345&session=62004034") {
-                                    // This checks if the URL can be opened and then opens it
-                                    if UIApplication.shared.canOpenURL(url) {
-                                        UIApplication.shared.open(url)
+                    
+                    List{
+                        HStack{
+                            VStack(alignment: .leading, spacing: 0) {
+                                Text("Dodge City, KS")
+                                    .font(.title2) // Style for regular text
+                                
+                                Text("May 28th- May 31st, 2024")
+                                    .font(.body) // Style for title text
+                            }
+                            .onTapGesture {
+                                zoomToLocation(Location(title: "Dodge City High School, Dodge City, KS", coordinate: CLLocationCoordinate2D(latitude: 37.78280790545586, longitude: -100.04471873960134)))
+                            }
+                            
+                            Spacer()
+                            
+                            Button(action: {
+                                DispatchQueue.main.async {
+                                    if let url = URL(string: "https://campscui.active.com/orgs/PointGuardU?season=3455345&session=62004034") {
+                                        // This checks if the URL can be opened and then opens it
+                                        if UIApplication.shared.canOpenURL(url) {
+                                            UIApplication.shared.open(url)
+                                        }
                                     }
                                 }
+                            }){
+                                Text("Sign Up")
+                                    .frame(alignment: .trailing)
+                                    .padding(10)
+                                    .background(Color(hex: "c7972b"))
+                                    .foregroundColor(.white)
+                                    .cornerRadius(20)
                             }
-                        }){
-                            Text("Sign Up")
-                                .frame(alignment: .trailing)
-                                .padding(10)
-                                .background(Color(hex: "c7972b"))
-                                .foregroundColor(.white)
-                                .cornerRadius(20)
-                        }
-                        
-                    }
-                    
-                    HStack{
-                        VStack(alignment: .leading, spacing: 0) {
-                            Text("Limon, CO")
-                                .font(.title2) // Style for regular text
-
-                            Text("June 3rd- June 6th, 2024")
-                                .font(.body) // Style for title text
-                        }
-                        .onTapGesture {
-                            zoomToLocation(Location(title: "Limon Public High School, Limon, CO", coordinate: CLLocationCoordinate2D(latitude: 39.27026120527985, longitude: -103.68905270774891)))
-                        }
-                        
-                        Spacer()
-                        
-                        Button(action: {
-                            DispatchQueue.main.async {
-                                if let url = URL(string: "https://campscui.active.com/orgs/PointGuardU?season=3455345&session=62024637") {
-                                    // This checks if the URL can be opened and then opens it
-                                    if UIApplication.shared.canOpenURL(url) {
-                                        UIApplication.shared.open(url)
-                                    }
-                                }
-                            }
-                        }){
-                            Text("Sign Up")
-                                .frame(alignment: .trailing)
-                                .padding(10)
-                                .background(Color(hex: "c7972b"))
-                                .foregroundColor(.white)
-                                .cornerRadius(20)
-                        }
-                        
-                    }
-                    
-                    
-                    
-                    HStack{
-                        VStack(alignment: .leading, spacing: 0) {
-                            Text("Goodland, KS")
-                                .font(.title2) // Style for regular text
-
-                            Text("June 10th- June 13th, 2024")
-                                .font(.body) // Style for title text
-                        }
-                        .onTapGesture {
-                            zoomToLocation(Location(title: "Max Jones Fieldhouse, Goodland, KS", coordinate: CLLocationCoordinate2D(latitude: 39.34647640261924 , longitude: -101.70298283866518)))
-                        }
-                        
-                        Spacer()
-                        
-                        Button(action: {
-                            DispatchQueue.main.async {
-                                if let url = URL(string: "https://campscui.active.com/orgs/PointGuardU?season=3455345&session=62024737") {
-                                    // This checks if the URL can be opened and then opens it
-                                    if UIApplication.shared.canOpenURL(url) {
-                                        UIApplication.shared.open(url)
-                                    }
-                                }
-                            }
-                        }){
-                            Text("Sign Up")
-                                .frame(alignment: .trailing)
-                                .padding(10)
-                                .background(Color(hex: "c7972b"))
-                                .foregroundColor(.white)
-                                .cornerRadius(20)
-                        }
-                        
-                    }
-                    
-                    
-                    HStack{
-                        VStack(alignment: .leading, spacing: 0) {
-                            Text("Canton, KS")
-                                .font(.title2) // Style for regular text
-
-                            Text("June 17th- June 20th, 2024")
-                                .font(.body) // Style for title text
-                        }
-                        .onTapGesture {
-                            zoomToLocation(Location(title: "Canton-Galva Jr/Sr High School, Canton, KS", coordinate: CLLocationCoordinate2D(latitude: 38.381116853763004,  longitude: -97.4329804335779)))
                             
                         }
                         
-                        Spacer()
-                        
-                        Button(action: {
-                            DispatchQueue.main.async {
-                                if let url = URL(string: "https://campscui.active.com/orgs/PointGuardU?season=3455345&session=62025037") {
-                                    // This checks if the URL can be opened and then opens it
-                                    if UIApplication.shared.canOpenURL(url) {
-                                        UIApplication.shared.open(url)
+                        HStack{
+                            VStack(alignment: .leading, spacing: 0) {
+                                Text("Limon, CO")
+                                    .font(.title2) // Style for regular text
+                                
+                                Text("June 3rd- June 6th, 2024")
+                                    .font(.body) // Style for title text
+                            }
+                            .onTapGesture {
+                                zoomToLocation(Location(title: "Limon Public High School, Limon, CO", coordinate: CLLocationCoordinate2D(latitude: 39.27026120527985, longitude: -103.68905270774891)))
+                            }
+                            
+                            Spacer()
+                            
+                            Button(action: {
+                                DispatchQueue.main.async {
+                                    if let url = URL(string: "https://campscui.active.com/orgs/PointGuardU?season=3455345&session=62024637") {
+                                        // This checks if the URL can be opened and then opens it
+                                        if UIApplication.shared.canOpenURL(url) {
+                                            UIApplication.shared.open(url)
+                                        }
                                     }
                                 }
+                            }){
+                                Text("Sign Up")
+                                    .frame(alignment: .trailing)
+                                    .padding(10)
+                                    .background(Color(hex: "c7972b"))
+                                    .foregroundColor(.white)
+                                    .cornerRadius(20)
                             }
-                        }){
-                            Text("Sign Up")
-                                .frame(alignment: .trailing)
-                                .padding(10)
-                                .background(Color(hex: "c7972b"))
-                                .foregroundColor(.white)
-                                .cornerRadius(20)
+                            
                         }
+                        
+                        
+                        
+                        HStack{
+                            VStack(alignment: .leading, spacing: 0) {
+                                Text("Goodland, KS")
+                                    .font(.title2) // Style for regular text
+                                
+                                Text("June 10th- June 13th, 2024")
+                                    .font(.body) // Style for title text
+                            }
+                            .onTapGesture {
+                                zoomToLocation(Location(title: "Max Jones Fieldhouse, Goodland, KS", coordinate: CLLocationCoordinate2D(latitude: 39.34647640261924 , longitude: -101.70298283866518)))
+                            }
+                            
+                            Spacer()
+                            
+                            Button(action: {
+                                DispatchQueue.main.async {
+                                    if let url = URL(string: "https://campscui.active.com/orgs/PointGuardU?season=3455345&session=62024737") {
+                                        // This checks if the URL can be opened and then opens it
+                                        if UIApplication.shared.canOpenURL(url) {
+                                            UIApplication.shared.open(url)
+                                        }
+                                    }
+                                }
+                            }){
+                                Text("Sign Up")
+                                    .frame(alignment: .trailing)
+                                    .padding(10)
+                                    .background(Color(hex: "c7972b"))
+                                    .foregroundColor(.white)
+                                    .cornerRadius(20)
+                            }
+                            
+                        }
+                        
+                        
+                        HStack{
+                            VStack(alignment: .leading, spacing: 0) {
+                                Text("Canton, KS")
+                                    .font(.title2) // Style for regular text
+                                
+                                Text("June 17th- June 20th, 2024")
+                                    .font(.body) // Style for title text
+                            }
+                            .onTapGesture {
+                                zoomToLocation(Location(title: "Canton-Galva Jr/Sr High School, Canton, KS", coordinate: CLLocationCoordinate2D(latitude: 38.381116853763004,  longitude: -97.4329804335779)))
+                                
+                            }
+                            
+                            Spacer()
+                            
+                            Button(action: {
+                                DispatchQueue.main.async {
+                                    if let url = URL(string: "https://campscui.active.com/orgs/PointGuardU?season=3455345&session=62025037") {
+                                        // This checks if the URL can be opened and then opens it
+                                        if UIApplication.shared.canOpenURL(url) {
+                                            UIApplication.shared.open(url)
+                                        }
+                                    }
+                                }
+                            }){
+                                Text("Sign Up")
+                                    .frame(alignment: .trailing)
+                                    .padding(10)
+                                    .background(Color(hex: "c7972b"))
+                                    .foregroundColor(.white)
+                                    .cornerRadius(20)
+                            }
+                        }
+                        
+                        
+                        HStack{
+                            VStack(alignment: .leading, spacing: 0) {
+                                Text("Grand Rapids, MI")
+                                    .font(.title2) // Style for regular text
+                                
+                                Text("June 17th- June 20th, 2024")
+                                    .font(.body) // Style for title text
+                            }
+                            .onTapGesture {
+                                zoomToLocation(Location(title: "MSA Fieldhouse , Grand Rapids, MI", coordinate: CLLocationCoordinate2D(latitude: 42.917661227497916,  longitude: -85.53149132077283)))
+                            }
+                            
+                            Spacer()
+                            
+                            Button(action: {
+                                DispatchQueue.main.async {
+                                    if let url = URL(string: "https://campscui.active.com/orgs/PointGuardU?season=3455345&session=62024837") {
+                                        // This checks if the URL can be opened and then opens it
+                                        if UIApplication.shared.canOpenURL(url) {
+                                            UIApplication.shared.open(url)
+                                        }
+                                    }
+                                }
+                            }){
+                                Text("Sign Up")
+                                    .frame(alignment: .trailing)
+                                    .padding(10)
+                                    .background(Color(hex: "c7972b"))
+                                    .foregroundColor(.white)
+                                    .cornerRadius(20)
+                            }
+                        }
+                        
+                        HStack{
+                            VStack(alignment: .leading, spacing: 0) {
+                                Text("Lafayette, IN")
+                                    .font(.title2) // Style for regular text
+                                
+                                Text("June 24th- June 27th, 2024")
+                                    .font(.body) // Style for title text
+                            }
+                            .onTapGesture {
+                                zoomToLocation(Location(title: "Legacy Courts, Lafayette, IN", coordinate: CLLocationCoordinate2D(latitude: 40.45102926168622,  longitude: -86.85728886332116)))
+                            }
+                            
+                            Spacer()
+                            
+                            Button(action: {
+                                DispatchQueue.main.async {
+                                    if let url = URL(string: "https://campscui.active.com/orgs/PointGuardU?season=3455345&session=62024937") {
+                                        // This checks if the URL can be opened and then opens it
+                                        if UIApplication.shared.canOpenURL(url) {
+                                            UIApplication.shared.open(url)
+                                        }
+                                    }
+                                }
+                            }){
+                                Text("Sign Up")
+                                    .frame(alignment: .trailing)
+                                    .padding(10)
+                                    .background(Color(hex: "c7972b"))
+                                    .foregroundColor(.white)
+                                    .cornerRadius(20)
+                            }
+                        }
+                        
+                        HStack{
+                            VStack(alignment: .leading, spacing: 0) {
+                                Text("South Bend, IN")
+                                    .font(.title2) // Style for regular text
+                                Text("July 8th- July 11th, 2024")
+                                    .font(.body) // Style for title text
+                            }
+                            .onTapGesture {
+                                zoomToLocation(Location(title: "IUSB Student Activities Center, South Bend, IN", coordinate: CLLocationCoordinate2D(latitude: 41.664600041689056,  longitude: -86.2199390073205)))
+                            }
+                            
+                            
+                            Spacer()
+                            
+                            Button(action: {
+                                DispatchQueue.main.async {
+                                    if let url = URL(string: "https://campscui.active.com/orgs/PointGuardU?season=3455345&session=62025137") {
+                                        // This checks if the URL can be opened and then opens it
+                                        if UIApplication.shared.canOpenURL(url) {
+                                            UIApplication.shared.open(url)
+                                        }
+                                    }
+                                }
+                            }){
+                                Text("Sign Up")
+                                    .frame(alignment: .trailing)
+                                    .padding(10)
+                                    .background(Color(hex: "c7972b"))
+                                    .foregroundColor(.white)
+                                    .cornerRadius(20)
+                            }
+                        }
+                        
+                        HStack{
+                            VStack(alignment: .leading, spacing: 0) {
+                                Text("Indianapolis, IN")
+                                    .font(.title2) // Style for regular text
+                                
+                                Text("July 15th- July 18th, 2024")
+                                    .font(.body) // Style for title text
+                            }
+                            .onTapGesture {
+                                zoomToLocation(Location(title: "Speedway Senior High School, Indianapolis, IN", coordinate: CLLocationCoordinate2D(latitude: 39.8013165272428,  longitude: -86.25315916415522)))
+                            }
+                            
+                            Spacer()
+                            
+                            Button(action: {
+                                DispatchQueue.main.async {
+                                    if let url = URL(string: "https://campscui.active.com/orgs/PointGuardU?season=3455345&session=62025237") {
+                                        // This checks if the URL can be opened and then opens it
+                                        if UIApplication.shared.canOpenURL(url) {
+                                            UIApplication.shared.open(url)
+                                        }
+                                    }
+                                }
+                            }){
+                                Text("Sign Up")
+                                    .frame(alignment: .trailing)
+                                    .padding(10)
+                                    .background(Color(hex: "c7972b"))
+                                    .foregroundColor(.white)
+                                    .cornerRadius(20)
+                            }
+                        }
+                        
+                        HStack{
+                            VStack(alignment: .leading, spacing: 0) {
+                                Text("Hornell, NY")
+                                    .font(.title2) // Style for regular text
+                                
+                                Text("July 22nd- July 25th, 2024")
+                                    .font(.body) // Style for title text
+                            }
+                            .onTapGesture {
+                                zoomToLocation(Location(title: "Hornell Senior High School, Hornell, NY", coordinate: CLLocationCoordinate2D(latitude: 42.33385628960623,  longitude: -77.66308146371362)))
+                            }
+                            
+                            Spacer()
+                            
+                            Button(action: {
+                                DispatchQueue.main.async {
+                                    if let url = URL(string: "https://campscui.active.com/orgs/PointGuardU?season=3455345&session=62025337") {
+                                        // This checks if the URL can be opened and then opens it
+                                        if UIApplication.shared.canOpenURL(url) {
+                                            UIApplication.shared.open(url)
+                                        }
+                                    }
+                                }
+                            }){
+                                Text("Sign Up")
+                                    .frame(alignment: .trailing)
+                                    .padding(10)
+                                    .background(Color(hex: "c7972b"))
+                                    .foregroundColor(.white)
+                                    .cornerRadius(20)
+                            }
+                        }
+                        
+                        HStack{
+                            VStack(alignment: .leading, spacing: 0) {
+                                Text("Rochester, NY")
+                                    .font(.title2) // Style for regular text
+                                
+                                Text("July 29- August 1st, 2024")
+                                    .font(.body) // Style for title text
+                            }
+                            .onTapGesture {
+                                zoomToLocation(Location(title: "Victor Central School District, Rochester, NY", coordinate: CLLocationCoordinate2D(latitude: 42.987372153832325,  longitude: -77.41357237793102)))
+                            }
+                            
+                            Spacer()
+                            
+                            Button(action: {
+                                DispatchQueue.main.async {
+                                    if let url = URL(string: "https://campscui.active.com/orgs/PointGuardU?season=3455345&session=62025437") {
+                                        // This checks if the URL can be opened and then opens it
+                                        if UIApplication.shared.canOpenURL(url) {
+                                            UIApplication.shared.open(url)
+                                        }
+                                    }
+                                }
+                            }){
+                                Text("Sign Up")
+                                    .frame(alignment: .trailing)
+                                    .padding(10)
+                                    .background(Color(hex: "c7972b"))
+                                    .foregroundColor(.white)
+                                    .cornerRadius(20)
+                            }
+                        }
+                        
                     }
+                    .listStyle(PlainListStyle()) // Removes extra padding and separators in iOS 14+
                     
                     
-                    HStack{
-                        VStack(alignment: .leading, spacing: 0) {
-                            Text("Grand Rapids, MI")
-                                .font(.title2) // Style for regular text
-
-                            Text("June 17th- June 20th, 2024")
-                                .font(.body) // Style for title text
-                        }
-                        .onTapGesture {
-                            zoomToLocation(Location(title: "MSA Fieldhouse , Grand Rapids, MI", coordinate: CLLocationCoordinate2D(latitude: 42.917661227497916,  longitude: -85.53149132077283)))
-                        }
+                    
+                    //                FooterMenu()
+                    
+                    Divider()
+                    
+                    HStack {
                         
                         Spacer()
                         
-                        Button(action: {
-                            DispatchQueue.main.async {
-                                if let url = URL(string: "https://campscui.active.com/orgs/PointGuardU?season=3455345&session=62024837") {
-                                    // This checks if the URL can be opened and then opens it
-                                    if UIApplication.shared.canOpenURL(url) {
-                                        UIApplication.shared.open(url)
-                                    }
-                                }
+                        NavigationLink(destination: ProfileView()) {
+                            VStack{
+                                Image(systemName: "person")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .foregroundColor(.gray)
+                                    .frame(width: 25, height: 25)// Example icon
+                                Text("Profile")
+                                    .foregroundColor(.gray)
+                                    .fontWeight(.bold)
+                                
                             }
-                        }){
-                            Text("Sign Up")
-                                .frame(alignment: .trailing)
-                                .padding(10)
-                                .background(Color(hex: "c7972b"))
-                                .foregroundColor(.white)
-                                .cornerRadius(20)
                         }
-                    }
-                    
-                    HStack{
-                        VStack(alignment: .leading, spacing: 0) {
-                            Text("Lafayette, IN")
-                                .font(.title2) // Style for regular text
-
-                            Text("June 24th- June 27th, 2024")
-                                .font(.body) // Style for title text
-                        }
-                        .onTapGesture {
-                            zoomToLocation(Location(title: "Legacy Courts, Lafayette, IN", coordinate: CLLocationCoordinate2D(latitude: 40.45102926168622,  longitude: -86.85728886332116)))
-                        }
+                        
+                        
                         
                         Spacer()
                         
-                        Button(action: {
-                            DispatchQueue.main.async {
-                                if let url = URL(string: "https://campscui.active.com/orgs/PointGuardU?season=3455345&session=62024937") {
-                                    // This checks if the URL can be opened and then opens it
-                                    if UIApplication.shared.canOpenURL(url) {
-                                        UIApplication.shared.open(url)
-                                    }
-                                }
+                        NavigationLink(destination: InboxView()) {
+                            VStack{
+                                Image(systemName: "tray.full")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .foregroundColor(.gray)
+                                    .frame(width: 25, height: 25)// Example icon
+                                Text("Inbox")
+                                    .foregroundColor(.gray)
+                                    .fontWeight(.bold)
+                                
                             }
-                        }){
-                            Text("Sign Up")
-                                .frame(alignment: .trailing)
-                                .padding(10)
-                                .background(Color(hex: "c7972b"))
-                                .foregroundColor(.white)
-                                .cornerRadius(20)
                         }
-                    }
-                    
-                    HStack{
-                        VStack(alignment: .leading, spacing: 0) {
-                            Text("South Bend, IN")
-                                .font(.title2) // Style for regular text
-                            Text("July 8th- July 11th, 2024")
-                                .font(.body) // Style for title text
-                        }
-                        .onTapGesture {
-                            zoomToLocation(Location(title: "IUSB Student Activities Center, South Bend, IN", coordinate: CLLocationCoordinate2D(latitude: 41.664600041689056,  longitude: -86.2199390073205)))
-                        }
-
+                        
+                        
                         
                         Spacer()
                         
-                        Button(action: {
-                            DispatchQueue.main.async {
-                                if let url = URL(string: "https://campscui.active.com/orgs/PointGuardU?season=3455345&session=62025137") {
-                                    // This checks if the URL can be opened and then opens it
-                                    if UIApplication.shared.canOpenURL(url) {
-                                        UIApplication.shared.open(url)
-                                    }
-                                }
-                            }
-                        }){
-                            Text("Sign Up")
-                                .frame(alignment: .trailing)
-                                .padding(10)
-                                .background(Color(hex: "c7972b"))
-                                .foregroundColor(.white)
-                                .cornerRadius(20)
-                        }
-                    }
-                    
-                    HStack{
-                        VStack(alignment: .leading, spacing: 0) {
-                            Text("Indianapolis, IN")
-                                .font(.title2) // Style for regular text
-
-                            Text("July 15th- July 18th, 2024")
-                                .font(.body) // Style for title text
-                        }
-                        .onTapGesture {
-                            zoomToLocation(Location(title: "Speedway Senior High School, Indianapolis, IN", coordinate: CLLocationCoordinate2D(latitude: 39.8013165272428,  longitude: -86.25315916415522)))
-                        }
-                        
-                        Spacer()
-                        
-                        Button(action: {
-                            DispatchQueue.main.async {
-                                if let url = URL(string: "https://campscui.active.com/orgs/PointGuardU?season=3455345&session=62025237") {
-                                    // This checks if the URL can be opened and then opens it
-                                    if UIApplication.shared.canOpenURL(url) {
-                                        UIApplication.shared.open(url)
-                                    }
-                                }
-                            }
-                        }){
-                            Text("Sign Up")
-                                .frame(alignment: .trailing)
-                                .padding(10)
-                                .background(Color(hex: "c7972b"))
-                                .foregroundColor(.white)
-                                .cornerRadius(20)
-                        }
-                    }
-                    
-                    HStack{
-                        VStack(alignment: .leading, spacing: 0) {
-                            Text("Hornell, NY")
-                                .font(.title2) // Style for regular text
-
-                            Text("July 22nd- July 25th, 2024")
-                                .font(.body) // Style for title text
-                        }
-                        .onTapGesture {
-                            zoomToLocation(Location(title: "Hornell Senior High School, Hornell, NY", coordinate: CLLocationCoordinate2D(latitude: 42.33385628960623,  longitude: -77.66308146371362)))
-                        }
-                        
-                        Spacer()
-                        
-                        Button(action: {
-                            DispatchQueue.main.async {
-                                if let url = URL(string: "https://campscui.active.com/orgs/PointGuardU?season=3455345&session=62025337") {
-                                    // This checks if the URL can be opened and then opens it
-                                    if UIApplication.shared.canOpenURL(url) {
-                                        UIApplication.shared.open(url)
-                                    }
-                                }
-                            }
-                        }){
-                            Text("Sign Up")
-                                .frame(alignment: .trailing)
-                                .padding(10)
-                                .background(Color(hex: "c7972b"))
-                                .foregroundColor(.white)
-                                .cornerRadius(20)
-                        }
-                    }
-                    
-                    HStack{
-                        VStack(alignment: .leading, spacing: 0) {
-                            Text("Rochester, NY")
-                                .font(.title2) // Style for regular text
-
-                            Text("July 29- August 1st, 2024")
-                                .font(.body) // Style for title text
-                        }
-                        .onTapGesture {
-                            zoomToLocation(Location(title: "Victor Central School District, Rochester, NY", coordinate: CLLocationCoordinate2D(latitude: 42.987372153832325,  longitude: -77.41357237793102)))
-                        }
-                        
-                        Spacer()
-                        
-                        Button(action: {
-                            DispatchQueue.main.async {
-                                if let url = URL(string: "https://campscui.active.com/orgs/PointGuardU?season=3455345&session=62025437") {
-                                    // This checks if the URL can be opened and then opens it
-                                    if UIApplication.shared.canOpenURL(url) {
-                                        UIApplication.shared.open(url)
-                                    }
-                                }
-                            }
-                        }){
-                            Text("Sign Up")
-                                .frame(alignment: .trailing)
-                                .padding(10)
-                                .background(Color(hex: "c7972b"))
-                                .foregroundColor(.white)
-                                .cornerRadius(20)
-                        }
-                    }
-                    
-                }
-                .listStyle(PlainListStyle()) // Removes extra padding and separators in iOS 14+
-                
-                
-                
-//                FooterMenu()
-                
-                Divider()
-                
-                HStack {
-                    
-                    Spacer()
-
-                    NavigationLink(destination: ProfileView()) {
-                        VStack{
-                            Image(systemName: "person")
-                                .resizable()
-                                .scaledToFit()
-                                .foregroundColor(.gray)
-                                .frame(width: 25, height: 25)// Example icon
-                            Text("Profile")
-                                .foregroundColor(.gray)
-                                .fontWeight(.bold)
-
-                        }
-                    }
-
-                        
-                    
-                    Spacer()
-                    
-                    NavigationLink(destination: InboxView()) {
-                        VStack{
-                            Image(systemName: "tray.full")
-                                .resizable()
-                                .scaledToFit()
-                                .foregroundColor(.gray)
-                                .frame(width: 25, height: 25)// Example icon
-                            Text("Inbox")
-                                .foregroundColor(.gray)
-                                .fontWeight(.bold)
-
-                        }
-                    }
-
-                        
-                    
-                    Spacer()
-
-//                    NavigationLink(destination: CampsView()) {
+                        //                    NavigationLink(destination: CampsView()) {
                         VStack{
                             Image(systemName: "mappin.and.ellipse")
                                 .resizable()
@@ -587,43 +589,44 @@ struct CampsView: View {
                             Text("Camps")
                                 .foregroundColor(.gray)
                                 .fontWeight(.bold)
-
+                            
                         }
-//                    }
-
+                        //                    }
                         
-                    
-                    Spacer()
-                    
-                    NavigationLink(destination: ResourcesView()) {
-
-                        VStack{
-                            Image(systemName: "basketball")
-                                .resizable()
-                                .scaledToFit()
-                                .foregroundColor(.gray)
-                                .frame(width: 25, height: 25)// Example icon
-                            Text("Resources")
-                                .foregroundColor(.gray)
-                                .fontWeight(.bold)
+                        
+                        
+                        Spacer()
+                        
+                        NavigationLink(destination: ResourcesView()) {
+                            
+                            VStack{
+                                Image(systemName: "basketball")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .foregroundColor(.gray)
+                                    .frame(width: 25, height: 25)// Example icon
+                                Text("Resources")
+                                    .foregroundColor(.gray)
+                                    .fontWeight(.bold)
+                            }
+                            
                         }
+                        
+                        Spacer()
                         
                     }
-
-                    Spacer()
-
+                    .padding(.top)
+                    .background(Color.white)
+                    
+                    
                 }
-                .padding(.top)
-                .background(Color.white)
                 
-                
-            }
-            
-            // Sliding menu
-            if isMenuOpen {
-                MenuView(isMenuOpen: $isMenuOpen)
-                    .frame(width: UIScreen.main.bounds.width)
-                    .transition(.move(edge: .leading))
+                // Sliding menu
+                if isMenuOpen {
+                    MenuView(isMenuOpen: $isMenuOpen)
+                        .frame(width: UIScreen.main.bounds.width)
+                        .transition(.move(edge: .leading))
+                }
             }
         }
     }
