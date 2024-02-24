@@ -18,6 +18,8 @@ import MapKit
 import CoreLocation
 import AVFoundation
 import MediaPlayer
+import AppTrackingTransparency
+
 
 
 @main
@@ -71,7 +73,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
           }
           print("Installation ID: \(installationID ?? "None")")
         }
-
+        
+        requestTrackingPermission()
+        
         // Request notification authorization
         let center = UNUserNotificationCenter.current()
          center.requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
@@ -89,6 +93,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                  }
              }
          }
+        
+        
          center.delegate = self
 
 
@@ -114,7 +120,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     
-    
+    func requestTrackingPermission() {
+        ATTrackingManager.requestTrackingAuthorization { status in
+            switch status {
+            case .authorized:
+                // Tracking authorization granted
+                print("Tracking authorized")
+            case .denied, .restricted, .notDetermined:
+                // Tracking authorization denied or not determined
+                print("Tracking not authorized")
+            @unknown default:
+                break
+            }
+        }
+    }
     
     @objc func handleInterruption(notification: Notification) {
         guard let info = notification.userInfo,

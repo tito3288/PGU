@@ -30,6 +30,10 @@ struct EditProfileView: View {
     @State private var showAlert = false // For showing alerts
     @State private var alertMessage = "" // Message to display in the alert
     
+    @State private var showDeleteConfirmation = false // State to control the confirmation alert display
+    @State private var shouldShowLoginView = false
+
+    
 
     let db = Firestore.firestore()
 
@@ -59,7 +63,7 @@ struct EditProfileView: View {
                 Image(systemName: "person.fill")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 100, height: 100)
+                    .frame(width: 50, height: 50)
                     .padding(30)
                     .foregroundColor(.white)
                     .background(Circle().fill(Color(hex: "c7972b")))
@@ -190,15 +194,27 @@ struct EditProfileView: View {
 
                     }
                 }
+                
+
 
             }
                 
-            Text("If you would like to edit or update your password & email please contact us at: info@pointguarduniversity.com")
+            Text("If you would like to edit or update your password & email contact us at: info@pointguarduniversity.com")
                 .fontWeight(.medium)
                 .multilineTextAlignment(.center)
                 .lineLimit(nil) // Allow unlimited lines
-
+                .font(.caption)
                 .padding()
+  
+            
+            Button("Delete Account") {
+                self.showDeleteConfirmation = true // Show the confirmation alert
+            }
+            .frame(alignment: .trailing)
+            .foregroundColor(.red)
+            .padding()
+
+//                .padding()
             
             Button("Save Changes") {
                 var updates: [String: Any] = [:]
@@ -249,6 +265,19 @@ struct EditProfileView: View {
             }
             
         }
+        .alert(isPresented: $showDeleteConfirmation) {
+            Alert(
+                title: Text("Confirm Deletion"),
+                message: Text("Are you sure you want to delete your account? This action cannot be undone."),
+                primaryButton: .destructive(Text("Delete")) {
+                    deleteUserAccount() // Call the deletion function if the user confirms
+                },
+                secondaryButton: .cancel()
+            )
+        }
+        .fullScreenCover(isPresented: $shouldShowLoginView, content: {
+            LoginView()
+        })
         .onAppear {
             loadUserData()
             self.selectedImage = self.loadImage()
@@ -337,6 +366,51 @@ struct EditProfileView: View {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return paths[0]
     }
+    
+    func deleteUserAccount() {
+        guard let user = Auth.auth().currentUser else { return }
+        let userEmail = user.email ?? "No email" // Get the user's email
+        let deletionDate = Date() // Capture the current date and time of deletion
+        
+        // Data to be saved in the 'deleted_accounts' collection
+        let deletedAccountData: [String: Any] = [
+            "email": userEmail,
+            "deletionDate": Timestamp(date: deletionDate), // Use Firestore Timestamp for the date
+            // Include any other relevant information here
+        ]
+        
+        // Step 1: Save deleted user information to Firestore
+        db.collection("deleted_accounts").addDocument(data: deletedAccountData) { err in
+            if let err = err {
+                self.alertMessage = "Error saving deleted account info: \(err.localizedDescription)"
+                self.showAlert = true
+            } else {
+                // Proceed with deleting the user's Firestore data and Firebase Authentication account
+                let userId = user.uid
+                db.collection("users").document(userId).delete() { [self] err in
+                    if let err = err {
+                        self.alertMessage = "Error removing user data: \(err.localizedDescription)"
+                        self.showAlert = true
+                    } else {
+                        // Delete the user account from Firebase Authentication
+                        user.delete { [self] error in
+                            if let error = error {
+                                self.alertMessage = "Error deleting user account: \(error.localizedDescription)"
+                                self.showAlert = true
+                            } else {
+                                self.alertMessage = "Account deleted successfully."
+                                self.showAlert = true
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 2) { // Optional delay to show the alert message
+                                    self.shouldShowLoginView = true // Trigger navigation to LoginView
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     
 }
    

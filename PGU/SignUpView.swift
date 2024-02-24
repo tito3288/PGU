@@ -219,6 +219,10 @@ struct SignUpView: View {
                             showAlert = true
                             print("Invalid password")
                             
+                        } else if !isValidPhoneNumber(phoneNumber) {
+                            alertMessage = "Please enter a valid 10-digit phone number without any letters or special characters."
+                            showAlert = true
+                            print("Invalid phone number")
                         } else {
                             signUpUser(email: email, password: password)
                             updateDisplayName(name: name)
@@ -359,6 +363,13 @@ struct SignUpView: View {
         // Example: Check if the password is at least 6 characters long
         return password.count >= 6
     }
+    
+    func isValidPhoneNumber(_ phoneNumber: String) -> Bool {
+        let phoneNumberRegex = "^[0-9]{10}$"
+        let phoneNumberTest = NSPredicate(format: "SELF MATCHES %@", phoneNumberRegex)
+        return phoneNumberTest.evaluate(with: phoneNumber)
+    }
+
     
  
 }

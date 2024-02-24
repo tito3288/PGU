@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>We use your data to provide personalized content and for accurate push notifications.</string>
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
 		<string>com.Bryan.PGU.task1</string>
@@ -9,8 +11,6 @@
 	</array>
 	<key>NSAllowsArbitraryLoads</key>
 	<string>YES</string>
-	<key>NSAppTransportSecurity</key>
-	<dict/>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>
