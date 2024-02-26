@@ -7,6 +7,8 @@
 
 import SwiftUI
 import FirebaseAuth
+import AppTrackingTransparency
+import AdSupport
 
 
 struct LoginView: View {
@@ -161,8 +163,6 @@ struct LoginView: View {
    
         }
         .alert(isPresented: $showAlert, content: loginFailedAlert)
-
-
     }
 
     
@@ -192,6 +192,7 @@ struct LoginView: View {
         return Alert(title: Text("Login Failed"), message: Text("The password is invalid or the user does not have a password."), dismissButton: .default(Text("OK")))
     }
     
+
 
 }
 
@@ -260,6 +261,11 @@ struct PasswordResetView: View {
             }
         }
     }
+    
+    
+    //NEWLY ADDED PERMISSIONS FOR iOS 14
+
+     
 }
 
 
