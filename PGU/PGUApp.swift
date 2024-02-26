@@ -19,6 +19,8 @@ import CoreLocation
 import AVFoundation
 import MediaPlayer
 import AppTrackingTransparency
+import AdSupport
+
 
 
 
@@ -74,7 +76,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
           print("Installation ID: \(installationID ?? "None")")
         }
         
-        requestTrackingPermission()
         
         // Request notification authorization
         let center = UNUserNotificationCenter.current()
@@ -103,6 +104,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
       
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleInterruption), name: AVAudioSession.interruptionNotification, object: AVAudioSession.sharedInstance())
+        
         Analytics.logEvent("on_foreground", parameters: nil)
 
         
@@ -120,20 +122,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     
-    func requestTrackingPermission() {
-        ATTrackingManager.requestTrackingAuthorization { status in
-            switch status {
-            case .authorized:
-                // Tracking authorization granted
-                print("Tracking authorized")
-            case .denied, .restricted, .notDetermined:
-                // Tracking authorization denied or not determined
-                print("Tracking not authorized")
-            @unknown default:
-                break
-            }
-        }
-    }
+//    func requestTrackingAuthorizationIfNeeded() {
+//        // Check if the authorization status is not determined
+//        if ATTrackingManager.trackingAuthorizationStatus == .notDetermined {
+//            // Request user's permission
+//            ATTrackingManager.requestTrackingAuthorization { status in
+//                switch status {
+//                case .authorized:
+//                    // Permission granted by the user
+//                    print("Tracking authorized by the user")
+//                case .denied, .restricted, .notDetermined:
+//                    // Permission denied or restricted by the user or system
+//                    print("Tracking not authorized")
+//                @unknown default:
+//                    // Handle future enum cases
+//                    print("Unknown tracking authorization status")
+//                }
+//            }
+//        } else {
+//            print("Tracking authorization status already determined: \(ATTrackingManager.trackingAuthorizationStatus)")
+//        }
+//    }
     
     @objc func handleInterruption(notification: Notification) {
         guard let info = notification.userInfo,
@@ -156,11 +165,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         NotificationCenter.default.removeObserver(self, name: AVAudioSession.interruptionNotification, object: nil)
     }
 
-
-    func applicationDidBecomeActive(_ application: UIApplication) {
-//        fetchAndHandleNotifications()
-    }
- 
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken

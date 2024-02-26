@@ -668,6 +668,7 @@ struct CampsView: View {
     }
 
     
+    
     private func updateMapToNearestLocation(userLocation: CLLocation) {
         var nearestLocation: Location? = nil
         var smallestDistance: CLLocationDistance?
