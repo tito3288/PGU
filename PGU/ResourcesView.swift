@@ -539,14 +539,14 @@ struct ResourcesView: View {
                     
                     Spacer()
                     
-                    NavigationLink(destination: ProfileView()) {
+                    NavigationLink(destination: HomeView()) {
                         VStack{
                             Image(systemName: "person")
                                 .resizable()
                                 .scaledToFit()
                                 .foregroundColor(.gray)
                                 .frame(width: 25, height: 25)// Example icon
-                            Text("Profile")
+                            Text("Home")
                                 .foregroundColor(.gray)
                                 .fontWeight(.bold)
                             
@@ -618,6 +618,7 @@ struct ResourcesView: View {
                 MenuView(isMenuOpen: $isMenuOpen)
                     .frame(width: UIScreen.main.bounds.width)
                     .transition(.move(edge: .leading))
+                    .zIndex(1) // Ensure the menu is on top
             }
         }
         .navigationBarBackButtonHidden(true)

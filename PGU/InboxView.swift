@@ -131,14 +131,14 @@ struct InboxView: View {
                     
                     Spacer()
 
-                    NavigationLink(destination: ProfileView()) {
+                    NavigationLink(destination: HomeView()) {
                         VStack{
                             Image(systemName: "person")
                                 .resizable()
                                 .scaledToFit()
                                 .foregroundColor(.gray)
                                 .frame(width: 25, height: 25)// Example icon
-                            Text("Profile")
+                            Text("Home")
                                 .foregroundColor(.gray)
                                 .fontWeight(.bold)
 

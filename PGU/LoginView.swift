@@ -105,6 +105,7 @@ struct LoginView: View {
                     
                     Button(action: {
                         self.isPasswordVisible.toggle() // Toggle the visibility state
+//                        requestPermission()
                     }) {
                         Image(systemName: isPasswordVisible ? "eye.fill" : "eye.slash.fill") // Change icon based on visibility
                             .resizable()
@@ -185,6 +186,32 @@ struct LoginView: View {
         }
     }
     
+//    func requestPermission() {
+//        if #available(iOS 14, *) {
+//            ATTrackingManager.requestTrackingAuthorization { status in
+//                switch status {
+//                case .authorized:
+//                    // Tracking authorization dialog was shown
+//                    // and we are authorized
+//                    print("Authorized")
+//                    
+//                    // Now that we are authorized we can get the IDFA
+//                    print(ASIdentifierManager.shared().advertisingIdentifier)
+//                case .denied:
+//                    // Tracking authorization dialog was
+//                    // shown and permission is denied
+//                    print("Denied")
+//                case .notDetermined:
+//                    // Tracking authorization dialog has not been shown
+//                    print("Not Determined")
+//                case .restricted:
+//                    print("Restricted")
+//                @unknown default:
+//                    print("Unknown")
+//                }
+//            }
+//        }
+//    }
 
     
     //MARK: LOGIC TO DISPLAY ALERT IF LOGIN FAILED.
@@ -241,10 +268,42 @@ struct PasswordResetView: View {
             .cornerRadius(37)
             .padding()
         }
+//        .onAppear {
+//            DispatchQueue.main.asyncAfter(deadline: .now()) {
+//                requestPermission()
+//            }
+//        }
         .alert(isPresented: $showAlert) {
             Alert(title: Text("Reset email sent successfully"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
         }
         .padding()
+    }
+    
+    func requestPermission() {
+        if #available(iOS 14, *) {
+            ATTrackingManager.requestTrackingAuthorization { status in
+                switch status {
+                case .authorized:
+                    // Tracking authorization dialog was shown
+                    // and we are authorized
+                    print("Authorized")
+                    
+                    // Now that we are authorized we can get the IDFA
+                    print(ASIdentifierManager.shared().advertisingIdentifier)
+                case .denied:
+                    // Tracking authorization dialog was
+                    // shown and permission is denied
+                    print("Denied")
+                case .notDetermined:
+                    // Tracking authorization dialog has not been shown
+                    print("Not Determined")
+                case .restricted:
+                    print("Restricted")
+                @unknown default:
+                    print("Unknown")
+                }
+            }
+        }
     }
     
     private func resetPassword(email: String) {

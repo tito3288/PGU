@@ -29,8 +29,8 @@ class ChatBotModel: ObservableObject {
             keywords: ["where to go", "arrive", "location", "do i go", "do we go"]),
         
         FAQ(question: "Are there options to stay overnight?",
-            answer: "While we not an overcame camp and do not offer lodging, we do sometimes partner with hotels that will have special rates. If this is the case for your camp, we will let you know via email and on social media..",
-            keywords: ["overnight", "stay the night", "hotels", "stay"]),
+            answer: "While we are not an overnight camp and do not offer lodging, we do sometimes partner with hotels that will have special rates. If this is the case for your camp, we will let you know via email and on social media..",
+            keywords: ["overnight", "stay the night", "hotels"]),
         
         FAQ(question: "Do the camps consist of drills or scrimmage?",
             answer: "For the most part, drills and stations. We want to work on an individual basis with your athlete and this allows us to do so. However, there will be time on the final day of camp for live scrimmage and fun.",
@@ -38,7 +38,7 @@ class ChatBotModel: ObservableObject {
         
         FAQ(question: "How can I watch my athlete during your camps?",
             answer: "We always have seating in the gyms, you are welcome to hang out and watch. We also broadcast every minute of camp live on Facebook. We also post daily recaps on our Instagram.",
-            keywords: ["watch", "observe", "look", "cheerlead", "spectate", "parents stay"]),
+            keywords: ["watch", "observe", "look", "cheerlead", "spectate", "parents stay", "stay"]),
         
         FAQ(question: "Can my athlete move up or down a group?",
             answer: "Yep! Just shoot us an email at info@pointguarduniversity.com to let us know.",

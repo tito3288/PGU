@@ -37,14 +37,32 @@ struct MenuView: View {
                 //Figure out how the text stays in the middle of the screen. ⬇️
                 
                 List {
-                    (Text("Hello ")
-                        .foregroundColor(Color.white) +
-                     Text(userName)
-                        .foregroundColor(Color(hex: "c7972b")))
-                    .font(.title3)
-                    .fontWeight(.bold)
-                    .padding(.bottom)
-                    .listRowBackground(Color(hex: "0f2d53"))
+                    HStack {
+                        // Your existing Text views for "Hello" and userName
+                        (Text("Hello ")
+                            .foregroundColor(Color.white) +
+                         Text(userName)
+                            .foregroundColor(Color(hex: "c7972b")))
+                        .font(.title3)
+                        .fontWeight(.bold)
+
+                        Spacer() // This pushes the text to the left and the button to the right
+
+                        // Close button
+                        Button(action: {
+                            // Your action here to close the menu
+                            withAnimation {
+                                self.isMenuOpen = false
+                            }
+                        }) {
+                            Image(systemName: "xmark.circle.fill") // Stylish "X" mark
+                                .foregroundColor(Color(hex: "c7972b")) // Set the color to match your design
+                                .font(.title3) // Match the font size of your text
+                        }
+                    }
+                    .padding(.bottom) // Keep your padding to maintain layout consistency
+                    .listRowBackground(Color(hex: "0f2d53")) // Your existing background color for the row
+                    // Rest of your List content...
                     
                     
                     Group {
@@ -54,11 +72,11 @@ struct MenuView: View {
                         }) {
                             HStack{
                                 Spacer()
-                                Text("Home").font(.title2).padding()
+                                Text("Profile").font(.title2).padding()
                                 Spacer()
                             }
                         }
-                        .background(NavigationLink(destination: HomeView(), isActive: $navigateToHome) { EmptyView() }.hidden())
+                        .background(NavigationLink(destination: ProfileView(), isActive: $navigateToHome) { EmptyView() }.hidden())
                         
                         
                         Button(action: {
@@ -224,7 +242,7 @@ struct MenuView: View {
                             UIApplication.shared.open(url)
                         }
                     }) {
-                        Text("facebook")
+                        Text("Facebook")
                         
                     }
                     .foregroundColor(Color(hex: "c7972b"))

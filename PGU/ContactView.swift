@@ -87,10 +87,18 @@ struct ContactView: View {
                     Button(action: {
                         openMapForAddress()
                     }) {
-                        Text("201 W Monroe St, South Bend, Indiana, 46601")
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.leading)
-                            .underline()
+                        VStack{
+                            Text("201 W Monroe St")
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.leading)
+                                .underline()
+                            
+                            Text("South Bend, Indiana 46601")
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.leading)
+                                .underline()
+                        }
+
                     }
                     
                     

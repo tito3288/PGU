@@ -7,6 +7,8 @@
 
 import SwiftUI
 import Firebase // Ensure Firebase is imported
+import UserNotifications
+
 
 struct HomeView: View {
     
@@ -74,12 +76,97 @@ struct HomeView: View {
                         
                     }
                     
-                    // Bottom Menu
-                    FooterMenu()
-                        .zIndex(1) // Same higher zIndex for the footer
+                    
+                    HStack {
+                        
+                        Spacer()
+
+    //                    NavigationLink(destination: ProfileView()) {
+                            VStack{
+                                Image(systemName: "person")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .foregroundColor(.gray)
+                                    .frame(width: 25, height: 25)// Example icon
+                                Text("Home")
+                                    .foregroundColor(.gray)
+                                    .fontWeight(.bold)
+
+                            }
+    //                    }
+
+                            
+                        
+                        Spacer()
+                        
+                        NavigationLink(destination: InboxView()) {
+                            VStack{
+                                Image(systemName: "tray.full")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .foregroundColor(.gray)
+                                    .frame(width: 25, height: 25)// Example icon
+                                Text("Inbox")
+                                    .foregroundColor(.gray)
+                                    .fontWeight(.bold)
+
+                            }
+                        }
+
+                            
+                        
+                        Spacer()
+                        
+
+                        NavigationLink(destination: CampsView()) {
+                            VStack{
+                                Image(systemName: "mappin.and.ellipse")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .foregroundColor(.gray)
+                                    .frame(width: 25, height: 25)// Example icon
+                                Text("Camps")
+                                    .foregroundColor(.gray)
+                                    .fontWeight(.bold)
+
+                            }
+                        }
+
+                            
+            //            }
+                        
+                        Spacer()
+                        
+                        NavigationLink(destination: ResourcesView()) {
+
+                            VStack{
+                                Image(systemName: "basketball")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .foregroundColor(.gray)
+                                    .frame(width: 25, height: 25)// Example icon
+                                Text("Resources")
+                                    .foregroundColor(.gray)
+                                    .fontWeight(.bold)
+                            }
+                            
+                        }
+
+                        Spacer()
+
+                    }
+                    .padding(.top)
+                    .background(Color.white)
+                    
+//                    // Bottom Menu
+//                    FooterMenu()
+//                        .zIndex(1) // Same higher zIndex for the footer
                     
                 }
-                
+//                .onAppear {
+//                    requestNotificationAuthorization()
+//                }
+
                 
                 // Sliding menu
                 if isMenuOpen {
@@ -91,6 +178,27 @@ struct HomeView: View {
                 
             }
 
+        }
+    }
+    
+    private func requestNotificationAuthorization() {
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    // Handle the error case
+                    print("Notification authorization request error: \(error)")
+                } else {
+                    print("Notification authorization granted: \(granted)")
+                    if granted {
+                        // Proceed to register for remote notifications
+                        UIApplication.shared.registerForRemoteNotifications()
+                    } else {
+                        // Handle the case where the user denies permissions
+                        print("User denied notification permissions")
+                    }
+                }
+            }
         }
     }
 }
